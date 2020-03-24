@@ -1,0 +1,14 @@
+<mat-card>
+    <div *ngFor="let argument of arguments;  index as i" class="formContainer">
+        <strong class="lineIndex">{{argument.order}}.</strong>&nbsp;
+        <mat-form-field appearance="outline" class="formInput" (click)="openCopyToClipboardSnackBar(argumentName)">
+            <span matPrefix></span>
+            <input matInput readonly=true value="{{argument.name}}" #argumentName />
+        </mat-form-field>
+        &nbsp; = &nbsp;
+        <mat-form-field appearance="outline" class="formInput" (click)="openCopyToClipboardSnackBar(argumentValue)">
+            <mat-label>{{argument.type}}</mat-label>
+            <input matInput readonly=true value="{{argument.value}}" #argumentValue />
+        </mat-form-field>
+    </div>
+</mat-card>
