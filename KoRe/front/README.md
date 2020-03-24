@@ -25,3 +25,15 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Running inside Docker
+
+### Build the image
+
+Run `docker build -t kore-front .` to build the front image.
+
+### Run the container
+
+Run `docker container run -p 1234:80 --name kore-front-container -d kore-front` to start the container.
+
+Visite [this address](http://localhost:1234) to access the application.

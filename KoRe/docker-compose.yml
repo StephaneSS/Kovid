@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  front:
+    hostname: localhost
+    container_name: kore-front
+    build: ./front
+    ports:
+      - 1234:80
