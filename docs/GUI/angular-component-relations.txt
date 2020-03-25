@@ -1,0 +1,12 @@
+view-report
+    view-schedules
+    view-input-args
+    view-post-processing
+    view-destinations
+    view-logs
+    edit-report
+        edit-schedules
+        edit-input-args
+        edit-post-processing
+        edit-destinations
+    
