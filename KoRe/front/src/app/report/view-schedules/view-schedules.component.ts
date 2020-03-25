@@ -1,24 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { InputArg } from '../../custom-classes'
+import { Schedule } from '../../custom-classes'
 
 @Component({
-  selector: 'app-view-input-args',
-  templateUrl: './view-input-args.component.html',
-  styleUrls: ['./view-input-args.component.scss']
+  selector: 'app-view-schedules',
+  templateUrl: './view-schedules.component.html',
+  styleUrls: ['./view-schedules.component.scss']
 })
-export class ViewInputArgsComponent implements OnInit {
+export class ViewSchedulesComponent implements OnInit {
 
-  @Input() arguments: InputArg[];
+  @Input() schedules: Schedule[];
 
   constructor(private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.sortArguments();
-  }
-
-  sortArguments(): void {
-    this.arguments.sort((arg1, arg2) => arg1.order - arg2.order);
   }
 
   openCopyToClipboardSnackBar(inputElement: HTMLInputElement): void {

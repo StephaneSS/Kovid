@@ -1,0 +1,18 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            <mat-checkbox #viewAsFullText checked="true">view as text</mat-checkbox>
+            <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
+                matTooltipPosition="after">hints
+                <mat-icon>info</mat-icon>
+            </button>
+        </mat-card-title>
+    </mat-card-header>
+    <div *ngFor="let schedule of schedules;  index as i" class="formContainer">
+        <mat-form-field appearance="outline" class="formInput" (click)="openCopyToClipboardSnackBar(scheduleData)">
+            <mat-label>{{viewAsFullText.checked ? schedule.cronValue : schedule.text}}</mat-label>
+            <input matInput title="{{schedule.text}}" readonly=true
+                value="{{viewAsFullText.checked ? schedule.text : schedule.cronValue}}" #scheduleData />
+        </mat-form-field>
+    </div>
+</mat-card>
