@@ -1,39 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-enum ArgType {
-  STRING = "String",
-  NUMBER = "Number",
-  DYNAMIC_DATE = "Dynamic Date"
-}
-
-class inputArg {
-  order: number;
-  name: string;
-  value: any;
-  type: ArgType;
-}
-
-const INPUT_ARGS: inputArg[] = [
-  {
-    order: 2,
-    name: 'execution day',
-    type: ArgType.DYNAMIC_DATE,
-    value: 'D-1'
-  },
-  {
-    order: 1,
-    name: 'branch name',
-    type: ArgType.STRING,
-    value: 'b1'
-  },
-  {
-    order: 3,
-    name: 'queue size',
-    type: ArgType.NUMBER,
-    value: 7
-  }
-];
+import { inputArg } from '../../custom-classes'
 
 @Component({
   selector: 'app-view-input-args',
@@ -42,7 +9,7 @@ const INPUT_ARGS: inputArg[] = [
 })
 export class ViewInputArgsComponent implements OnInit {
 
-  arguments: inputArg[] = INPUT_ARGS;
+  @Input() arguments: inputArg[];
 
   constructor(private _snackBar: MatSnackBar) { }
 
