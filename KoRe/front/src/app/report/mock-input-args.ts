@@ -1,6 +1,6 @@
-import { inputArg, ArgType } from '../custom-classes'
+import { InputArg, ArgType } from '../custom-classes'
 
-export const INPUT_ARGS: inputArg[] = [
+export const INPUT_ARGS: InputArg[] = [
   {
     order: 2,
     name: 'execution day',

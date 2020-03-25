@@ -4,9 +4,14 @@ export enum ArgType {
     DYNAMIC_DATE = "Dynamic Date"
 }
 
-export class inputArg {
+export class InputArg {
     order: number;
     name: string;
     value: any;
     type: ArgType;
+}
+
+export class Schedule {
+    cronValue: string;
+    text: string;
 }
