@@ -1,4 +1,10 @@
 <mat-card>
+    <mat-card-title>
+        <button mat-button matTooltip="Click on a field to copy it's value to the clipboard." matTooltipPosition="after"
+            matTooltipClass="tooltip-size">hints
+            <mat-icon>info</mat-icon>
+        </button>
+    </mat-card-title>
     <div *ngFor="let argument of arguments;  index as i" class="formContainer">
         <strong class="lineIndex">{{argument.order}}.</strong>&nbsp;
         <mat-form-field appearance="outline" class="formInput" (click)="openCopyToClipboardSnackBar(argumentName)">

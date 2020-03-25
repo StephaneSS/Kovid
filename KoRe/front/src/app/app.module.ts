@@ -11,6 +11,9 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button'; 
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatInputModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
