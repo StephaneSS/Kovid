@@ -1,4 +1,12 @@
 <mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
+                matTooltipPosition="after">hints
+                <mat-icon>info</mat-icon>
+            </button>
+        </mat-card-title>
+    </mat-card-header>
     <mat-accordion multi="true">
         <mat-expansion-panel [expanded]="destinations[protocol] && destinations[protocol]?.length > 0"
             *ngFor='let protocol of protocols()'
