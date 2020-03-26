@@ -9,7 +9,7 @@
         </mat-card-title>
     </mat-card-header>
     <div *ngFor="let schedule of schedules;  index as i" class="formContainer">
-        <mat-form-field appearance="outline" class="formInput" (click)="openCopyToClipboardSnackBar(scheduleData)">
+        <mat-form-field appearance="outline" class="formInput" (click)="copyToClipboardAndNotify(scheduleData)">
             <mat-label>{{viewAsFullText.checked ? schedule.cronValue : schedule.text}}</mat-label>
             <input matInput title="{{schedule.text}}" readonly=true
                 value="{{viewAsFullText.checked ? schedule.text : schedule.cronValue}}" #scheduleData />
