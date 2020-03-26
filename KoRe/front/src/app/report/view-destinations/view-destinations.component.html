@@ -1,0 +1,88 @@
+<mat-card>
+    <mat-accordion multi="true">
+        <mat-expansion-panel [expanded]="destinations[protocol] && destinations[protocol]?.length > 0"
+            *ngFor='let protocol of protocols()'
+            [disabled]="!destinations[protocol] || destinations[protocol].length === 0">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{protocol}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{destinations[protocol]?.length  || 'No'}} destination(s) configured with {{protocol}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <ng-container *ngFor="let destination of destinations[protocol]" [ngSwitch]="protocol">
+
+                <ng-container *ngSwitchCase="'SMTP'">
+                    <div class="formContainer">
+                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
+                            (click)="copyToClipboardAndNotify(SMTPemail,'Email address')">
+                            <mat-label>Email address</mat-label>
+                            <input matInput value="{{destination.email}}" readonly=true #SMTPemail>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
+                            (click)="copyToClipboardAndNotify(SMTPobject, 'Email object')">
+                            <mat-label>Object</mat-label>
+                            <input matInput value="{{destination.object}}" readonly=true #SMTPobject>
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'FTP'">
+                    <ng-container *ngTemplateOutlet="SFTPorFTP"></ng-container>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'SFTP'">
+                    <ng-container *ngTemplateOutlet="SFTPorFTP"></ng-container>
+                </ng-container>
+
+                <ng-template #SFTPorFTP>
+                    <div class="formContainer">
+                        <span *ngIf="protocol === 'FTP'">&nbsp; ftp:// &nbsp;</span>
+                        <span *ngIf="protocol === 'SFTP'">&nbsp; sftp:// &nbsp;</span>
+                        <mat-form-field appearance="outline" class="formInput"
+                            (click)="copyToClipboardAndNotify(FTPuser, 'User')">
+                            <mat-label>User</mat-label>
+                            <input matInput value="{{destination.user}}" readonly=true #FTPuser>
+                        </mat-form-field>
+                        &nbsp; @ &nbsp;
+                        <mat-form-field appearance="outline" class="formInput"
+                            (click)="copyToClipboardAndNotify(FTPhost, 'Host')">
+                            <mat-label>Host</mat-label>
+                            <input matInput value="{{destination.host}}" readonly=true #FTPhost>
+                        </mat-form-field>
+                        &nbsp; : &nbsp;
+                        <mat-form-field appearance="outline" class="formInput"
+                            (click)="copyToClipboardAndNotify(FTPport, 'Port')">
+                            <mat-label>Port</mat-label>
+                            <input matInput value="{{destination.port}}" readonly=true #FTPport>
+                        </mat-form-field>
+                        &nbsp; / &nbsp;
+                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
+                            (click)="copyToClipboardAndNotify(FTPpath, 'Path')">
+                            <mat-label>Path</mat-label>
+                            <input matInput value="{{destination.path}}" readonly=true #FTPpath>
+                        </mat-form-field>
+                        <span>
+                            <button class="copyButton"
+                                (click)="copyToClipboardAndNotify(formatUrlToString(protocol.toLowerCase(), destination), 'Url')"
+                                mat-stroked-button color="primary">url to clipboard</button>
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-container *ngSwitchCase="'FOLDER'">
+                    <div class="formContainer">
+                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
+                            (click)="copyToClipboardAndNotify(FOLDERpath)">
+                            <mat-label>Path</mat-label>
+                            <input matInput value="{{destination.path}}" readonly=true #FOLDERpath>
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>

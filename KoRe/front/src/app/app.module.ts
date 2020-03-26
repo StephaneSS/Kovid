@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ViewInputArgsComponent } from './report/view-input-args/view-input-args.component';
 import { ViewSchedulesComponent } from './report/view-schedules/view-schedules.component';
+import { ViewDestinationsComponent } from './report/view-destinations/view-destinations.component';
+
+import { ClipboardService } from './services/clipboard/clipboard.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
@@ -17,12 +20,15 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
     AppComponent,
     ViewInputArgsComponent,
-    ViewSchedulesComponent
+    ViewSchedulesComponent,
+    ViewDestinationsComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +43,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatTooltipModule,
     MatIconModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatExpansionModule,
+    MatTabsModule
   ],
-  providers: [],
+  providers: [ClipboardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

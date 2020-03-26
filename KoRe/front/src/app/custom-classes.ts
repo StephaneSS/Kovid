@@ -15,3 +15,18 @@ export class Schedule {
     cronValue: string;
     text: string;
 }
+
+export enum DestinationProtocole {
+    SMTP = "SMTP",
+    FTP = "FTP",
+    SFTP = "SFTP",
+    FOLDER = "FOLDER"
+}
+
+export interface UrlLike{
+    user: string;
+    host: string;
+    path: string;
+    port: number;
+    folder: string;
+}

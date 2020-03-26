@@ -1,2 +1,11 @@
-<app-view-input-args [arguments]="input_args"></app-view-input-args>
-<app-view-schedules [schedules]="schedules"></app-view-schedules>
+<mat-tab-group>
+    <mat-tab label="input arguments">
+        <app-view-input-args [arguments]="input_args"></app-view-input-args>
+    </mat-tab>
+    <mat-tab label="schedules">
+        <app-view-schedules [schedules]="schedules"></app-view-schedules>
+    </mat-tab>
+    <mat-tab label="destinations">
+        <app-view-destinations [destinations]="destinations"></app-view-destinations>
+    </mat-tab>
+</mat-tab-group>
