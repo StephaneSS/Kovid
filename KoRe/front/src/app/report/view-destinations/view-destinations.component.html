@@ -24,16 +24,8 @@
 
                 <ng-container *ngSwitchCase="'SMTP'">
                     <div class="formContainer">
-                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
-                            (click)="copyToClipboardAndNotify(SMTPemail,'Email address')">
-                            <mat-label>Email address</mat-label>
-                            <input matInput value="{{destination.email}}" readonly=true #SMTPemail>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
-                            (click)="copyToClipboardAndNotify(SMTPobject, 'Email object')">
-                            <mat-label>Object</mat-label>
-                            <input matInput value="{{destination.object}}" readonly=true #SMTPobject>
-                        </mat-form-field>
+                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.email" label="Email address"></app-input-copy-click>
+                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.object" label="Object"></app-input-copy-click>
                     </div>
                 </ng-container>
 
@@ -47,16 +39,10 @@
                
                 <ng-template #SFTPorFTP>
                     <div class="formContainer">
-                        <mat-form-field appearance="outline" class="formInput" title="{{formatServerToString(destination.server)}}"
-                            (click)="copyToClipboardAndNotify(Server, 'Server')">
-                            <mat-label>Server name</mat-label>
-                            <input matInput value="{{destination.server.name}}" readonly=true #Server>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
-                            (click)="copyToClipboardAndNotify(FTPpath, 'Path')">
-                            <mat-label>Path</mat-label>
-                            <input matInput value="{{destination.path}}" readonly=true #FTPpath>
-                        </mat-form-field>
+
+                        <app-input-copy-click class="formInput" [value]="destination.server.name" label="Server name"></app-input-copy-click>
+                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path"></app-input-copy-click>
+
                         <span>
                             <button class="copyButton"
                                 (click)="copyToClipboardAndNotify(formatUrlToString(destination.server, destination.path), 'Url')"
@@ -67,11 +53,7 @@
 
                 <ng-container *ngSwitchCase="'FOLDER'">
                     <div class="formContainer">
-                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
-                            (click)="copyToClipboardAndNotify(FOLDERpath)">
-                            <mat-label>Path</mat-label>
-                            <input matInput value="{{destination.path}}" readonly=true #FOLDERpath>
-                        </mat-form-field>
+                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path"></app-input-copy-click>
                     </div>
                 </ng-container>
             </ng-container>

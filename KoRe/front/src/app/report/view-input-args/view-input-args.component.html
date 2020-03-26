@@ -9,13 +9,8 @@
     </mat-card-header>
     <div *ngFor="let argument of arguments;  index as i" class="formContainer">
         <strong class="lineIndex">{{argument.order}}.</strong>&nbsp;
-        <mat-form-field appearance="outline" class="formInput" (click)="copyToClipboardAndNotify(argumentName)">
-            <input matInput title="{{argument.name}}" readonly=true value="{{argument.name}}" #argumentName />
-        </mat-form-field>
+        <app-input-copy-click [value]="argument.name" class="formInput"></app-input-copy-click>
         &nbsp; = &nbsp;
-        <mat-form-field appearance="outline" class="formInput" (click)="copyToClipboardAndNotify(argumentValue)">
-            <mat-label>{{argument.type}}</mat-label>
-            <input matInput title="{{argument.value}}" readonly=true value="{{argument.value}}" #argumentValue />
-        </mat-form-field>
+        <app-input-copy-click [value]="argument.value" [label]="argument.type" class="formInput"></app-input-copy-click>
     </div>
 </mat-card>
