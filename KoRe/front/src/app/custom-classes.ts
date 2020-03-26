@@ -59,3 +59,14 @@ export class DestinationSFTP implements UrlLike {
 export class DestinationFOLDER {
     path: string;
 }
+
+export class Report {
+    name: string;
+    description: string;
+    input_args: InputArg[];
+    schedules: Schedule[];
+    //postProcesses: PostProcess[];
+    destinations: Destinations;
+    //executions: Execution[];
+
+}

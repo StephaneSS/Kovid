@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ViewInputArgsComponent } from './report/view-input-args/view-input-args.component';
 import { ViewSchedulesComponent } from './report/view-schedules/view-schedules.component';
 import { ViewDestinationsComponent } from './report/view-destinations/view-destinations.component';
+import { ViewReportComponent } from './report/view-report/view-report.component';
 
 import { ClipboardService } from './services/clipboard/clipboard.service';
 
@@ -28,7 +29,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     AppComponent,
     ViewInputArgsComponent,
     ViewSchedulesComponent,
-    ViewDestinationsComponent
+    ViewDestinationsComponent,
+    ViewReportComponent
   ],
   imports: [
     BrowserModule,

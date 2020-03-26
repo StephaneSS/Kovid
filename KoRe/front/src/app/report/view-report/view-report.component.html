@@ -1,0 +1,38 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{report.name}}</mat-card-title>
+        <mat-card-subtitle>{{report.description}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-tab-group color="accent">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">input</mat-icon> input arguments
+            </ng-template>
+            <app-view-input-args [arguments]="report.input_args"></app-view-input-args>
+        </mat-tab>
+        <mat-tab label="schedules">
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">event</mat-icon> schedules
+            </ng-template>
+            <app-view-schedules [schedules]="report.schedules"></app-view-schedules>
+        </mat-tab>
+        <mat-tab label="post porcesses" disabled="true">
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">tune</mat-icon> post porcesses
+            </ng-template>
+            put postPorcess component here :)
+        </mat-tab>
+        <mat-tab label="destinations">
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">send</mat-icon> destinations
+            </ng-template>
+            <app-view-destinations [destinations]="report.destinations"></app-view-destinations>
+        </mat-tab>
+        <mat-tab label="executions" disabled="true">
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">history</mat-icon> executions
+            </ng-template>
+            put execution component here :)
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>
