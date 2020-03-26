@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DestinationProtocole, UrlLike } from '../../custom-classes';
+import { DestinationProtocole, UrlLike, Destinations } from '../../custom-classes';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { ClipboardService } from '../../services/clipboard/clipboard.service';
 })
 export class ViewDestinationsComponent implements OnInit {
 
-  @Input() destinations;
+  @Input() destinations: Destinations;
 
   constructor(
     private _snackBar: MatSnackBar,

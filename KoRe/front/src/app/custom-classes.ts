@@ -28,5 +28,34 @@ export interface UrlLike{
     host: string;
     path: string;
     port: number;
-    folder: string;
+}
+
+export class Destinations {
+    [DestinationProtocole.SMTP]: DestinationSMTP[] = [];
+    [DestinationProtocole.FTP]: DestinationFTP[] = [];
+    [DestinationProtocole.SFTP]: DestinationSFTP[] = [];
+    [DestinationProtocole.FOLDER]: DestinationFOLDER[] = [];
+}
+
+export class DestinationSMTP {
+    email: string;
+    object: string;
+}
+
+export class DestinationFTP implements UrlLike {
+    user: string;
+    host: string;
+    path: string;
+    port: number;
+}
+
+export class DestinationSFTP implements UrlLike {
+    user: string;
+    host: string;
+    path: string;
+    port: number;
+}
+
+export class DestinationFOLDER {
+    path: string;
 }
