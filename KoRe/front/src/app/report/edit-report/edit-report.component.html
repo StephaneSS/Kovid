@@ -1,0 +1,58 @@
+<div class="container">
+    <mat-form-field appearance="outline" class="formInput">
+        <mat-label>Report name</mat-label>
+        <input matInput [value]="report.name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="formInput">
+        <mat-label>Report description</mat-label>
+        <textarea matInput>{{report.description}}</textarea>
+    </mat-form-field>
+
+    Report output type -> TODO<br />
+    OPR file -> TOOD
+
+    <mat-horizontal-stepper>
+
+
+        <ng-template matStepperIcon="input">
+            <mat-icon>input</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="event">
+            <mat-icon>event</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="tune">
+            <mat-icon>tune</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="send">
+            <mat-icon>send</mat-icon>
+        </ng-template>
+
+        <mat-step label="Input arguments" completed="false" state="input">
+            <app-view-input-args [arguments]="report.input_args"></app-view-input-args>
+            <div>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </mat-step>
+        <mat-step label="Schedules" completed="false" state="event">
+            <app-view-schedules [schedules]="report.schedules"></app-view-schedules>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </mat-step>
+        <mat-step label="Post processes" completed="false" state="tune">
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </mat-step>
+        <mat-step label="Destinations" completed="false" state="send">
+            <app-view-destinations [destinations]="report.destinations"></app-view-destinations>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+            </div>
+        </mat-step>
+
+    </mat-horizontal-stepper>
+</div>
