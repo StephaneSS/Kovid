@@ -24,16 +24,8 @@
 
                 <ng-container *ngSwitchCase="'SMTP'">
                     <div class="formContainer">
-                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
-                            (click)="copyToClipboardAndNotify(SMTPemail,'Email address')">
-                            <mat-label>Email address</mat-label>
-                            <input matInput value="{{destination.email}}" readonly=true #SMTPemail>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
-                            (click)="copyToClipboardAndNotify(SMTPobject, 'Email object')">
-                            <mat-label>Object</mat-label>
-                            <input matInput value="{{destination.object}}" readonly=true #SMTPobject>
-                        </mat-form-field>
+                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.email" label="Email address"></app-input-copy-click>
+                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.object" label="Object"></app-input-copy-click>
                     </div>
                 </ng-container>
 
@@ -44,37 +36,16 @@
                 <ng-container *ngSwitchCase="'SFTP'">
                     <ng-container *ngTemplateOutlet="SFTPorFTP"></ng-container>
                 </ng-container>
-
+               
                 <ng-template #SFTPorFTP>
                     <div class="formContainer">
-                        <span *ngIf="protocol === 'FTP'">&nbsp; ftp:// &nbsp;</span>
-                        <span *ngIf="protocol === 'SFTP'">&nbsp; sftp:// &nbsp;</span>
-                        <mat-form-field appearance="outline" class="formInput"
-                            (click)="copyToClipboardAndNotify(FTPuser, 'User')">
-                            <mat-label>User</mat-label>
-                            <input matInput value="{{destination.user}}" readonly=true #FTPuser>
-                        </mat-form-field>
-                        &nbsp; @ &nbsp;
-                        <mat-form-field appearance="outline" class="formInput"
-                            (click)="copyToClipboardAndNotify(FTPhost, 'Host')">
-                            <mat-label>Host</mat-label>
-                            <input matInput value="{{destination.host}}" readonly=true #FTPhost>
-                        </mat-form-field>
-                        &nbsp; : &nbsp;
-                        <mat-form-field appearance="outline" class="formInput"
-                            (click)="copyToClipboardAndNotify(FTPport, 'Port')">
-                            <mat-label>Port</mat-label>
-                            <input matInput value="{{destination.port}}" readonly=true #FTPport>
-                        </mat-form-field>
-                        &nbsp; / &nbsp;
-                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
-                            (click)="copyToClipboardAndNotify(FTPpath, 'Path')">
-                            <mat-label>Path</mat-label>
-                            <input matInput value="{{destination.path}}" readonly=true #FTPpath>
-                        </mat-form-field>
+
+                        <app-input-copy-click class="formInput" [value]="destination.server.name" label="Server name"></app-input-copy-click>
+                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path"></app-input-copy-click>
+
                         <span>
                             <button class="copyButton"
-                                (click)="copyToClipboardAndNotify(formatUrlToString(protocol.toLowerCase(), destination), 'Url')"
+                                (click)="copyToClipboardAndNotify(formatUrlToString(destination.server, destination.path), 'Url')"
                                 mat-stroked-button color="primary">url to clipboard</button>
                         </span>
                     </div>
@@ -82,11 +53,7 @@
 
                 <ng-container *ngSwitchCase="'FOLDER'">
                     <div class="formContainer">
-                        <mat-form-field appearance="outline" class="formInput fullLengthInput"
-                            (click)="copyToClipboardAndNotify(FOLDERpath)">
-                            <mat-label>Path</mat-label>
-                            <input matInput value="{{destination.path}}" readonly=true #FOLDERpath>
-                        </mat-form-field>
+                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path"></app-input-copy-click>
                     </div>
                 </ng-container>
             </ng-container>

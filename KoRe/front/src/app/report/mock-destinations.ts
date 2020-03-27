@@ -9,15 +9,23 @@ export const DESTIATIONS: Destinations = {
     ],
     [DestinationProtocole.FTP]: [
         {
-            user: 'toto',
-            host: 'toto_host',
-            port: 1234,
+            server: {
+                protocol: 'ftp',
+                name: 'toto_server',
+                user: 'toto',
+                host: 'toto_host',
+                port: 1234,
+            },
             path: '~/folder'
         },
         {
-            user: 'titi',
-            host: 'host_of_titi',
-            port: 22,
+            server: {
+                protocol: 'ftp',
+                name: 'server_of_titi',
+                user: 'titi',
+                host: 'host_of_titi',
+                port: 22,
+            },
             path: '~/my_costom_folder'
         }
     ],

@@ -1,0 +1,4 @@
+<mat-form-field appearance="outline" (click)="copyToClipboardAndNotify(input, copyname)" class="formInput">
+    <mat-label>{{label}}</mat-label>
+    <input matInput [title]="title" [readonly]="!editable" [value]="value" #input />
+</mat-form-field>

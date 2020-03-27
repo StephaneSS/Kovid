@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { InputCopyClickComponent } from './common/input-copy-click/input-copy-click.component';
 import { ViewInputArgsComponent } from './report/view-input-args/view-input-args.component';
 import { ViewSchedulesComponent } from './report/view-schedules/view-schedules.component';
 import { ViewDestinationsComponent } from './report/view-destinations/view-destinations.component';
@@ -33,7 +34,8 @@ import {MatMenuModule} from '@angular/material/menu';
     ViewSchedulesComponent,
     ViewDestinationsComponent,
     ViewReportComponent,
-    OutputParametersDialog
+    OutputParametersDialog,
+    InputCopyClickComponent
   ],
   imports: [
     BrowserModule,

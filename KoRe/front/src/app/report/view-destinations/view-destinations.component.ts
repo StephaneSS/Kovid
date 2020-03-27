@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DestinationProtocole, UrlLike, Destinations } from '../../custom-classes';
+import { DestinationProtocole, Server, Destinations } from '../../custom-classes';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
 
 @Component({
@@ -26,8 +26,21 @@ export class ViewDestinationsComponent implements OnInit {
     return Object.keys(this.destinationProtocoles);
   }
 
-  formatUrlToString(protocole: string, data: UrlLike): string {
-    return `${protocole}://${data.user}@${data.host}:${data.port}/${data.path}`;
+  formatServerToString(server: Server): string {
+      let str: string[] = [];
+      str.push(server.protocol.trim(), '://');
+      if (server?.user?.trim()) {
+          str.push(server?.user?.trim(), '@')
+      }
+      str.push(server.host.trim());
+      if (server?.port) {
+          str.push(':', server.port.toString())
+      }
+      return str.join('');
+  }
+
+  formatUrlToString(server: Server, path: string): string {
+    return `${this.formatServerToString(server)}/${path}`;
   }
 
   copyToClipboardAndNotify(inputElement: HTMLInputElement | string, valueName: string = ''): void {
