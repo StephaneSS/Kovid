@@ -7,6 +7,7 @@ import { InputCopyClickComponent } from './common/input-copy-click/input-copy-cl
 import { ViewInputArgsComponent } from './report/view-input-args/view-input-args.component';
 import { ViewSchedulesComponent } from './report/view-schedules/view-schedules.component';
 import { ViewDestinationsComponent } from './report/view-destinations/view-destinations.component';
+import { ViewReportComponent, OutputParametersDialog } from './report/view-report/view-report.component';
 
 import { ClipboardService } from './services/clipboard/clipboard.service';
 
@@ -23,6 +24,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     ViewInputArgsComponent,
     ViewSchedulesComponent,
     ViewDestinationsComponent,
+    ViewReportComponent,
+    OutputParametersDialog,
     InputCopyClickComponent
   ],
   imports: [
@@ -47,7 +52,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatButtonModule,
     MatCheckboxModule,
     MatExpansionModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule,
+    MatMenuModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { INPUT_ARGS } from './report/mock-input-args' // FIXME: Only for mocking
-import { SCHEDULES } from './report/mock-schdules' // FIXME: Only for mocking
-import { DESTIATIONS } from './report/mock-destinations' // FIXME: Only for mocking
+import { REPORT } from './report/mock-report'
 
 @Component({
   selector: 'app-root',
@@ -10,7 +8,7 @@ import { DESTIATIONS } from './report/mock-destinations' // FIXME: Only for mock
 })
 export class AppComponent {
   title = 'KoRe';
-  input_args = INPUT_ARGS;
-  schedules = SCHEDULES;
-  destinations = DESTIATIONS;
+
+  report = REPORT;
+
 }

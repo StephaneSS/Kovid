@@ -57,3 +57,28 @@ export interface DestinationSFTP {
 export interface DestinationFOLDER {
     path: string;
 }
+
+export enum OutputType {
+    TXT = 'TXT',
+    CSV = 'CSV',
+    XLS = 'XLS',
+    HISTO = 'HISTO'
+}
+
+export interface ReportOutput {
+    type: OutputType;
+    parameters: InputArg[];
+}
+
+export interface Report {
+    name: string;
+    description: string;
+    output: ReportOutput;
+    //opr: File;
+    input_args: InputArg[];
+    schedules: Schedule[];
+    //postProcesses: PostProcess[];
+    destinations: Destinations;
+    //executions: Execution[];
+}
+

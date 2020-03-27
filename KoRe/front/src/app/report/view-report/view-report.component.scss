@@ -1,0 +1,23 @@
+.tab-icon {
+    margin: 0 5px;
+}
+
+.chipIcon {
+    margin: 5px 0 0 5px ;
+    font-size: 15px;
+    width: 15px;
+}
+
+.container {
+    height: calc( 100% - 32px );
+    display: flex;
+    flex-direction: column;
+}
+
+.tabElement {
+    overflow: auto;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
