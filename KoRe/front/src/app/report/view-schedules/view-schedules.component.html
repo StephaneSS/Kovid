@@ -1,19 +1,53 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>
-            <mat-checkbox #viewAsFullText checked="true">view as text</mat-checkbox>
-            <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
-                matTooltipPosition="after">hints
-                <mat-icon>info</mat-icon>
-            </button>
-        </mat-card-title>
-    </mat-card-header>
-    <div *ngFor="let schedule of schedules;  index as i" class="formContainer">
-        <app-input-copy-click class="formInput" 
-            [value]="viewAsFullText.checked ? schedule.text : schedule.cronValue"
-            [label]="viewAsFullText.checked ? schedule.cronValue : schedule.text"
-            copyname="Schedule"
-            [title]="schedule.text">
-        </app-input-copy-click>
-    </div>
+<mat-card [class]="editable ? 'mat-elevation-z' : ''">
+    <ng-container *ngIf="editable; then editableSchedules; else readSchedules"></ng-container>
+    <ng-template #readSchedules>
+        <mat-card-header>
+            <mat-card-title>
+                <mat-checkbox #viewAsFullText checked="true">view as text
+                </mat-checkbox>
+                <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
+                    matTooltipPosition="after">hints
+                    <mat-icon>info</mat-icon>
+                </button>
+            </mat-card-title>
+        </mat-card-header>
+        <div *ngFor="let schedule of schedules;  index as i" class="formContainer">
+            <app-input-copy-click class="formInput"
+                [value]="viewAsFullText.checked ? schedule.text : schedule.cronValue"
+                [label]="viewAsFullText.checked ? schedule.cronValue : schedule.text" copyname="Schedule"
+                [editable]="editable" [title]="schedule.text">
+            </app-input-copy-click>
+        </div>
+    </ng-template>
+    <ng-template #editableSchedules>
+        <div class="formContainer">
+            <mat-form-field appearance="outline" class="formInput">
+                <mat-label>
+                    add a new schedule
+                </mat-label>
+                <input matInput title="add a new schedule" #newSchedule [value]="" [formControl]="newSched"
+                    (keyup.Enter)="addSchedule(newSched.value); newScheduleHint.innerText=''"
+                    (keyup.Control.Enter)="newScheduleHint.innerText = getCronDescription(newSchedule.value);" />
+                    <mat-hint #newScheduleHint></mat-hint>
+                    <mat-error>Wrong format <strong>minute hour day month week</strong>. Look at <a target="blank" href="https://crontab.guru/">this documentation</a> for more details.</mat-error>
+            </mat-form-field>
+        </div>
+        <div *ngFor="let schedule of schedules;  index as i" class="formContainer">
+            <mat-form-field appearance="outline" class="formInput">
+                <mat-label>
+                    {{schedule.text}}
+                </mat-label>
+                <input matInput #cronInput [(ngModel)]="schedule.cronValue"
+                    (keyup.Control.Enter)="updateCronDescription(cronInput.value, i)"
+                    (change)="updateCronDescription(cronInput.value, i)" />
+                    <mat-error>Wrong format <strong>minute hour day month week</strong>. Look at <a target="blank" href="https://crontab.guru/">this documentation</a> for more details.</mat-error>
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000+i" class="action_button" (click)="removeSchedule(i)" mat-icon-button color="warn"
+                    title="delete the schedule">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </span>
+        </div>
+    </ng-template>
 </mat-card>

@@ -17,6 +17,7 @@ export class InputCopyClickComponent implements OnInit {
   @Input() title: string;
   @Input() copyvalue: string;
   @Input() copyname: string;
+  @Input() copyable: boolean;
   @Input() editable: boolean = false;
 
   constructor(
@@ -27,11 +28,14 @@ export class InputCopyClickComponent implements OnInit {
     this.title = this.title || this.value ;
     this.copyvalue = this.copyvalue || this.value;
     this.copyname = this.copyname || this.label || 'Field';
+    this.copyable = this.copyable || !this.editable;
   }
 
   copyToClipboardAndNotify(inputElement: HTMLInputElement | string, valueName: string): void {
-    this.clipboardService.copyToClipboard(inputElement);
-    this.clipboardService.notifyCopy(this._snackBar, valueName);
+    if(this.copyable){
+      this.clipboardService.copyToClipboard(inputElement);
+      this.clipboardService.notifyCopy(this._snackBar, valueName);
+    }
   }
 
 }

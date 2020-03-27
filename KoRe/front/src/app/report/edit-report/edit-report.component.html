@@ -35,7 +35,7 @@
             </div>
         </mat-step>
         <mat-step label="Schedules" completed="false" state="event">
-            <app-view-schedules [schedules]="report.schedules"></app-view-schedules>
+            <app-view-schedules editable=true [schedules]="report.schedules"></app-view-schedules>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button matStepperNext>Next</button>
