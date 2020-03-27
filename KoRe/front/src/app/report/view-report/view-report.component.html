@@ -1,9 +1,36 @@
-<mat-card>
+<mat-card class="container">
     <mat-card-header>
-        <mat-card-title>{{report.name}}</mat-card-title>
+        <button   class="tab-icon" color="primary" mat-mini-fab 
+            [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-card-title>
+            <span>{{report.name}}
+                </span>
+        </mat-card-title>
         <mat-card-subtitle>{{report.description}}</mat-card-subtitle>
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item disabled="false">
+                <mat-icon color="accent">double_arrow</mat-icon>run manualy
+            </button>
+            <button mat-menu-item disabled="false">
+                <mat-icon color="primary">edit</mat-icon>
+                edit report
+            </button>
+            <button mat-menu-item disabled="false">
+                <mat-icon color="warn">delete</mat-icon>delete report
+            </button>
+        </mat-menu>
+
     </mat-card-header>
-    <mat-tab-group color="accent">
+    <mat-chip-list>
+        <mat-chip (click)="openDialog()">
+            {{report.output.type}}
+            <mat-icon class="chipIcon">launch</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+    <mat-tab-group color="accent" class="tabElement">
         <mat-tab>
             <ng-template mat-tab-label>
                 <mat-icon class="tab-icon">input</mat-icon> input arguments

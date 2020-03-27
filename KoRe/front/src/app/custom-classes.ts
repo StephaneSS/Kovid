@@ -60,13 +60,27 @@ export class DestinationFOLDER {
     path: string;
 }
 
-export class Report {
+export enum OutputType {
+    TXT = 'TXT',
+    CSV = 'CSV',
+    XLS = 'XLS',
+    HISTO = 'HISTO'
+}
+
+export interface ReportOutput {
+    type: OutputType;
+    parameters: InputArg[];
+}
+
+export interface Report {
     name: string;
     description: string;
+    output: ReportOutput;
+    //opr: File;
     input_args: InputArg[];
     schedules: Schedule[];
     //postProcesses: PostProcess[];
     destinations: Destinations;
     //executions: Execution[];
-
 }
+
