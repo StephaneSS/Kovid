@@ -15,11 +15,13 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Node $
+        working-directory: ./KoRe/front
         uses: actions/setup-node@v1
         with:
           node-version: $
 
       - name: npm install and npm run build
+        working-directory: ./KoRe/front
         run: |
           npm ci
           npm run build:ci
