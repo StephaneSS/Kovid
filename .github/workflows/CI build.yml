@@ -14,11 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Node $
+      - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           path: ./KoRe/front
-          node-version: $
+          node-version: ${{ matrix.node-version }}
 
       - name: npm install and npm run build 
         working-directory: ./KoRe/front
