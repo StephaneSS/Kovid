@@ -30,6 +30,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { EditReportComponent } from './report/edit-report/edit-report.component';
 import { DialogEditReportComponent } from './report/dialog-edit-report/dialog-edit-report.component';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatTabsModule,
     MatDialogModule,
     MatMenuModule,
-    MatStepperModule
+    MatStepperModule,
+    MatSelectModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]

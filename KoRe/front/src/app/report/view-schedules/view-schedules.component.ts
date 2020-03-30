@@ -12,10 +12,9 @@ export class ViewSchedulesComponent implements OnInit {
 
   @Input() schedules: Schedule[];
   @Input() editable: boolean = false;
-  @Output() scheduled = new EventEmitter<FormGroup>();
+  @Output() schedulesChanged: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   viewAsFullText: boolean = true;
-  newScheduleValue: string;
   schedulesForm: FormGroup = new FormGroup({
     'addSchedule': this.createScheduleFormControl({
       cronValue: '',
@@ -24,38 +23,31 @@ export class ViewSchedulesComponent implements OnInit {
     'schedules': new FormArray([])
   });
 
-  get scheduleControles() {
+  get scheduleControles(): FormArray {
     return this.schedulesForm.get("schedules") as FormArray;
   }
 
-  get addScheduleControle() {
+  get addScheduleControle(): FormControl {
     return this.schedulesForm.get("addSchedule") as FormControl;
   }
 
   constructor(private scheduleService: ScheduleService, private readonly formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.viewAsFullText = !this.editable;
     this.initScheduleFormControl();
-
   }
 
   initScheduleFormControl() {
-    /*this.schedulesForm = this.formBuilder.group({
-      schedules: new FormArray(this.schedules.map(elem => this.createScheduleFormControl(elem)))
-    });*/
     this.schedulesForm.removeControl('schedules');
     this.schedulesForm.addControl('schedules', new FormArray(this.schedules.map(elem => this.createScheduleFormControl(elem))));
     this.schedulesForm.markAllAsTouched();
   }
 
-
-
-  createScheduleFormControl(schedule: Schedule) {
+  createScheduleFormControl(schedule: Schedule): FormGroup {
     return this.formBuilder.group({
       ...schedule,
       ... {
-        cronValue: [schedule.cronValue, Validators.pattern(/^[a-z-0-9*/]*( [a-z-0-9*/]*){4}$/i)]
+        cronValue: [schedule.cronValue, [Validators.pattern(/^[a-z-0-9*/]+( [a-z-0-9*/]+){4}$/i), Validators.required]]
       }
     });
   }
@@ -63,7 +55,7 @@ export class ViewSchedulesComponent implements OnInit {
   removeSchedule(i: number): void {
     this.schedules.splice(i, 1);
     this.initScheduleFormControl();
-    this.scheduled.emit(this.schedulesForm.get('schedules') as FormGroup);
+    this.notifyChanges();
   }
 
   addSchedule(): void {
@@ -97,12 +89,12 @@ export class ViewSchedulesComponent implements OnInit {
       expression => {
         this.schedules[i].text = expression;
         this.scheduleControles.controls[i].setValue(this.schedules[i]);
-        this.scheduled.emit(this.schedulesForm.get('schedules') as FormGroup);
+        this.notifyChanges();
       },
       () => {
         this.schedules[i].text = 'Cannot get a description';
         this.scheduleControles.controls[i].setValue(this.schedules[i]);
-        this.scheduled.emit(this.schedulesForm.get('schedules') as FormGroup);
+        this.notifyChanges();
       }
     );
   }
@@ -124,5 +116,9 @@ export class ViewSchedulesComponent implements OnInit {
       })
     );
   }
-  
+
+  notifyChanges(): void {
+    this.schedulesChanged.emit(this.schedulesForm.get('schedules') as FormGroup);
+  }
+
 }

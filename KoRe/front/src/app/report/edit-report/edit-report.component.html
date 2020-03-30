@@ -28,14 +28,14 @@
             <mat-icon>send</mat-icon>
         </ng-template>
 
-        <mat-step label="Input arguments" completed="false" state="input">
-            <app-view-input-args [arguments]="report.input_args"></app-view-input-args>
+        <mat-step label="Input arguments" completed="false" [state]="reportForms.controls.inputArgs.valid ? 'input' : 'error' " errorMessage="Some input arguments are wrong">
+            <app-view-input-args editable="true" (argumentsChanged)="reportForms.controls.inputArgs = $event" [arguments]="report.input_args"></app-view-input-args>
             <div>
                 <button mat-button matStepperNext>Next</button>
             </div>
         </mat-step>
-        <mat-step label="Schedules" completed="false" [state]="reportForms.controls.schedules.valid ? 'event' : 'error' " errorMessage="Some schedules are wrong.">
-            <app-view-schedules editable=true (scheduled)="reportForms.controls.schedules = $event" [schedules]="report.schedules"></app-view-schedules>
+        <mat-step label="Schedules" completed="false" [state]="reportForms.controls.schedules.valid ? 'event' : 'error' " errorMessage="Some schedules are wrong">
+            <app-view-schedules editable="true" (schedulesChanged)="reportForms.controls.schedules = $event" [schedules]="report.schedules"></app-view-schedules>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button matStepperNext>Next</button>

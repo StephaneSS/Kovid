@@ -1,4 +1,4 @@
-<mat-card [class]="editable ? 'mat-elevation-z' : ''">
+<mat-card [class.mat-elevation-z]="editable">
     <ng-container *ngIf="editable; then editableSchedules; else readSchedules"></ng-container>
     <ng-template #readSchedules>
         <mat-card-header>
@@ -26,7 +26,7 @@
                     add a new schedule
                 </mat-label>
                 <input matInput title="add a new schedule" formControlName="cronValue" (keyup.Enter)="addSchedule()"
-                    (keyup.Control.Enter)="updateNewScheduleDescription()"/>
+                    (keyup.Control.Enter)="updateNewScheduleDescription()" />
                 <mat-hint>{{addScheduleControle.value.text}}</mat-hint>
                 <mat-error>Wrong format <strong>minute hour day month week</strong>. Look at <a target="blank"
                         href="https://crontab.guru/">this documentation</a> for more details.</mat-error>
@@ -47,8 +47,14 @@
                     </mat-label>
                     <input matInput formControlName="cronValue" (keyup.Control.Enter)="updateCronDescription(i)"
                         (change)="updateCronDescription(i)" />
-                    <mat-error>Wrong format <strong>minute hour day month week</strong>. Look at <a target="blank"
-                            href="https://crontab.guru/">this documentation</a> for more details.</mat-error>
+
+                    <mat-error *ngIf="schedule.hasError('pattern', 'cronValue' )">
+                        Wrong format <strong>minute hour day
+                        month week</strong>. Look at <a target="blank" href="https://crontab.guru/">this
+                        documentation</a> for more details.</mat-error>
+                    <mat-error *ngIf="schedule.hasError('required', 'cronValue' )">
+                        This field cannot be empty
+                    </mat-error>
                 </mat-form-field>
                 <span>
                     <button [tabindex]="10000+i" class="action_button" (click)="removeSchedule(i)" mat-icon-button

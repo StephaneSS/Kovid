@@ -18,7 +18,8 @@ export class EditReportComponent implements OnInit {
   constructor(private readonly formBuilder: FormBuilder) { }
 
   reportForms: FormGroup = new FormGroup({
-    schedules: this.formBuilder.array([])
+    schedules: this.formBuilder.array([]),
+    inputArgs: this.formBuilder.array([])
   });
 
   ngOnInit(): void {
