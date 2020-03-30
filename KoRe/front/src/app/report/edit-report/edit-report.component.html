@@ -34,8 +34,8 @@
                 <button mat-button matStepperNext>Next</button>
             </div>
         </mat-step>
-        <mat-step label="Schedules" completed="false" state="event">
-            <app-view-schedules editable=true [schedules]="report.schedules"></app-view-schedules>
+        <mat-step label="Schedules" completed="false" [state]="reportForms.controls.schedules.valid ? 'event' : 'error' " errorMessage="Some schedules are wrong.">
+            <app-view-schedules editable=true (scheduled)="reportForms.controls.schedules = $event" [schedules]="report.schedules"></app-view-schedules>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button matStepperNext>Next</button>
