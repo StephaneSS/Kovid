@@ -1,16 +1,53 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>
-            <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
-                matTooltipPosition="after">hints
-                <mat-icon>info</mat-icon>
-            </button>
-        </mat-card-title>
-    </mat-card-header>
-    <div *ngFor="let argument of arguments;  index as i" class="formContainer">
-        <strong class="lineIndex">{{argument.order}}.</strong>&nbsp;
-        <app-input-copy-click [value]="argument.name" class="formInput"></app-input-copy-click>
-        &nbsp; = &nbsp;
-        <app-input-copy-click [value]="argument.value" [label]="argument.type" class="formInput"></app-input-copy-click>
-    </div>
+<mat-card [class.mat-elevation-z]="editable">
+    <ng-container *ngIf="editable; then editableInputArgs; else readInputArgs"></ng-container>
+    <ng-template #readInputArgs>
+        <mat-card-header>
+            <mat-card-title>
+                <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
+                    matTooltipPosition="after">hints
+                    <mat-icon>info</mat-icon>
+                </button>
+            </mat-card-title>
+        </mat-card-header>
+        <div *ngFor="let argument of arguments;  index as i" class="formContainer">
+            <strong class="lineIndex">{{argument.order}}.</strong>&nbsp;
+            <app-input-copy-click [value]="argument.name" class="formInput"></app-input-copy-click>
+            &nbsp; = &nbsp;
+            <app-input-copy-click [value]="argument.value" [label]="argument.type" class="formInput">
+            </app-input-copy-click>
+        </div>
+    </ng-template>
+    <ng-template #editableInputArgs [formGroup]="argumentsForm">
+        <!-- TODO: add, reorder -->
+        <ng-container formArrayName="arguments">
+            <div [formGroupName]="i" *ngFor="let argument of argumentControles.controls ;  index as i"
+                class="formContainer">
+                {{argument.value.order}}.
+                <mat-form-field appearance="outline" class="formInput">
+                    <mat-label>name</mat-label>
+                    <input matInput formControlName="name" (change)="notifyChanges()" />
+                    <mat-error>Any arguments must have a name.</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="formInputSmall">
+                    <mat-label>type</mat-label>
+                    <mat-select formControlName="type">
+                        <ng-container *ngFor="let type of argumentTypes | keyvalue">
+                            <mat-option [value]="type.value">{{type.value}}</mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="formInput">
+                    <mat-label>value</mat-label>
+                    <input matInput formControlName="value" (change)="notifyChanges()" (change)="notifyChanges()"/>
+                </mat-form-field>
+                <span>
+                    <button [tabindex]="10000+i" class="action_button" (click)="removeArgument(i)" mat-icon-button
+                        color="warn" title="delete the argument">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </span>
+            </div>
+        </ng-container>
+
+    </ng-template>
 </mat-card>

@@ -1,19 +1,68 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>
-            <mat-checkbox #viewAsFullText checked="true">view as text</mat-checkbox>
-            <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
-                matTooltipPosition="after">hints
-                <mat-icon>info</mat-icon>
-            </button>
-        </mat-card-title>
-    </mat-card-header>
-    <div *ngFor="let schedule of schedules;  index as i" class="formContainer">
-        <app-input-copy-click class="formInput" 
-            [value]="viewAsFullText.checked ? schedule.text : schedule.cronValue"
-            [label]="viewAsFullText.checked ? schedule.cronValue : schedule.text"
-            copyname="Schedule"
-            [title]="schedule.text">
-        </app-input-copy-click>
-    </div>
+<mat-card [class.mat-elevation-z]="editable">
+    <ng-container *ngIf="editable; then editableSchedules; else readSchedules"></ng-container>
+    <ng-template #readSchedules>
+        <mat-card-header>
+            <mat-card-title>
+                <mat-checkbox #viewAsFullText checked="true">view as text
+                </mat-checkbox>
+                <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
+                    matTooltipPosition="after">hints
+                    <mat-icon>info</mat-icon>
+                </button>
+            </mat-card-title>
+        </mat-card-header>
+        <div *ngFor="let schedule of schedules;  index as i" class="formContainer">
+            <app-input-copy-click class="formInput"
+                [value]="viewAsFullText.checked ? schedule.text : schedule.cronValue"
+                [label]="viewAsFullText.checked ? schedule.cronValue : schedule.text" copyname="Schedule"
+                [editable]="editable" [title]="schedule.text">
+            </app-input-copy-click>
+        </div>
+    </ng-template>
+    <ng-template #editableSchedules [formGroup]="schedulesForm">
+        <div class="formContainer" formArrayName="addSchedule">
+            <mat-form-field appearance="outline" class="formInput">
+                <mat-label>
+                    add a new schedule
+                </mat-label>
+                <input matInput title="add a new schedule" formControlName="cronValue" (keyup.Enter)="addSchedule()"
+                    (keyup.Control.Enter)="updateNewScheduleDescription()" />
+                <mat-hint>{{addScheduleControle.value.text}}</mat-hint>
+                <mat-error>Wrong format <strong>minute hour day month week</strong>. Look at <a target="blank"
+                        href="https://crontab.guru/">this documentation</a> for more details.</mat-error>
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000" class="action_button" (click)="addSchedule()" mat-icon-button color="primary"
+                    title="add a new schedule">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </span>
+        </div>
+        <ng-container formArrayName="schedules">
+            <div [formGroupName]="i" *ngFor="let schedule of scheduleControles.controls ;  index as i"
+                class="formContainer">
+                <mat-form-field appearance="outline" class="formInput">
+                    <mat-label>
+                        {{schedule.value.text}}
+                    </mat-label>
+                    <input matInput formControlName="cronValue" (keyup.Control.Enter)="updateCronDescription(i)"
+                        (change)="updateCronDescription(i)" />
+
+                    <mat-error *ngIf="schedule.hasError('pattern', 'cronValue' )">
+                        Wrong format <strong>minute hour day
+                        month week</strong>. Look at <a target="blank" href="https://crontab.guru/">this
+                        documentation</a> for more details.</mat-error>
+                    <mat-error *ngIf="schedule.hasError('required', 'cronValue' )">
+                        This field cannot be empty
+                    </mat-error>
+                </mat-form-field>
+                <span>
+                    <button [tabindex]="10000+i" class="action_button" (click)="removeSchedule(i)" mat-icon-button
+                        color="warn" title="delete the schedule">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </span>
+            </div>
+        </ng-container>
+    </ng-template>
 </mat-card>

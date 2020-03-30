@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DialogEditReportComponent } from '../dialog-edit-report/dialog-edit-report.component';
 import { Report, InputArg } from './../../custom-classes';
 
 @Component({
@@ -22,6 +23,13 @@ export class ViewReportComponent implements OnInit {
       data: this.report.output.parameters
     });
 
+  }
+
+  openEditDialog(): void {
+    this.dialog.open( DialogEditReportComponent, {
+      width: '90%',
+      data: this.report
+    });
   }
 
 }
