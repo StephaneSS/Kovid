@@ -19,4 +19,5 @@ jobs:
         run: docker ps -a
         
       - name: Check logs
+        working-directory: ./KoRe
         run: docker-compose logs front
