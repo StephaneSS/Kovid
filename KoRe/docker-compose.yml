@@ -1,9 +1,45 @@
 version: '3'
 
 services:
+
   front:
     hostname: localhost
     container_name: kore-front
-    build: ./front
+    build: 
+      context: ./front
+      args:
+        IsPROD: 'true'
     ports:
       - 1234:80
+    networks:
+      - net-rest-api
+  #back:
+  #  container_name: kore-bake
+  #  build: ./back
+  #  ports:
+  #    - 4321:8080
+  #  networks:
+  #    - net-database
+  #    - net-rest-api
+  database:
+    container_name: kore-db
+    build: ./database
+    expose:
+      - '5432'
+    #env_file:
+    #  - ./database/dev_database.env
+    environment:
+      - POSTGRES_PASSWORD=kore_pwd
+      - POSTGRES_USER=kore_back
+      - POSTGRES_DB=kore 
+    volumes:
+      - kore-database-data:/var/lib/postgresql/data/
+    networks: 
+      - net-database
+
+networks:
+  net-rest-api:
+  net-database:
+
+volumes:
+  kore-database-data:
