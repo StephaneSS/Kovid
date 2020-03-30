@@ -26,12 +26,8 @@ services:
     build: ./database
     expose:
       - '5432'
-    #env_file:
-    #  - ./database/dev_database.env
-    environment:
-      - POSTGRES_PASSWORD=kore_pwd
-      - POSTGRES_USER=kore_back
-      - POSTGRES_DB=kore 
+    env_file:
+      - ./database/dev_database.env
     volumes:
       - kore-database-data:/var/lib/postgresql/data/
     networks: 
