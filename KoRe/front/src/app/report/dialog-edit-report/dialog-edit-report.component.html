@@ -3,11 +3,11 @@
     <app-edit-report [report]="edited_report"></app-edit-report>
 </div>
 <div mat-dialog-actions>
-    <button mat-raised-button color="primary">
+    <button mat-raised-button color="primary" disabled="true">
         <mat-icon>save</mat-icon> Save
     </button>
     <span class="spacer"></span>
-    <button mat-raised-button color="warn">
+    <button mat-raised-button mat-dialog-close color="warn">
         <mat-icon>close</mat-icon> Cancel
     </button>
 </div>

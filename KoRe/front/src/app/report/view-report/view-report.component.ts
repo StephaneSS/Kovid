@@ -28,6 +28,7 @@ export class ViewReportComponent implements OnInit {
   openEditDialog(): void {
     this.dialog.open( DialogEditReportComponent, {
       width: '90%',
+      disableClose: true,
       data: this.report
     });
   }
