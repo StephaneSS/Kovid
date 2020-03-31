@@ -16,11 +16,24 @@ export interface Schedule {
     text: string;
 }
 
+export interface PostProcess {
+    order: number;
+    name: string;
+    value: string;
+}
 export enum DestinationProtocole {
     SMTP = "SMTP",
     FTP = "FTP",
     SFTP = "SFTP",
     FOLDER = "FOLDER"
+}
+
+export interface Executions {
+    order: number;
+    name: string;
+    value: any;
+    time: string;
+    path: string; 
 }
 
 export interface Server {
@@ -77,8 +90,8 @@ export interface Report {
     //opr: File;
     input_args: InputArg[];
     schedules: Schedule[];
-    //postProcesses: PostProcess[];
+    postProcesses: PostProcess[];
     destinations: Destinations;
-    //executions: Execution[];
+    executions: Executions[];
 }
 
