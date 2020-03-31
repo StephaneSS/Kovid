@@ -18,27 +18,31 @@
         </div>
     </ng-template>
     <ng-template #editableInputArgs [formGroup]="argumentsForm">
-        <!-- TODO: add, reorder -->
-        <ng-container formArrayName="arguments">
-            <div [formGroupName]="i" *ngFor="let argument of argumentControles.controls ;  index as i"
+        <div cdkDropList formArrayName="arguments" class="argList" (cdkDropListDropped)="dropArgument($event)">
+            <div cdkDrag [formGroupName]="i" *ngFor="let argument of argumentControles.controls ;  index as i"
                 class="formContainer">
-                {{argument.value.order}}.
+                <span>
+                    <mat-icon class="leftButton dragButton" cdkDragHandle>unfold_more</mat-icon>
+                </span>
+                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                 <mat-form-field appearance="outline" class="formInput">
                     <mat-label>name</mat-label>
-                    <input matInput formControlName="name" (change)="notifyChanges()" />
-                    <mat-error>Any arguments must have a name.</mat-error>
+                    <input matInput formControlName="name" (change)="notifyChanges()" required />
+                    <mat-error>An argument must have a name.</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="formInputSmall">
-                    <mat-label>type</mat-label>
-                    <mat-select formControlName="type">
+                    <mat-label>value type</mat-label>
+                    <mat-select formControlName="type" required>
                         <ng-container *ngFor="let type of argumentTypes | keyvalue">
                             <mat-option [value]="type.value">{{type.value}}</mat-option>
                         </ng-container>
                     </mat-select>
+                    <mat-error>An argument must have a type.</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="formInput">
                     <mat-label>value</mat-label>
-                    <input matInput formControlName="value" (change)="notifyChanges()" (change)="notifyChanges()"/>
+                    <input matInput formControlName="value" (change)="notifyChanges()" (change)="notifyChanges()" required />
+                    <mat-error>An argument must have a value.</mat-error>
                 </mat-form-field>
                 <span>
                     <button [tabindex]="10000+i" class="action_button" (click)="removeArgument(i)" mat-icon-button
@@ -47,7 +51,35 @@
                     </button>
                 </span>
             </div>
-        </ng-container>
+        </div>
+        <div class="formContainer" formArrayName="addArgument">
+            <span>
+                <mat-icon class="leftButton" matTooltipPosition="above" matTooltip="Press [ENTER] to add the new input argument">info</mat-icon>
+            </span>
+            <mat-form-field appearance="outline" class="formInput" required>
+                <mat-label>name</mat-label>
+                <input matInput formControlName="name" (change)="notifyChanges()" (keyup.Enter)="addArgument()" />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="formInputSmall">
+                <mat-label>value type</mat-label>
+                <mat-select formControlName="type" required >
+                    <ng-container *ngFor="let type of argumentTypes | keyvalue">
+                        <mat-option [value]="type.value">{{type.value}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="formInput">
+                <mat-label>value</mat-label>
+                <input matInput formControlName="value" (change)="notifyChanges()" (change)="notifyChanges()"
+                    (keyup.Enter)="addArgument()" />
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000" class="action_button" (click)="addArgument()" mat-icon-button color="primary"
+                    title="add a new argument">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </span>
+        </div>
 
     </ng-template>
 </mat-card>

@@ -19,7 +19,7 @@ export class ViewSchedulesComponent implements OnInit {
     'addSchedule': this.createScheduleFormControl({
       cronValue: '',
       text: ''
-    }),
+    }, false),
     'schedules': new FormArray([])
   });
 
@@ -43,11 +43,15 @@ export class ViewSchedulesComponent implements OnInit {
     this.schedulesForm.markAllAsTouched();
   }
 
-  createScheduleFormControl(schedule: Schedule): FormGroup {
+  createScheduleFormControl(schedule: Schedule, required: boolean = true): FormGroup {
+    let validators: Validators[] = [Validators.pattern(/^[a-z-0-9*/]+( [a-z-0-9*/]+){4}$/i)];
+    if(required){
+      validators.push(Validators.required);
+    }
     return this.formBuilder.group({
       ...schedule,
       ... {
-        cronValue: [schedule.cronValue, [Validators.pattern(/^[a-z-0-9*/]+( [a-z-0-9*/]+){4}$/i), Validators.required]]
+        cronValue: [schedule.cronValue, validators]
       }
     });
   }
