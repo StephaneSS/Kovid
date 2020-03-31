@@ -43,11 +43,11 @@
             </ng-template>
             <app-view-schedules [schedules]="report.schedules"></app-view-schedules>
         </mat-tab>
-        <mat-tab label="post porcesses" disabled="true">
+        <mat-tab label="post porcesses">
             <ng-template mat-tab-label>
                 <mat-icon class="tab-icon">tune</mat-icon> post porcesses
             </ng-template>
-            put postPorcess component here :)
+            <app-view-postprocess [postProcesses]="report.postProcesses"></app-view-postprocess>
         </mat-tab>
         <mat-tab label="destinations">
             <ng-template mat-tab-label>
@@ -55,11 +55,11 @@
             </ng-template>
             <app-view-destinations [destinations]="report.destinations"></app-view-destinations>
         </mat-tab>
-        <mat-tab label="executions" disabled="true">
+        <mat-tab label="executions">
             <ng-template mat-tab-label>
                 <mat-icon class="tab-icon">history</mat-icon> executions
             </ng-template>
-            put execution component here :)
+            <app-view-executions [executions]="report.executions"></app-view-executions>
         </mat-tab>
     </mat-tab-group>
 </mat-card>
