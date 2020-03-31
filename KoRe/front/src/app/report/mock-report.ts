@@ -2,6 +2,8 @@ import { Report, OutputType, ArgType } from '../custom-classes';
 import { INPUT_ARGS } from './mock-input-args'; // FIXME: Only for mocking
 import { SCHEDULES } from './mock-schdules'; // FIXME: Only for mocking
 import { DESTIATIONS } from './mock-destinations'; // FIXME: Only for mocking
+import { EXECUTIONS } from './mock-executions'; // FIXME: Only for mocking
+import { POSTPROCESSES } from './mock-postprocess';
 
 export const REPORT: Report = {
     name: 'Report name',
@@ -19,7 +21,7 @@ export const REPORT: Report = {
     },
     input_args: INPUT_ARGS,
     schedules: SCHEDULES,
-    //postProcesses: POSTPROCESSES,
+    postProcesses: POSTPROCESSES,
     destinations: DESTIATIONS,
-    //executions: EXECUTIONS
+    executions: EXECUTIONS
 };
