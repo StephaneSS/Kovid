@@ -1,9 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Executions } from '../../custom-classes';
 
-declare var require: any
-const FileSaver = require('file-saver');
-
 @Component({
   selector: 'app-view-executions',
   templateUrl: './view-executions.component.html',
@@ -18,7 +15,7 @@ export class ViewExecutionsComponent implements OnInit {
   }
 
   public downloadLog(logName: string): void {
-
+    var FileSaver = require('file-saver');
     var content = "Here the content of the log " + logName;
     var filename = logName;
     var blob = new Blob([content], {
