@@ -1,0 +1,22 @@
+<mat-card>
+    <strong> The latest executions : </strong>
+    <br><br>
+    <div *ngFor="let execution of executions;  index as i" class="formContainer">
+        <strong class="lineIndex">{{execution.order}}.</strong>&nbsp; &nbsp;
+        <mat-form-field appearance="outline" class="formInput">
+            <input matInput title="{{execution.value}}" readonly=true value="{{execution.value}}" />
+        </mat-form-field>
+        &nbsp; &nbsp;
+        <mat-form-field appearance="outline" class="formInput">
+            <input matInput title="{{execution.time}}" readonly=true value="{{execution.time}}"  />
+        </mat-form-field>
+        &nbsp; &nbsp;
+        <button type="button" class="btn btn-primary btn-sm" (click)="viewFile(execution.value)">
+            View
+        </button> &nbsp; &nbsp;
+        <button type="button" class="btn btn-primary btn-sm" (click)="downloadLog(execution.value)">Download </button>
+        &nbsp; &nbsp;
+
+    </div>
+
+</mat-card>
