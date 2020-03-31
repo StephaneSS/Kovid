@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { FormControl, Validators, FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormControl, Validators, FormBuilder, FormGroup, FormArray, ValidatorFn } from '@angular/forms';
 import { Schedule } from '../../custom-classes';
 import { ScheduleService } from '../../services/schedule/schedule.service';
 
@@ -44,7 +44,7 @@ export class ViewSchedulesComponent implements OnInit {
   }
 
   createScheduleFormControl(schedule: Schedule, required: boolean = true): FormGroup {
-    let validators: Validators[] = [Validators.pattern(/^[a-z-0-9*/]+( [a-z-0-9*/]+){4}$/i)];
+    let validators: ValidatorFn[] = [Validators.pattern(/^[a-z-0-9*/]+( [a-z-0-9*/]+){4}$/i)];
     if(required){
       validators.push(Validators.required);
     }
