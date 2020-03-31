@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { InputArg, ArgType } from '../../custom-classes'
 
@@ -45,7 +45,7 @@ export class ViewInputArgsComponent implements OnInit {
   }
 
   createArgumentFormControl(argument: InputArg, required: boolean = true): FormGroup {
-    let validators: Validators[] = [];
+    let validators: ValidatorFn[] = [];
     if(required){
       validators.push(Validators.required);
     }
@@ -91,6 +91,7 @@ export class ViewInputArgsComponent implements OnInit {
       this.initArgumentFormControl();
       this.addArgumentControl.get('name').reset();
       this.addArgumentControl.get('value').reset();
+      this.notifyChanges();
     }
   }
 
