@@ -91,6 +91,7 @@ export class ViewInputArgsComponent implements OnInit {
       this.initArgumentFormControl();
       this.addArgumentControl.get('name').reset();
       this.addArgumentControl.get('value').reset();
+      this.notifyChanges();
     }
   }
 
