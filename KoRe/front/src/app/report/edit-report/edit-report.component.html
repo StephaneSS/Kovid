@@ -48,7 +48,7 @@
             </div>
         </mat-step>
         <mat-step label="Destinations" completed="false" state="send">
-            <app-view-destinations [destinations]="report.destinations"></app-view-destinations>
+            <app-view-destinations editable="true" (destinationsChanged)="reportForms.controls.destinations = $event" [destinations]="report.destinations"></app-view-destinations>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
             </div>

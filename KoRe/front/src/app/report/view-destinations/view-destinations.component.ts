@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DestinationProtocole, Server, Destinations } from '../../custom-classes';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-view-destinations',
@@ -11,10 +12,13 @@ import { ClipboardService } from '../../services/clipboard/clipboard.service';
 export class ViewDestinationsComponent implements OnInit {
 
   @Input() destinations: Destinations;
+  @Input() editable: boolean = false;
+  @Output() destinationsChanged: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   constructor(
     private _snackBar: MatSnackBar,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+    private readonly formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
