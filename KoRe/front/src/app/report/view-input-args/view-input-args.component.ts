@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { InputArg, ArgType } from '../../custom-classes'
 
@@ -21,12 +21,16 @@ export class ViewInputArgsComponent implements OnInit {
       order: 0,
       type: ArgType.STRING,
       value: ''
-    }),
+    }, false),
     'arguments': new FormArray([])
   });
 
   get argumentControles(): FormArray {
-    return this.argumentsForm.get("arguments") as FormArray;
+    return this.argumentsForm.get('arguments') as FormArray;
+  }
+
+  get addArgumentControl(): FormControl {
+    return this.argumentsForm.get('addArgument') as FormControl;
   }
 
   constructor(private readonly formBuilder: FormBuilder) { }
@@ -40,11 +44,17 @@ export class ViewInputArgsComponent implements OnInit {
     this.arguments.sort((arg1, arg2) => arg1.order - arg2.order);
   }
 
-  createArgumentFormControl(argument: InputArg): FormGroup {
+  createArgumentFormControl(argument: InputArg, required: boolean = true): FormGroup {
+    let validators: Validators[] = [];
+    if(required){
+      validators.push(Validators.required);
+    }
     return this.formBuilder.group({
       ...argument,
       ... {
-        name: [argument.name, Validators.required]
+        name: [argument.name, validators],
+        type: [argument.type, validators],
+        value: [argument.value, validators],
       }
     });
   }
@@ -71,6 +81,17 @@ export class ViewInputArgsComponent implements OnInit {
     moveItemInArray(this.arguments, event.previousIndex, event.currentIndex);
     this.arguments = this.arguments.map((arg, i) => { arg.order = i + 1; return arg; });
     this.initArgumentFormControl();
+  }
+
+  addArgument(): void {
+    if (this.addArgumentControl.valid) {
+      let newArg = this.addArgumentControl.value;
+      newArg.order = this.arguments.length+1;
+      this.arguments.push(newArg);
+      this.initArgumentFormControl();
+      this.addArgumentControl.get('name').reset();
+      this.addArgumentControl.get('value').reset();
+    }
   }
 
 }

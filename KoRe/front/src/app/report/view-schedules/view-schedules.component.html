@@ -46,7 +46,7 @@
                         {{schedule.value.text}}
                     </mat-label>
                     <input matInput formControlName="cronValue" (keyup.Control.Enter)="updateCronDescription(i)"
-                        (change)="updateCronDescription(i)" />
+                        (change)="updateCronDescription(i)" required/>
 
                     <mat-error *ngIf="schedule.hasError('pattern', 'cronValue' )">
                         Wrong format <strong>minute hour day
