@@ -21,6 +21,9 @@
     </ng-template>
     <ng-template #editableSchedules [formGroup]="schedulesForm">
         <div class="formContainer" formArrayName="addSchedule">
+            <span>
+                <mat-icon class="leftButton" matTooltipPosition="above" matTooltip="Press [ENTER] to add the new schedule. Press [CONTROL] + [ENTER] to refresh any schedule description.">info</mat-icon>
+            </span>
             <mat-form-field appearance="outline" class="formInput">
                 <mat-label>
                     add a new schedule
