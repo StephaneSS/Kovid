@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { InputArg, ArgType } from '../../custom-classes'
 
 @Component({
@@ -64,6 +65,12 @@ export class ViewInputArgsComponent implements OnInit {
 
   notifyChanges(): void {
     this.argumentsChanged.emit(this.argumentsForm.get('arguments') as FormGroup);
+  }
+
+  dropArgument(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.arguments, event.previousIndex, event.currentIndex);
+    this.arguments = this.arguments.map((arg, i) => { arg.order = i + 1; return arg; });
+    this.initArgumentFormControl();
   }
 
 }

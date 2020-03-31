@@ -31,6 +31,7 @@ import { EditReportComponent } from './report/edit-report/edit-report.component'
 import { DialogEditReportComponent } from './report/dialog-edit-report/dialog-edit-report.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatMenuModule,
     MatStepperModule,
-    MatSelectModule
+    MatSelectModule,
+    DragDropModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]
