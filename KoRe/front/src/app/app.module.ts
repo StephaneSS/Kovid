@@ -8,7 +8,8 @@ import { ViewInputArgsComponent } from './report/view-input-args/view-input-args
 import { ViewSchedulesComponent } from './report/view-schedules/view-schedules.component';
 import { ViewDestinationsComponent } from './report/view-destinations/view-destinations.component';
 import { ViewReportComponent, OutputParametersDialog } from './report/view-report/view-report.component';
-
+import { ViewExecutionsComponent } from './report/view-executions/view-executions.component';
+import { ViewPostprocessComponent } from './report/view-postprocess/view-postprocess.component';
 import { ClipboardService } from './services/clipboard/clipboard.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,7 +36,9 @@ import {MatMenuModule} from '@angular/material/menu';
     ViewDestinationsComponent,
     ViewReportComponent,
     OutputParametersDialog,
-    InputCopyClickComponent
+    InputCopyClickComponent,
+    ViewExecutionsComponent,
+    ViewPostprocessComponent
   ],
   imports: [
     BrowserModule,
