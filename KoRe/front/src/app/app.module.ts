@@ -27,6 +27,15 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatMenuModule} from '@angular/material/menu';
+import { EditReportComponent } from './report/edit-report/edit-report.component';
+import { DialogEditReportComponent } from './report/dialog-edit-report/dialog-edit-report.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SmtpComponent } from './report/destination/smtp/smtp.component';
+import { FtpComponent } from './report/destination/ftp/ftp.component';
+import { SftpComponent } from './report/destination/sftp/sftp.component';
+import { FolderComponent } from './report/destination/folder/folder.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
@@ -41,7 +50,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     OutputParametersDialog,
     InputCopyClickComponent,
     ViewExecutionsComponent,
-    ViewPostprocessComponent
+    ViewPostprocessComponent,
+    EditReportComponent,
+    DialogEditReportComponent,
+    SmtpComponent,
+    FtpComponent,
+    SftpComponent,
+    FolderComponent
   ],
   imports: [
     BrowserModule,
