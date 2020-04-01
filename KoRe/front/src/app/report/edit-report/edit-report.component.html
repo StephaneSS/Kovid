@@ -47,7 +47,7 @@
                 <button mat-button matStepperNext>Next</button>
             </div>
         </mat-step>
-        <mat-step label="Destinations" completed="false" state="send">
+        <mat-step label="Destinations" completed="false" [state]="reportForms.controls.destinations.valid ? 'send' : 'error' " errorMessage="Some destinations are wrong">
             <app-view-destinations editable="true" (destinationsChanged)="reportForms.controls.destinations = $event" [destinations]="report.destinations"></app-view-destinations>
             <div>
                 <button mat-button matStepperPrevious>Back</button>

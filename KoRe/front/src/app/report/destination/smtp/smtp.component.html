@@ -17,6 +17,7 @@
                     new email address
                 </mat-label>
                 <input matInput formControlName="email" (keyup.Enter)="addDestination()" />
+                <mat-error>Wrong email format</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="formInput fullLengthInput">
                 <mat-label>
@@ -43,7 +44,7 @@
                 <mat-error *ngIf="destination.hasError('required', 'email' )">
                     This field cannot be empty
                 </mat-error>
-                <mat-error *ngIf="destination.hasError('email', 'path' )">
+                <mat-error *ngIf="destination.hasError('email', 'email' )">
                     Wrong email format
                 </mat-error>
             </mat-form-field>

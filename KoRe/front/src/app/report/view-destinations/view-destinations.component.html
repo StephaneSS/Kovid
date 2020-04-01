@@ -12,7 +12,7 @@
             *ngFor='let protocol of protocols()'
             [disabled]="!editable && (!destinations[protocol] || destinations[protocol].length === 0)">
             <mat-expansion-panel-header>
-                <mat-panel-title>{{protocol}}</mat-panel-title>
+                <mat-panel-title><span *ngIf="editable && destinationsForm.get(protocol).invalid"><mat-icon color="warn">warning</mat-icon>&nbsp; </span>{{protocol}}</mat-panel-title>
                 <mat-panel-description>
                     {{destinations[protocol]?.length  || 'No'}}
                     destination{{destinations[protocol]?.length > 1 ? 's' : ''}} configured with {{protocol}}
@@ -20,16 +20,16 @@
             </mat-expansion-panel-header>
 
             <app-destination-smtp *ngIf="protocol === 'SMTP'" [editable]="editable"
-                [destinations]="destinations[protocol]">
+                [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
             </app-destination-smtp>
             <app-destination-ftp *ngIf="protocol === 'FTP'" [editable]="editable"
-                [destinations]="destinations[protocol]">
+                [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
             </app-destination-ftp>
             <app-destination-sftp *ngIf="protocol === 'SFTP'" [editable]="editable"
-                [destinations]="destinations[protocol]">
+                [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
             </app-destination-sftp>
             <app-destination-folder *ngIf="protocol === 'FOLDER'" [editable]="editable"
-                [destinations]="destinations[protocol]">
+                [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
             </app-destination-folder>
         </mat-expansion-panel>
     </mat-accordion>

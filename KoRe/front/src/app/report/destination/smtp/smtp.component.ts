@@ -44,7 +44,7 @@ export class SmtpComponent implements OnInit {
     return this.formBuilder.group({
       ...destination,
       ... {
-        email: [destination.email, validators],
+        email: [destination.email, validators.concat(Validators.email)],
         object: [destination.object, validators]
       }
     });

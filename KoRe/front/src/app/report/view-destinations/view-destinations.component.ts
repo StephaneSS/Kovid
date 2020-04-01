@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DestinationProtocole, Server, Destinations } from '../../custom-classes';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-view-destinations',
@@ -15,6 +15,8 @@ export class ViewDestinationsComponent implements OnInit {
   @Input() editable: boolean = false;
   @Output() destinationsChanged: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
+  destinationsForm = new FormGroup({});
+
   constructor(
     private _snackBar: MatSnackBar,
     private clipboardService: ClipboardService,
@@ -22,34 +24,20 @@ export class ViewDestinationsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    for (let protocol of this.protocols().map(p => DestinationProtocole[p]) ) {
+      this.destinationsForm.addControl(protocol, new FormArray([]));   
+    }
   }
 
-  destinationProtocoles = DestinationProtocole;
+protocols(): Array < string > {
+  return Object.keys(DestinationProtocole);
+}
 
-  protocols(): Array<string> {
-    return Object.keys(this.destinationProtocoles);
-  }
-
-  formatServerToString(server: Server): string {
-      let str: string[] = [];
-      str.push(server.protocol.trim(), '://');
-      if (server?.user?.trim()) {
-          str.push(server?.user?.trim(), '@')
-      }
-      str.push(server.host.trim());
-      if (server?.port) {
-          str.push(':', server.port.toString())
-      }
-      return str.join('');
-  }
-
-  formatUrlToString(server: Server, path: string): string {
-    return `${this.formatServerToString(server)}/${path}`;
-  }
-
-  copyToClipboardAndNotify(inputElement: HTMLInputElement | string, valueName: string = ''): void {
-    this.clipboardService.copyToClipboard(inputElement);
-    this.clipboardService.notifyCopy(this._snackBar, valueName);
-  }
+destinationChanged(protocol: DestinationProtocole, event: FormGroup) {
+  this.destinationsForm.removeControl(protocol);
+  this.destinationsForm.addControl(protocol, event);
+  this.destinationsChanged.emit(this.destinationsForm);
+  console.log(this.destinationsForm.get(protocol))
+}
 
 }
