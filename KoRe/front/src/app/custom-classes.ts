@@ -31,8 +31,10 @@ export enum DestinationProtocole {
 export interface Executions {
     order: number;
     name: string;
-    value: any;
-    time: string;
+    startDate: string;
+    endDate : string;
+    duration : string;
+    status : string;
     path: string; 
 }
 
