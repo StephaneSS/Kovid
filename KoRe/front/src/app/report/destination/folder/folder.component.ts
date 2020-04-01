@@ -61,9 +61,7 @@ export class FolderComponent implements OnInit {
   }
 
   addDestination(): void {
-    console.log("b",this.add_folder_destinations_control.value,this.add_folder_destinations_control.valid);
     if (this.add_folder_destinations_control.value.path && this.add_folder_destinations_control.valid) {
-      console.log("a");
       // add the value
       this.destinations.unshift(this.add_folder_destinations_control.value);
       this.initDestinationFormControl();
