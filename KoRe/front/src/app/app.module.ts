@@ -77,7 +77,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     MatMenuModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatStepperModule,
+    MatSelectModule,
+    DragDropModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]
