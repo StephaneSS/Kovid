@@ -39,7 +39,7 @@
                 <mat-label>
                     email address
                 </mat-label>
-                <input matInput formControlName="email" required />
+                <input matInput formControlName="email" required (change)="notifyChanges()"/>
                 <mat-error *ngIf="destination.hasError('required', 'email' )">
                     This field cannot be empty
                 </mat-error>
@@ -51,7 +51,7 @@
                 <mat-label>
                     email object
                 </mat-label>
-                <input matInput formControlName="object" required />
+                <input matInput formControlName="object" required (change)="notifyChanges()"/>
                 <mat-error *ngIf="destination.hasError('required', 'object' )">
                     This field cannot be empty
                 </mat-error>

@@ -32,7 +32,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="formInputSmall">
                     <mat-label>value type</mat-label>
-                    <mat-select formControlName="type" required>
+                    <mat-select formControlName="type" required (selectionChange)="notifyChanges()">
                         <ng-container *ngFor="let type of argumentTypes | keyvalue">
                             <mat-option [value]="type.value">{{type.value}}</mat-option>
                         </ng-container>
@@ -41,7 +41,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="formInput">
                     <mat-label>value</mat-label>
-                    <input matInput [type]=" argument.value.type === 'Number' ? 'number' : 'text'" formControlName="value" (change)="notifyChanges()" (change)="notifyChanges()"
+                    <input matInput [type]=" argument.value.type === 'Number' ? 'number' : 'text'" formControlName="value" (change)="notifyChanges()"
                         required />
                     <mat-error>An argument must have a valid value.</mat-error>
                 </mat-form-field>
@@ -72,7 +72,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline" class="formInput">
                 <mat-label>value</mat-label>
-                <input matInput formControlName="value" [type]=" addArgumentControl.value.type === 'Number' ? 'number' : 'text'" (change)="notifyChanges()" (change)="notifyChanges()"
+                <input matInput formControlName="value" [type]=" addArgumentControl.value.type === 'Number' ? 'number' : 'text'"
                     (keyup.Enter)="addArgument()" />
             </mat-form-field>
             <span>

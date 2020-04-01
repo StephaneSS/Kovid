@@ -31,7 +31,7 @@
                 <mat-label>
                     destination path
                 </mat-label>
-                <input matInput formControlName="path" required />
+                <input matInput formControlName="path" required  (change)="notifyChanges()"/>
                 <mat-error *ngIf="destination.hasError('required', 'path' )">
                     This field cannot be empty
                 </mat-error>
