@@ -16,11 +16,6 @@ export interface Schedule {
     text: string;
 }
 
-export interface PostProcess {
-    order: number;
-    name: string;
-    value: string;
-}
 export enum DestinationProtocole {
     SMTP = "SMTP",
     FTP = "FTP",
@@ -28,18 +23,8 @@ export enum DestinationProtocole {
     FOLDER = "FOLDER"
 }
 
-export interface Executions {
-    order: number;
-    name: string;
-    startDate: string;
-    endDate : string;
-    duration : string;
-    status : string;
-    path: string; 
-}
-
 export interface Server {
-    protocol: string;
+    protocol: DestinationProtocole;
     name: string;
     user?: string;
     host: string;
@@ -78,6 +63,22 @@ export enum OutputType {
     CSV = 'CSV',
     XLS = 'XLS',
     HISTO = 'HISTO'
+}
+
+export interface Executions {
+    order: number;
+    name: string;
+    startDate: string;
+    endDate : string;
+    duration : string;
+    status : string;
+    path: string; 
+}
+
+export interface PostProcess {
+    order: number;
+    name: string;
+    value: string;
 }
 
 export interface ReportOutput {
