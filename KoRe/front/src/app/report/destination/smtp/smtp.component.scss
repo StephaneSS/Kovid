@@ -1,0 +1,16 @@
+.formContainer {
+    display: flex;
+}
+
+.formContainer > .formInput {
+    margin: 0 1.5em;
+}
+
+.formContainer > .fullLengthInput {
+    width: 100%;
+    margin: 0 1.5em;
+}
+
+.action_button {
+    margin: 7px 0 0 -10px;
+}

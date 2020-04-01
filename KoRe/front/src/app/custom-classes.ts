@@ -24,7 +24,7 @@ export enum DestinationProtocole {
 }
 
 export interface Server {
-    protocol: string;
+    protocol: DestinationProtocole;
     name: string;
     user?: string;
     host: string;

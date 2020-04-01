@@ -38,6 +38,7 @@ export class ViewInputArgsComponent implements OnInit {
   ngOnInit(): void {
     this.sortArguments();
     this.initArgumentFormControl();
+    this.notifyChanges();
   }
 
   sortArguments(): void {

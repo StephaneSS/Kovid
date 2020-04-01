@@ -35,6 +35,7 @@ export class ViewSchedulesComponent implements OnInit {
 
   ngOnInit(): void {
     this.initScheduleFormControl();
+    this.notifyChanges();
   }
 
   initScheduleFormControl() {

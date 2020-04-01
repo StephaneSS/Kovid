@@ -19,7 +19,8 @@ export class EditReportComponent implements OnInit {
 
   reportForms: FormGroup = new FormGroup({
     schedules: this.formBuilder.array([]),
-    inputArgs: this.formBuilder.array([])
+    inputArgs: this.formBuilder.array([]),
+    destinations: this.formBuilder.array([])
   });
 
   ngOnInit(): void {

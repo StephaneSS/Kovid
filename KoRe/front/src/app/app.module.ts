@@ -32,6 +32,10 @@ import { DialogEditReportComponent } from './report/dialog-edit-report/dialog-ed
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SmtpComponent } from './report/destination/smtp/smtp.component';
+import { FtpComponent } from './report/destination/ftp/ftp.component';
+import { SftpComponent } from './report/destination/sftp/sftp.component';
+import { FolderComponent } from './report/destination/folder/folder.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     OutputParametersDialog,
     InputCopyClickComponent,
     EditReportComponent,
-    DialogEditReportComponent
+    DialogEditReportComponent,
+    SmtpComponent,
+    FtpComponent,
+    SftpComponent,
+    FolderComponent
   ],
   imports: [
     BrowserModule,

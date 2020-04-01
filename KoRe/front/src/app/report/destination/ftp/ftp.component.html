@@ -1,0 +1,74 @@
+<ng-container *ngIf="editable; then editDestination; else readOnly"></ng-container>
+<ng-template #readOnly>
+<ng-container *ngFor="let destination of destinations">
+    <div class="formContainer">
+
+        <app-input-copy-click class="formInput" [value]="destination.server.name" label="Server name">
+        </app-input-copy-click>
+        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path">
+        </app-input-copy-click>
+
+        <span>
+            <button class="copyButton"
+                (click)="copyToClipboardAndNotify(formatUrlToString(destination.server, destination.path), 'Url')"
+                mat-stroked-button color="primary">url to clipboard</button>
+        </span>
+    </div>
+</ng-container>
+</ng-template>
+<ng-template #editDestination [formGroup]="destinationsForm">
+    
+    <ng-container formArrayName="addDestination">
+        <div class="formContainer">
+            <mat-form-field appearance="fill" class="formInputSmall">
+                <mat-label>new FTP Server</mat-label>
+                <mat-select formControlName="server" [compareWith]="areServersEq">
+                    <ng-container *ngFor="let server of servers">
+                        <mat-option [value]="server">{{server.name}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="formInput fullLengthInput">
+                <mat-label>
+                    new ftp path
+                </mat-label>
+                <input matInput formControlName="path" (keyup.Enter)="addDestination()" />
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000" class="action_button" mat-icon-button color="primary"
+                    (click)="addDestination()" title="add a new destination">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </span>
+        </div>
+    </ng-container>
+    <ng-container formArrayName="destinations">
+        <div [formGroupName]="i" *ngFor="let destination of ftp_destinations_control.controls ;  index as i"
+            class="formContainer">
+            <mat-form-field appearance="fill" class="formInputSmall">
+                <mat-label>FTP Server</mat-label>
+                <mat-select formControlName="server" required [compareWith]="areServersEq" (selectionChange)="notifyChanges()">
+                    <ng-container *ngFor="let server of servers">
+                        <mat-option [value]="server">{{server.name}}</mat-option>
+                    </ng-container>
+                </mat-select>
+                <mat-error>You must select a server.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="formInput fullLengthInput">
+                <mat-label>
+                    ftp path
+                </mat-label>
+                <input matInput formControlName="path" required (change)="notifyChanges()" />
+                <mat-error *ngIf="destination.hasError('required', 'path' )">
+                    This field cannot be empty
+                </mat-error>
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000+i" class="action_button" mat-icon-button color="warn"
+                    (click)="removeDestination(i)" title="delete the destination">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </span>
+        </div>
+    </ng-container>
+</ng-template>

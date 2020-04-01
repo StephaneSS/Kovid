@@ -1,5 +1,5 @@
-<mat-card>
-    <mat-card-header>
+<mat-card [class.mat-elevation-z]="editable">
+    <mat-card-header *ngIf="!editable">
         <mat-card-title>
             <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
                 matTooltipPosition="after">hints
@@ -8,56 +8,29 @@
         </mat-card-title>
     </mat-card-header>
     <mat-accordion multi="true">
-        <mat-expansion-panel [expanded]="destinations[protocol] && destinations[protocol]?.length > 0"
+        <mat-expansion-panel [expanded]="editable || (destinations[protocol] && destinations[protocol]?.length > 0)"
             *ngFor='let protocol of protocols()'
-            [disabled]="!destinations[protocol] || destinations[protocol].length === 0">
+            [disabled]="!editable && (!destinations[protocol] || destinations[protocol].length === 0)">
             <mat-expansion-panel-header>
-                <mat-panel-title>
-                    {{protocol}}
-                </mat-panel-title>
+                <mat-panel-title><span *ngIf="editable && destinationsForm.get(protocol).invalid"><mat-icon color="warn">warning</mat-icon>&nbsp; </span>{{protocol}}</mat-panel-title>
                 <mat-panel-description>
-                    {{destinations[protocol]?.length  || 'No'}} destination(s) configured with {{protocol}}
+                    {{destinations[protocol]?.length  || 'No'}}
+                    destination{{destinations[protocol]?.length > 1 ? 's' : ''}} configured with {{protocol}}
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <ng-container *ngFor="let destination of destinations[protocol]" [ngSwitch]="protocol">
-
-                <ng-container *ngSwitchCase="'SMTP'">
-                    <div class="formContainer">
-                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.email" label="Email address"></app-input-copy-click>
-                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.object" label="Object"></app-input-copy-click>
-                    </div>
-                </ng-container>
-
-                <ng-container *ngSwitchCase="'FTP'">
-                    <ng-container *ngTemplateOutlet="SFTPorFTP"></ng-container>
-                </ng-container>
-
-                <ng-container *ngSwitchCase="'SFTP'">
-                    <ng-container *ngTemplateOutlet="SFTPorFTP"></ng-container>
-                </ng-container>
-               
-                <ng-template #SFTPorFTP>
-                    <div class="formContainer">
-
-                        <app-input-copy-click class="formInput" [value]="destination.server.name" label="Server name"></app-input-copy-click>
-                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path"></app-input-copy-click>
-
-                        <span>
-                            <button class="copyButton"
-                                (click)="copyToClipboardAndNotify(formatUrlToString(destination.server, destination.path), 'Url')"
-                                mat-stroked-button color="primary">url to clipboard</button>
-                        </span>
-                    </div>
-                </ng-template>
-
-                <ng-container *ngSwitchCase="'FOLDER'">
-                    <div class="formContainer">
-                        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path"></app-input-copy-click>
-                    </div>
-                </ng-container>
-            </ng-container>
-
+            <app-destination-smtp *ngIf="protocol === 'SMTP'" [editable]="editable"
+                [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
+            </app-destination-smtp>
+            <app-destination-ftp *ngIf="protocol === 'FTP'" [editable]="editable"
+                [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
+            </app-destination-ftp>
+            <app-destination-sftp *ngIf="protocol === 'SFTP'" [editable]="editable"
+                [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
+            </app-destination-sftp>
+            <app-destination-folder *ngIf="protocol === 'FOLDER'" [editable]="editable"
+                [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
+            </app-destination-folder>
         </mat-expansion-panel>
     </mat-accordion>
 </mat-card>

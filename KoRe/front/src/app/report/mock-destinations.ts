@@ -1,4 +1,5 @@
 import { DestinationProtocole, Destinations } from '../custom-classes'
+import { SERVERS } from './mock-server';
 
 export const DESTIATIONS: Destinations = {
     [DestinationProtocole.SMTP]: [
@@ -9,23 +10,11 @@ export const DESTIATIONS: Destinations = {
     ],
     [DestinationProtocole.FTP]: [
         {
-            server: {
-                protocol: 'ftp',
-                name: 'toto_server',
-                user: 'toto',
-                host: 'toto_host',
-                port: 1234,
-            },
+            server: SERVERS[0],
             path: '~/folder'
         },
         {
-            server: {
-                protocol: 'ftp',
-                name: 'server_of_titi',
-                user: 'titi',
-                host: 'host_of_titi',
-                port: 22,
-            },
+            server: SERVERS[1],
             path: '~/my_costom_folder'
         }
     ],
