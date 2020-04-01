@@ -1,0 +1,8 @@
+<ng-container *ngFor="let destination of destinations">
+    <div class="formContainer">
+        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.email" label="Email address">
+        </app-input-copy-click>
+        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.object" label="Object">
+        </app-input-copy-click>
+    </div>
+</ng-container>
