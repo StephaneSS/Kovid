@@ -8,7 +8,7 @@ import { DestinationSMTP } from 'src/app/custom-classes';
 })
 export class SmtpComponent implements OnInit {
 
-  @Input() destinations: DestinationSMTP;
+  @Input() destinations: DestinationSMTP[];
   @Input() editable: boolean = false;
   
   constructor() { }

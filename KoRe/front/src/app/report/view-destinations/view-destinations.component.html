@@ -8,9 +8,9 @@
         </mat-card-title>
     </mat-card-header>
     <mat-accordion multi="true">
-        <mat-expansion-panel [expanded]="destinations[protocol] && destinations[protocol]?.length > 0"
+        <mat-expansion-panel [expanded]="editable || (destinations[protocol] && destinations[protocol]?.length > 0)"
             *ngFor='let protocol of protocols()'
-            [disabled]="!destinations[protocol] || destinations[protocol].length === 0">
+            [disabled]="!editable && (!destinations[protocol] || destinations[protocol].length === 0)">
             <mat-expansion-panel-header>
                 <mat-panel-title>{{protocol}}</mat-panel-title>
                 <mat-panel-description>
@@ -31,7 +31,6 @@
             <app-destination-folder *ngIf="protocol === 'FOLDER'" [editable]="editable"
                 [destinations]="destinations[protocol]">
             </app-destination-folder>
-
         </mat-expansion-panel>
     </mat-accordion>
 </mat-card>

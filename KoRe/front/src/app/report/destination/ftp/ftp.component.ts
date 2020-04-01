@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class FtpComponent implements OnInit {
 
-  @Input() destinations: DestinationFTP;
+  @Input() destinations: DestinationFTP[];
   @Input() editable: boolean = false;
 
   constructor(

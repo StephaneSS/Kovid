@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SftpComponent implements OnInit {
 
-  @Input() destinations: DestinationSFTP;
+  @Input() destinations: DestinationSFTP[];
   @Input() editable: boolean = false;
 
   constructor(

@@ -1,6 +1,47 @@
-<ng-container *ngFor="let destination of destinations">
-    <div class="formContainer">
-        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path">
-        </app-input-copy-click>
-    </div>
-</ng-container>
+<ng-container *ngIf="editable; then editDestination; else readOnly"></ng-container>
+<ng-template #readOnly>
+    <ng-container *ngFor="let destination of destinations">
+        <div class="formContainer">
+            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.path" label="Path">
+            </app-input-copy-click>
+        </div>
+    </ng-container>
+</ng-template>
+<ng-template #editDestination [formGroup]="destinationsForm">
+    <ng-container formArrayName="addDestination">
+        <div class="formContainer">
+            <mat-form-field appearance="outline" class="formInput fullLengthInput">
+                <mat-label>
+                    add a new folder destination
+                </mat-label>
+                <input matInput formControlName="path" (keyup.Enter)="addDestination()" />
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000" class="action_button" mat-icon-button color="primary"
+                    (click)="addDestination()" title="add a new the destination">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </span>
+        </div>
+    </ng-container>
+    <ng-container formArrayName="destinations">
+        <div [formGroupName]="i" *ngFor="let destination of folder_destinations_control.controls ;  index as i"
+            class="formContainer">
+            <mat-form-field appearance="outline" class="formInput fullLengthInput">
+                <mat-label>
+                    destination path
+                </mat-label>
+                <input matInput formControlName="path" required />
+                <mat-error *ngIf="destination.hasError('required', 'path' )">
+                    This field cannot be empty
+                </mat-error>
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000+i" class="action_button" mat-icon-button color="warn"
+                    (click)="removeDestination(i)" title="delete the destination">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </span>
+        </div>
+    </ng-container>
+</ng-template>
