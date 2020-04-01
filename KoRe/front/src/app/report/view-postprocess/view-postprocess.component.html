@@ -2,7 +2,7 @@
   <div *ngFor="let postProcess of postProcesses ;  index as i" class="formContainer">
         <strong class="lineIndex">{{postProcess.order}}.</strong>&nbsp; &nbsp;
         <mat-form-field appearance="outline" class="formInput">
-            <input matInput readonly=true value="{{postProcess.value}}" />
+            <input matInput  readonly=true value="{{postProcess.name}}" (click)="openDialog(postProcess.value)" />
         </mat-form-field>
     </div>
 </mat-card>
