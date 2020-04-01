@@ -13,5 +13,11 @@ export const SERVERS: Server[] = [
         user: 'titi',
         host: 'host_of_titi',
         port: 22,
+    }, {
+        protocol: DestinationProtocole.SFTP,
+        name: 'nobody_server',
+        user: 'nobody',
+        host: 'host_of_nobody',
+        port: 22,
     }
 ];
