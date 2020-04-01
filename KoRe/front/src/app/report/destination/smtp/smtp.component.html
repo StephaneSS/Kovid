@@ -1,8 +1,67 @@
-<ng-container *ngFor="let destination of destinations">
-    <div class="formContainer">
-        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.email" label="Email address">
-        </app-input-copy-click>
-        <app-input-copy-click class="formInput fullLengthInput" [value]="destination.object" label="Object">
-        </app-input-copy-click>
-    </div>
-</ng-container>
+<ng-container *ngIf="editable; then editDestination; else readOnly"></ng-container>
+<ng-template #readOnly>
+    <ng-container *ngFor="let destination of destinations">
+        <div class="formContainer">
+            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.email" label="Email address">
+            </app-input-copy-click>
+            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.object" label="Object">
+            </app-input-copy-click>
+        </div>
+    </ng-container>
+</ng-template>
+<ng-template #editDestination [formGroup]="destinationsForm">
+    <ng-container formArrayName="addDestination">
+        <div class="formContainer">
+            <mat-form-field appearance="outline" class="formInput fullLengthInput">
+                <mat-label>
+                    new email address
+                </mat-label>
+                <input matInput formControlName="email" (keyup.Enter)="addDestination()" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="formInput fullLengthInput">
+                <mat-label>
+                    new email object
+                </mat-label>
+                <input matInput formControlName="object" (keyup.Enter)="addDestination()" />
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000" class="action_button" mat-icon-button color="primary"
+                    (click)="addDestination()" title="add a new destination">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </span>
+        </div>
+    </ng-container>
+    <ng-container formArrayName="destinations">
+        <div [formGroupName]="i" *ngFor="let destination of smtp_destinations_control.controls ;  index as i"
+            class="formContainer">
+            <mat-form-field appearance="outline" class="formInput fullLengthInput">
+                <mat-label>
+                    email address
+                </mat-label>
+                <input matInput formControlName="email" required />
+                <mat-error *ngIf="destination.hasError('required', 'email' )">
+                    This field cannot be empty
+                </mat-error>
+                <mat-error *ngIf="destination.hasError('email', 'path' )">
+                    Wrong email format
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="formInput fullLengthInput">
+                <mat-label>
+                    email object
+                </mat-label>
+                <input matInput formControlName="object" required />
+                <mat-error *ngIf="destination.hasError('required', 'object' )">
+                    This field cannot be empty
+                </mat-error>
+            </mat-form-field>
+            <span>
+                <button [tabindex]="10000+i" class="action_button" mat-icon-button color="warn"
+                    (click)="removeDestination(i)" title="delete the destination">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </span>
+        </div>
+    </ng-container>
+</ng-template>
