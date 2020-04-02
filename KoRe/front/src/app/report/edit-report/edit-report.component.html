@@ -1,16 +1,19 @@
-<div class="container">
-    <mat-form-field appearance="outline" class="formInput">
-        <mat-label>Report name</mat-label>
-        <input matInput [value]="report.name" />
-    </mat-form-field>
+<div>
+    <div class="container" [formGroup]="reportForms">
+        <mat-form-field appearance="outline"  class="formInput" required>
+            <mat-label>Report name</mat-label>
+            <input matInput formControlName="name" (change)="valueChangedWithin()"/>
+            <mat-error>A report must have a name</mat-error>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline" class="formInput">
-        <mat-label>Report description</mat-label>
-        <textarea matInput>{{report.description}}</textarea>
-    </mat-form-field>
+        <mat-form-field appearance="outline" class="formInput">
+            <mat-label>Report description</mat-label>
+            <textarea matInput formControlName="description" (change)="valueChangedWithin()"></textarea>
+        </mat-form-field>
 
-    Report output type -> TODO<br />
-    OPR file -> TOOD
+        Report output type -> TODO<br />
+        OPR file -> TOOD
+    </div>
 
     <mat-horizontal-stepper>
 
@@ -28,14 +31,19 @@
             <mat-icon>send</mat-icon>
         </ng-template>
 
-        <mat-step label="Input arguments" completed="false" [state]="reportForms.controls.inputArgs.valid ? 'input' : 'error' " errorMessage="Some input arguments are wrong">
-            <app-view-input-args editable="true" (argumentsChanged)="reportForms.controls.inputArgs = $event" [arguments]="report.input_args"></app-view-input-args>
+        <mat-step label="Input arguments" completed="false"
+            [state]="reportForms.controls.inputArgs.valid ? 'input' : 'error' "
+            errorMessage="Some input arguments are wrong">
+            <app-view-input-args editable="true" (argumentsChanged)="valueChanged('inputArgs',$event)"
+                [arguments]="report.input_args"></app-view-input-args>
             <div>
                 <button mat-button matStepperNext>Next</button>
             </div>
         </mat-step>
-        <mat-step label="Schedules" completed="false" [state]="reportForms.controls.schedules.valid ? 'event' : 'error' " errorMessage="Some schedules are wrong">
-            <app-view-schedules editable="true" (schedulesChanged)="reportForms.controls.schedules = $event" [schedules]="report.schedules"></app-view-schedules>
+        <mat-step label="Schedules" completed="false"
+            [state]="reportForms.controls.schedules.valid ? 'event' : 'error' " errorMessage="Some schedules are wrong">
+            <app-view-schedules editable="true" (schedulesChanged)="valueChanged('schedules',$event)"
+                [schedules]="report.schedules"></app-view-schedules>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button matStepperNext>Next</button>
@@ -47,8 +55,11 @@
                 <button mat-button matStepperNext>Next</button>
             </div>
         </mat-step>
-        <mat-step label="Destinations" completed="false" [state]="reportForms.controls.destinations.valid ? 'send' : 'error' " errorMessage="Some destinations are wrong">
-            <app-view-destinations editable="true" (destinationsChanged)="reportForms.controls.destinations = $event" [destinations]="report.destinations"></app-view-destinations>
+        <mat-step label="Destinations" completed="false"
+            [state]="reportForms.controls.destinations.valid ? 'send' : 'error' "
+            errorMessage="Some destinations are wrong">
+            <app-view-destinations editable="true" (destinationsChanged)="valueChanged('destinations',$event)"
+                [destinations]="report.destinations"></app-view-destinations>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
             </div>
