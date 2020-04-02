@@ -1,4 +1,4 @@
-package com.cacib.kovid.model;
+package com.tbd.kovid.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +39,7 @@ public class Report {
 		
 		
 		
-		 @Column(name = "Report_Name", nullable = true)
+		 @Column(name = "Report_Name", nullable = false)
 		public String getReportName() {
 			return reportName;
 		}

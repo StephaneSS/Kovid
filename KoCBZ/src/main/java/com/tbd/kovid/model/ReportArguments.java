@@ -1,9 +1,9 @@
-package com.cacib.kovid.model;
+package com.tbd.kovid.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,19 +11,29 @@ import javax.persistence.Table;
 @Table(name = "ReportArguments")
 public class ReportArguments {
 	
+		public enum ArgumentType {
+	    	STRING, NUMBER, DYNAMIC_DATE;
+	    }
+	
 	 	private long reportId;
 	 	private int argumentId;
-	    private String argumetKey;
+	 	
+	 	@Enumerated(EnumType.ORDINAL)
+	 	private ArgumentType argumentType;
+	 	
+	    private String argumentKey;
 	    private String argumentValue;
 	    
+	   
 	    	    
 		
-	    public ReportArguments(long reportId, int argumentId, String argumetKey, String argumentValue) {
+	    public ReportArguments(long reportId, int argumentId, String argumentKey, String argumentValue, ArgumentType argumentType) {
 			
 			this.reportId = reportId;
 			this.argumentId = argumentId;
-			this.argumetKey = argumetKey;
+			this.argumentKey = argumentKey;
 			this.argumentValue = argumentValue;
+			this.argumentType = argumentType;
 		}
 
 		@Id
@@ -34,14 +44,19 @@ public class ReportArguments {
 		
 		@Id
 	    @Column(name = "Argument_Id", nullable = false)
-		public long getArgumentId() {
+		public int getArgumentId() {
 			return argumentId;
 		}
 		
+		 @Column(name = "Argument_Type", nullable = false)
+		public ArgumentType getArgumentType() {
+				return argumentType;
+		}
+
 		
 		 @Column(name = "Argument_Key", nullable = false)
-		public String getArgumetKey() {
-			return argumetKey;
+		public String getArgumentKey() {
+			return argumentKey;
 		}
 		 
 		 

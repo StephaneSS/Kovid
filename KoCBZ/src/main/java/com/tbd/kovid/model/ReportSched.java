@@ -1,4 +1,4 @@
-package com.cacib.kovid.model;
+package com.tbd.kovid.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
