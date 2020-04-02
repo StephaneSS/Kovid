@@ -1,8 +1,34 @@
 <mat-card [class.mat-elevation-z]="editable">
-  <div *ngFor="let postProcess of postProcesses ;  index as i" class="formContainer">
-        <strong class="lineIndex">{{postProcess.order}}.</strong>&nbsp; &nbsp;
-        <mat-form-field appearance="outline" class="formInput">
-            <input matInput  readonly=true value="{{postProcess.name}}" (click)="openDialog(postProcess.value)" />
-        </mat-form-field>
+  <ng-container *ngIf="!editable">
+    <div *ngFor="let postProcess of postProcesses ;  index as i" class="formContainer">
+      <ng-template [cdkPortalOutlet]="postProcess.type_full" (attached)="initPortal(i, $event)"></ng-template>
     </div>
+
+
+  </ng-container>
+
+  <ng-container *ngIf="editable">
+    <div cdkDropList
+      (cdkDropListDropped)="dropArgument($event)">
+      <div cdkDrag *ngFor="let postProcess of postProcesses ;  index as i" class="editableItem">
+        <span>
+          <mat-icon class="leftButton dragButton" cdkDragHandle>unfold_more</mat-icon>
+        </span>
+        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+        <ng-template [cdkPortalOutlet]="postProcess.type_full" (attached)="initPortal(i, $event)"></ng-template>
+        <button class="action_button" mat-icon-button color="warn" (click)="removeStep(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Type of step to add</mat-label>
+      <mat-select matInput [(value)]="newStepType" required>
+        <mat-option value="CustomScript">Custom Script</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-icon-button color="primary" (click)="addStep(newStepType)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </ng-container>
 </mat-card>

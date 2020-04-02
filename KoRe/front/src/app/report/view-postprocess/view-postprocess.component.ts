@@ -1,53 +1,90 @@
-import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
-import { PostProcess } from '../../custom-classes';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, Output, EventEmitter, ViewContainerRef, AfterViewInit, InjectionToken, ComponentRef, OnInit } from '@angular/core';
+import { PostProcess, CustomScript } from '../../custom-classes';
 import { FormGroup } from '@angular/forms';
+import { CustomScriptComponent } from '../postprocess/custom-script/custom-script.component';
+import { ComponentPortal, Portal, CdkPortalOutletAttachedRef } from '@angular/cdk/portal';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
+export const CONTAINER_DATA = new InjectionToken<{}>('CONTAINER_DATA');
 
 @Component({
   selector: 'app-view-postprocess',
   templateUrl: './view-postprocess.component.html',
   styleUrls: ['./view-postprocess.component.scss']
 })
-export class ViewPostprocessComponent implements OnInit {
+export class ViewPostprocessComponent implements OnInit, AfterViewInit {
 
-  @Input() postProcesses: PostProcess[];
+  @Input() postProcesses: PostProcess<any>[];
   @Input() editable: boolean = false;
   @Output() postProcessesChanged: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
-  constructor(private dialog: MatDialog) { }
+  newStepType: string;
+  steps: ComponentRef<any>[] = [];
+
+  constructor() { }
+  ngAfterViewInit(): void {
+  }
 
   ngOnInit(): void {
+    this.postProcesses.forEach(p => p.type_full = this.getPostProcessType(p.type));
   }
 
-  openDialog(content: string): void {
-    this.dialog.open(OutputPostProcessDialog, {
-      minWidth: '90%',
-      data: content
+  /* add here you other post process types */
+  getPostProcessType(type: string) {
+    switch (type) {
+      case 'CustomScript':
+        return new ComponentPortal(CustomScriptComponent);
+    }
+  }
+  getNewEmptyPostProcess(type: string) {
+    switch (type) {
+      case 'CustomScript':
+        return new CustomScript();
+    }
+  }
+
+  initPortal<T>(i: number, ref: CdkPortalOutletAttachedRef) {
+    ref = ref as ComponentRef<T>;
+    ref.instance.data = this.postProcesses[i].data;
+    ref.instance.order = i + 1;
+    ref.instance.editable = this.editable;
+    ref.instance.changed.subscribe((data) => console.log('TODO', data));
+    this.steps[i] = ref;
+  }
+
+  addStep(stepType: string): void{
+    this.postProcesses.push({
+      type: stepType,
+      type_full: this.getPostProcessType(stepType),
+      data: this.getNewEmptyPostProcess(stepType),
+      order: this.postProcesses.length+1
     });
+  }
+
+  removeStep(i: number){
+    this.postProcesses.splice(i,1);
+    this.steps[i].instance.changed.unsubscribe();
+    this.steps.splice(i,1);
+    this.postProcesses.forEach((p,i) => {
+      p.order=i+1;
+      this.steps[i].instance.order = i+1;
+    } );
+    this.notifyChanges();
 
   }
-}
 
-@Component({
-  selector: 'dialog-overview-post-dialog',
-  template: `
-    <h1 mat-dialog-title>Script's content</h1>
-    <div mat-dialog-content>
-      <p> {{data}} </p>
-    </div>
-    <div mat-dialog-actions>
-      <button color="warn" mat-stroked-button (click)="onCloseClick()">Close</button>
-    </div>
-  `,
-})
-export class OutputPostProcessDialog {
+  notifyChanges(): void{
+    this.postProcessesChanged.emit(/* TODO */);
+  }
 
-  constructor(
-    public dialogRef: MatDialogRef<OutputPostProcessDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: string) { }
-
-  onCloseClick(): void {
-    this.dialogRef.close();
+  dropArgument(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.postProcesses, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.steps, event.previousIndex, event.currentIndex);
+    this.postProcesses.forEach((p,i) => {
+      p.order=i+1;
+      this.steps[i].instance.order = i+1;
+    } );
+    //this.initFormControl();
   }
 
 }
