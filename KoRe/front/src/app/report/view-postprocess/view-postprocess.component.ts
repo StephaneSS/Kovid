@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
 import { PostProcess } from '../../custom-classes';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-view-postprocess',
@@ -10,6 +11,8 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dial
 export class ViewPostprocessComponent implements OnInit {
 
   @Input() postProcesses: PostProcess[];
+  @Input() editable: boolean = false;
+  @Output() postProcessesChanged: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   constructor(private dialog: MatDialog) { }
 

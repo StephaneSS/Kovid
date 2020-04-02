@@ -1,50 +1,58 @@
 <br />
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table [dataSource]="dataSource" matSort>
     
     <!-- order Column -->
     <ng-container matColumnDef="order">
-      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
       <td mat-cell *matCellDef="let element"> {{element.order}} </td>
     </ng-container>
 
     <!-- startDate Column -->
     <ng-container matColumnDef="startDate">
-      <th mat-header-cell *matHeaderCellDef> Start </th>
-      <td mat-cell *matCellDef="let element"> {{element.startDate}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Start </th>
+      <td mat-cell *matCellDef="let element"> {{element.startDate | date:'dd/MM/yyyy HH:mm:ss'}} </td>
     </ng-container>
 
     <!-- endDate Column -->
     <ng-container matColumnDef="endDate">
-      <th mat-header-cell *matHeaderCellDef> End </th>
-      <td mat-cell *matCellDef="let element"> {{element.endDate}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortingDataAccessor> End </th>
+      <td mat-cell *matCellDef="let element"> {{element.endDate | date:'dd/MM/yyyy HH:mm:ss'}} </td>
     </ng-container>
 
     <!-- Duration Column -->
     <ng-container matColumnDef="duration">
-      <th mat-header-cell *matHeaderCellDef> Duration </th>
-      <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+      <td mat-cell *matCellDef="let element"> {{element.startDate - element.endDate | amDuration:'milliseconds' }} </td>
     </ng-container>
 
     <!-- status Column -->
     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> status </th>
-      <td mat-cell *matCellDef="let element"> {{element.status}} &nbsp;
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> status </th>
+      <td mat-cell *matCellDef="let element" [title]="element.status"> 
+        <mat-icon *ngIf="element.status==='KO'" color="warn">close</mat-icon>
+        <mat-icon *ngIf="element.status==='OK'" color="primary">done</mat-icon>
       </td>
     </ng-container>
 
     <!-- action Column -->
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef> </th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-button (click)="openDialog(element.name)"> View </button> &nbsp; &nbsp;
-        <button mat-button (click)="downloadLog(element.name)">Download </button> &nbsp; &nbsp;
+    <ng-container matColumnDef="actionView">
+      <th mat-header-cell *matHeaderCellDef> view </th>
+      <td mat-cell *matCellDef="let element" title="view execution logs">
+        <button mat-icon-button (click)="openDialog(element.name)"><mat-icon>visibility</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actionDowload">
+      <th mat-header-cell *matHeaderCellDef> download </th>
+      <td mat-cell *matCellDef="let element" title="download execution logs">
+        <button mat-icon-button (click)="downloadLog(element.name)"><mat-icon>get_app</mat-icon></button>
       </td>
     </ng-container>
 
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <!--<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>-->
 </div>

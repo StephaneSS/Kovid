@@ -78,9 +78,8 @@ export interface ReportOutput {
 export interface Executions {
     order: number;
     name: string;
-    startDate: string;
-    endDate : string;
-    duration : string;
+    startDate: Date;
+    endDate : Date;
     status : string;
     path: string; 
 }
