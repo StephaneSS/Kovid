@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { saveAs } from 'file-saver';
 import { Executions } from '../../custom-classes';
 import { EXECUTIONS } from '../mock-executions';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -15,17 +16,26 @@ import { EXECUTIONS } from '../mock-executions';
 })
 export class ViewExecutionsComponent implements OnInit {
 
-  displayedColumns: string[] = ['order', 'startDate', 'endDate', 'duration', 'status', 'action'];
+  displayedColumns: string[] = ['order', 'startDate', 'endDate', 'duration', 'status', 'actionView', 'actionDowload'];
 
   @Input() executions: Executions[];
-  
+
   dataSource = new MatTableDataSource<Executions>(EXECUTIONS);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private dialog: MatDialog
   ) { }
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (item, property): string | number => {
+      switch (property) {
+        case 'duration':
+          return item.endDate.getTime() - item.startDate.getTime();
+        default: return item[property];
+      }
+    };
   }
 
   public downloadLog(logName: string): void {

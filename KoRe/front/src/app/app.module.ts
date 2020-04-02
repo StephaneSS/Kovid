@@ -9,8 +9,12 @@ import { ViewInputArgsComponent } from './report/view-input-args/view-input-args
 import { ViewSchedulesComponent } from './report/view-schedules/view-schedules.component';
 import { ViewDestinationsComponent } from './report/view-destinations/view-destinations.component';
 import { ViewReportComponent, OutputParametersDialog } from './report/view-report/view-report.component';
+import { ViewExecutionsComponent, OutputExecutionDialog} from './report/view-executions/view-executions.component';
+import { ViewPostprocessComponent } from './report/view-postprocess/view-postprocess.component';
 
 import { ClipboardService } from './services/clipboard/clipboard.service';
+
+import { MomentModule } from 'ngx-moment';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
@@ -38,8 +42,7 @@ import { SftpComponent } from './report/destination/sftp/sftp.component';
 import { FolderComponent } from './report/destination/folder/folder.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ViewExecutionsComponent } from './report/view-executions/view-executions.component';
-import { ViewPostprocessComponent } from './report/view-postprocess/view-postprocess.component';
+import { MatSortModule } from '@angular/material/sort'; 
 
 @NgModule({
   declarations: [
@@ -57,9 +60,11 @@ import { ViewPostprocessComponent } from './report/view-postprocess/view-postpro
     SftpComponent,
     FolderComponent,
     ViewExecutionsComponent,
+    OutputExecutionDialog,
     ViewPostprocessComponent
   ],
   imports: [
+    MomentModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -83,7 +88,8 @@ import { ViewPostprocessComponent } from './report/view-postprocess/view-postpro
     MatSelectModule,
     DragDropModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]
