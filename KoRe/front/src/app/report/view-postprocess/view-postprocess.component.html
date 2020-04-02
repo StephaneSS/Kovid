@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card [class.mat-elevation-z]="editable">
   <div *ngFor="let postProcess of postProcesses ;  index as i" class="formContainer">
         <strong class="lineIndex">{{postProcess.order}}.</strong>&nbsp; &nbsp;
         <mat-form-field appearance="outline" class="formInput">

@@ -1,8 +1,8 @@
 <div>
     <div class="container" [formGroup]="reportForms">
-        <mat-form-field appearance="outline"  class="formInput" required>
+        <mat-form-field appearance="outline" class="formInput">
             <mat-label>Report name</mat-label>
-            <input matInput formControlName="name" (change)="valueChangedWithin()"/>
+            <input matInput formControlName="name" (change)="valueChangedWithin()" required />
             <mat-error>A report must have a name</mat-error>
         </mat-form-field>
 
@@ -50,6 +50,8 @@
             </div>
         </mat-step>
         <mat-step label="Post processes" completed="false" state="tune">
+            <app-view-postprocess editable="true" (schedulesChanged)="valueChanged('schedules',$event)"
+                [postProcesses]="report.postProcesses"></app-view-postprocess>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button matStepperNext>Next</button>
