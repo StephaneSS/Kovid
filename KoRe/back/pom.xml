@@ -8,8 +8,8 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cacib.tool</groupId>
-	<artifactId>KondorReportManager</artifactId>
+	<groupId>com.tbd.tool</groupId>
+	<artifactId>KoRe</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>KoRe</name>
@@ -77,16 +77,8 @@
 			<version>3.4.0.GA</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.4.2</version>
-		</dependency>
-
-	</dependencies>
-
 	<build>
-		<finalName>${artifactId}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

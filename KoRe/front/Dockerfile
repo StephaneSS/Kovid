@@ -1,14 +1,16 @@
+ARG ENV=production
+
 # Download dependancies
 FROM node:12.16.1-alpine as node_install
-ARG IsPROD=true
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 
 # Build angular project
 FROM node_install as node_build
+ARG ENV
 COPY . .
-RUN npm run build --prod=$IsPROD
+RUN npm run build -- --configuration=$ENV
 
 # Copy server configs
 FROM nginx:1.17.9-alpine

@@ -1,36 +1,34 @@
 version: '3'
 
 services:
-
   front:
     hostname: localhost
     container_name: kore-front
-    build: 
-      context: ./front
-      args:
-        IsPROD: 'true'
+    build: ./front
     ports:
       - 1234:80
     networks:
       - net-rest-api
-  #back:
-  #  container_name: kore-bake
-  #  build: ./back
-  #  ports:
-  #    - 4321:8080
-  #  networks:
-  #    - net-database
-  #    - net-rest-api
+  back:
+    container_name: kore-back
+    build: ./back
+    ports:
+      - 4321:2528
+    networks:
+      - net-database
+      - net-rest-api
   database:
     container_name: kore-db
     build: ./database
+    ports:
+      - 54320:5432 #remove me
     expose:
       - '5432'
     env_file:
       - ./database/dev_database.env
     volumes:
       - kore-database-data:/var/lib/postgresql/data/
-    networks: 
+    networks:
       - net-database
 
 networks:
