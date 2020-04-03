@@ -1,0 +1,36 @@
+<ng-container *ngIf="editable; then edit; else read"></ng-container>
+
+<ng-template #read>
+    <div class="fullLength">
+      <strong>{{order}}.</strong> CUSTOM SCRIPT
+        <div class="container">
+            <app-input-copy-click class="formInput" [value]="data.name" label="title" copyname="script title"
+                [editable]="false" [title]="data.name">
+            </app-input-copy-click>
+            &nbsp;
+            <span>
+                <button class="action_button" mat-stroked-button title="display the script" (click)="openDialog()">
+                    <mat-icon>open_in_new</mat-icon> display the script
+                </button>
+            </span>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #edit [formGroup]="formControl">
+    <div class="fullLength" formArrayName="data">
+        <strong>{{getOrder()}}.</strong> CUSTOM SCRIPT
+        <mat-form-field appearance="outline" class="inputForm">
+            <mat-label>Script name</mat-label>
+            <input matInput formControlName="name" required (change)="notify()"/>
+            <mat-error>The script name cannot be empty</mat-error>
+        </mat-form-field>
+        <button mat-stroked-button title="load a script from a file" disabled="true" (click)="{}">
+            <mat-icon>publish</mat-icon> load from a file
+        </button>
+        &nbsp;
+        <button mat-stroked-button title="display the script" (click)="openDialog()">
+            <mat-icon>open_in_new</mat-icon> display the script file
+        </button>
+    </div>
+</ng-template>

@@ -11,6 +11,7 @@ import { ViewDestinationsComponent } from './report/view-destinations/view-desti
 import { ViewReportComponent, OutputParametersDialog } from './report/view-report/view-report.component';
 import { ViewExecutionsComponent, OutputExecutionDialog} from './report/view-executions/view-executions.component';
 import { ViewPostprocessComponent } from './report/view-postprocess/view-postprocess.component';
+import { CustomScriptComponent, OutputPostProcessDialog } from './report/postprocess/custom-script/custom-script.component';
 
 import { ClipboardService } from './services/clipboard/clipboard.service';
 
@@ -42,7 +43,8 @@ import { SftpComponent } from './report/destination/sftp/sftp.component';
 import { FolderComponent } from './report/destination/folder/folder.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort'; 
+import { MatSortModule } from '@angular/material/sort';
+import { PortalModule } from '@angular/cdk/portal';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { MatSortModule } from '@angular/material/sort';
     FolderComponent,
     ViewExecutionsComponent,
     OutputExecutionDialog,
-    ViewPostprocessComponent
+    ViewPostprocessComponent,
+    CustomScriptComponent,
+    OutputPostProcessDialog
   ],
   imports: [
     MomentModule,
@@ -89,7 +93,8 @@ import { MatSortModule } from '@angular/material/sort';
     DragDropModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    PortalModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]

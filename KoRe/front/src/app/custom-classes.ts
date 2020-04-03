@@ -16,11 +16,22 @@ export interface Schedule {
     text: string;
 }
 
-export interface PostProcess {
+export interface PostProcess<T extends PostProc> {
     order: number;
-    name: string;
-    value: string;
+    type: string;
+    data: T;
+    type_full?: any;
 }
+
+export interface PostProc {
+    id: number;
+}
+
+export class CustomScript implements PostProc {
+    id: number;
+    name: string = '';
+}
+
 export enum DestinationProtocole {
     SMTP = "SMTP",
     FTP = "FTP",
@@ -81,7 +92,7 @@ export interface Executions {
     startDate: Date;
     endDate : Date;
     status : string;
-    path: string; 
+    path: string;
 }
 export interface Report {
     name: string;
@@ -90,7 +101,7 @@ export interface Report {
     //opr: File;
     input_args: InputArg[];
     schedules: Schedule[];
-    postProcesses: PostProcess[];
+    postProcesses: PostProcess<any>[];
     destinations: Destinations;
     executions: Executions[];
 }

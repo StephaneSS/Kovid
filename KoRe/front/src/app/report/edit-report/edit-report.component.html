@@ -49,8 +49,9 @@
                 <button mat-button matStepperNext>Next</button>
             </div>
         </mat-step>
-        <mat-step label="Post processes" completed="false" state="tune">
-            <app-view-postprocess editable="true" (schedulesChanged)="valueChanged('schedules',$event)"
+
+        <mat-step label="Post processes" completed="false" [state]="reportForms.controls.postProcesses.valid ? 'tune' : 'error' " errorMessage="Some post processes are wrong">
+            <app-view-postprocess editable="true" (postProcessesChanged)="valueChanged('postProcesses',$event)"
                 [postProcesses]="report.postProcesses"></app-view-postprocess>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
