@@ -43,7 +43,6 @@ export class EditReportComponent implements OnInit {
   }
 
   notifyChanges(): void {
-    console.log(this.reportForms.value);
     this.reportChanged.emit(this.reportForms);
   }
 
