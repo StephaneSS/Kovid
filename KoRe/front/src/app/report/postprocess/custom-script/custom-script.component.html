@@ -19,7 +19,7 @@
 
 <ng-template #edit [formGroup]="formControl">
     <div class="fullLength" formArrayName="data">
-        <strong>{{getOrder()}} {{order}}.</strong> CUSTOM SCRIPT
+        <strong>{{getOrder()}}.</strong> CUSTOM SCRIPT
         <mat-form-field appearance="outline" class="inputForm">
             <mat-label>Script name</mat-label>
             <input matInput formControlName="name" required (change)="notify()"/>
