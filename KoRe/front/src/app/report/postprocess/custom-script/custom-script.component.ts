@@ -13,10 +13,13 @@ export class CustomScriptComponent extends postProcessComponent<CustomScript> {
 
   constructor(private readonly formBuilder: FormBuilder, private dialog: MatDialog) { super(); }
 
-  customScriptForm: FormGroup;
-
   ngOnInit(): void {
-    this.customScriptForm = this.createFormControl(this.data);
+    this.formControl = new FormGroup({
+      order: new FormControl(this.order, []),
+    });
+    this.formControl.addControl('data',this.createFormControl(this.data));
+    this.formControl.markAllAsTouched();
+    this.notify();
   }
 
   openDialog(): void {
@@ -37,8 +40,7 @@ export class CustomScriptComponent extends postProcessComponent<CustomScript> {
   }
 
   notify() {
-    console.log('in',this.customScriptForm);
-    this.changed.emit(this.customScriptForm);
+    this.changed.emit(this.formControl);
   }
 }
 

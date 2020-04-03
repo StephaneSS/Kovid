@@ -47,7 +47,7 @@ export class ViewInputArgsComponent implements OnInit {
 
   createArgumentFormControl(argument: InputArg, required: boolean = true): FormGroup {
     let validators: ValidatorFn[] = [];
-    if(required){
+    if (required) {
       validators.push(Validators.required);
     }
     return this.formBuilder.group({
@@ -82,12 +82,15 @@ export class ViewInputArgsComponent implements OnInit {
     moveItemInArray(this.arguments, event.previousIndex, event.currentIndex);
     this.arguments = this.arguments.map((arg, i) => { arg.order = i + 1; return arg; });
     this.initArgumentFormControl();
+    if (event.previousIndex !== event.currentIndex) {
+      this.notifyChanges();
+    }
   }
 
   addArgument(): void {
     if (this.addArgumentControl.valid) {
       let newArg = this.addArgumentControl.value;
-      newArg.order = this.arguments.length+1;
+      newArg.order = this.arguments.length + 1;
       this.arguments.push(newArg);
       this.initArgumentFormControl();
       this.addArgumentControl.get('name').reset();

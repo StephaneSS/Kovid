@@ -1,16 +1,28 @@
 import { OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 export class postProcessComponent<T> implements OnInit {
 
-    @Input() data: T;
-    @Input() editable: boolean = false;
-    @Input() order: number = 0;
+  @Input() data: T;
+  @Input() editable: boolean = false;
+  @Input() order: number = 0;
 
-    @Output() changed: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+  @Output() changed: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
-    constructor() { }
+  formControl: FormGroup;
 
-    ngOnInit() { }
+  constructor() { }
+
+  ngOnInit() {
+    this.formControl = new FormGroup({
+      order: new FormControl(this.order, []),
+    }
+    );
+  }
+
+  getOrder(): number {
+    this.formControl.controls['order'].setValue(this.order);
+    return this.formControl.controls['order'].value;
+  }
 
 }

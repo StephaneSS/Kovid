@@ -9,7 +9,7 @@
 
   <ng-container *ngIf="editable">
     <div cdkDropList
-      (cdkDropListDropped)="dropArgument($event)">
+      (cdkDropListDropped)="dropStep($event)">
       <div cdkDrag *ngFor="let postProcess of postProcesses ;  index as i" class="editableItem">
         <span>
           <mat-icon class="leftButton dragButton" cdkDragHandle>unfold_more</mat-icon>
