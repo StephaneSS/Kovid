@@ -44,7 +44,6 @@ export class EditReportComponent implements OnInit {
 
   notifyChanges(): void {
     this.reportChanged.emit(this.reportForms);
-    console.log(this.report.postProcesses);
   }
 
 }

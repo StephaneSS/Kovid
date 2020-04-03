@@ -3,8 +3,6 @@
     <div *ngFor="let postProcess of postProcesses ;  index as i" class="formContainer">
       <ng-template [cdkPortalOutlet]="postProcess.type_full" (attached)="initPortal(i, $event)"></ng-template>
     </div>
-
-
   </ng-container>
 
   <ng-container *ngIf="editable">
