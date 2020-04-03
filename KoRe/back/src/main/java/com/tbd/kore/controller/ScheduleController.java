@@ -9,14 +9,9 @@ import org.springframework.http.MediaType;
 @RequestMapping("/schedule")
 public class ScheduleController {
 
-    @GetMapping("/")
-    public String getStarted(){
-        return "Hello, World";
-    }
-
-    @GetMapping(value = "/description/{cronExpression}", consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<String> getDescription(@PathVariable String cronExpression){
-        return new ResponseEntity<>("Description for" + cronExpression, HttpStatus.OK);
+    @PostMapping(value = "/description/", consumes = MediaType.TEXT_PLAIN_VALUE , produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> getDescription(@RequestBody String cronExpression){
+        return new ResponseEntity<>("Description for: " + cronExpression, HttpStatus.OK);
     }
 
 }

@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScheduleService {
 
-  constructor() { }
+  endpointURL: string = `${environment.endpoint}/schedule`;
+
+  constructor(private http: HttpClient) { }
 
   getCronDescription(cronExpression: string): Observable<string> {
-    return Observable.create( o => o.next("New description from " + cronExpression));
+    return this.http.post(`${this.endpointURL}/description/`, cronExpression, {responseType: 'text'});
   }
 
 }
