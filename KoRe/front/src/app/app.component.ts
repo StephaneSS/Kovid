@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { REPORT2 } from './report/mock-report'
 import { ReportService } from './services/report/report.service';
+import { REPORTS } from './report/mock-monitoring'
+
 
 @Component({
   selector: 'app-root',
@@ -9,22 +11,22 @@ import { ReportService } from './services/report/report.service';
 })
 export class AppComponent implements OnInit{
   title = 'KoRe';
+  reports= REPORTS;
+  
 
   constructor(private reportService: ReportService){}
 
   ngOnInit(): void {
-    this.selectReport(9);
+ //   this.selectReport(9);
   }
   isError = false;
-  report = null;
-
-  selectReport(id: number): void {
+ // report = null;
+ 
+  /*selectReport(id: number): void {
     this.isError = false;
     this.reportService.getReport(id).subscribe(
       (report) => this.report = report,
       () => this.isError = true
     );
-  }
-
-
+  }*/
 }

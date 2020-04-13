@@ -1,0 +1,81 @@
+<mat-sidenav-container class="example-container" autosize>
+
+    <mat-sidenav #drawer mode="side" opened="true" class="toolbar" class="example-sidenav"  >
+
+        <mat-card>
+            <mat-form-field appearance="outline" class="formInput">
+                <mat-label>
+                    Report Name
+                </mat-label>
+                <input #rep matInput required />
+            </mat-form-field>
+            <button mat-icon-button (click)="search(rep)">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-card>
+        <br />
+
+
+        <div class="mat-elevation-z8">
+            <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+            </mat-form-field>
+
+            <table mat-table [dataSource]="dataSource">
+
+                <!-- order Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Report Name </th>
+                    <td mat-cell *matCellDef="let element" (click)="openTab()"> {{element.name}} </td>
+                </ng-container>
+
+                <!-- startDate Column -->
+                <ng-container matColumnDef="lastExecDate">
+                    <th mat-header-cell *matHeaderCellDef> Last Execution </th>
+                    <td mat-cell *matCellDef="let element"> {{element.lastExecDate | date:'dd/MM/yyyy HH:mm:ss' }} </td>
+                </ng-container>
+
+                <!-- endDate Column -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-icon *ngIf="element.status==='KO'" color="warn">close</mat-icon>
+                        <mat-icon *ngIf="element.status==='OK'" color="primary">done</mat-icon>
+                    </td>
+                </ng-container>
+
+                <!-- Duration Column -->
+                <ng-container matColumnDef="env">
+                    <th mat-header-cell *matHeaderCellDef> Environment </th>
+                    <td mat-cell *matCellDef="let element"> {{element.env}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
+        </div>
+
+    </mat-sidenav>
+    <mat-sidenav-content >
+           <!-- <mat-card>-->  
+                <button mat-raised-button (click)="drawer.toggle()">Back</button> 
+            <!-- </mat-card>  -->
+        <br>
+
+        <div>
+            <div class="centerLoading" *ngIf="!isError && report === null">
+                <h1>Loading Report ...</h1>
+                <mat-spinner class="spinner" ></mat-spinner>
+              </div>
+              <app-view-report *ngIf="!isError && report !== null" [report]="report"></app-view-report>
+              <div class="centerLoading" *ngIf="isError">
+                <h1>Cannot load the report.</h1>
+              </div>
+              
+        </div>
+
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

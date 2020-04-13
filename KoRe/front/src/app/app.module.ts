@@ -48,6 +48,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmeDialogComponent } from './common/confirme-dialog/confirme-dialog.component';
+import { MonitoringComponent } from './report/monitoring/monitoring.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 
 @NgModule({
   declarations: [
@@ -69,7 +72,8 @@ import { ConfirmeDialogComponent } from './common/confirme-dialog/confirme-dialo
     ViewPostprocessComponent,
     CustomScriptComponent,
     OutputPostProcessDialog,
-    ConfirmeDialogComponent
+    ConfirmeDialogComponent,
+    MonitoringComponent
   ],
   imports: [
     MomentModule,
@@ -100,7 +104,8 @@ import { ConfirmeDialogComponent } from './common/confirme-dialog/confirme-dialo
     MatPaginatorModule,
     MatSortModule,
     PortalModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSidenavModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]

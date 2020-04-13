@@ -1,8 +1,1 @@
-<div class="centerLoading" *ngIf="!isError && report === null">
-  <h1>Loading Report ...</h1>
-  <mat-spinner class="spinner" ></mat-spinner>
-</div>
-<app-view-report *ngIf="!isError && report !== null" [report]="report"></app-view-report>
-<div class="centerLoading" *ngIf="isError">
-  <h1>Cannot load the report.</h1>
-</div>
+<app-monitoring [reports]="reports"></app-monitoring>
