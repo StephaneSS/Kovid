@@ -8,42 +8,44 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ReportSched")
 public class ReportSched {
-	
-	 	private long reportId;
-	 	private int schedId;
-	    private String reportSched;
 
-	    
-	    
-	    public ReportSched(long reportId, int schedId, String reportSched) {
-	    	 this.reportId = reportId;
-	         this.schedId = schedId;
-	         this.reportSched = reportSched;
-	    }
-	    
-	    
-	    @Id
-	    @Column(name = "Report_Id", nullable = false)
-		public long getReportId() {
-			return reportId;
-		}
-	    
-	  
-		
-		@Id
-		@Column(name = "Sched_Id", nullable = false)
-		public int getSchedId() {
-			return schedId;
-		}
+    @Id
+    @Column(name = "Report_Id", nullable = false)
+    private long reportId;
 
+    @Column(name = "Sched_Id", nullable = false)
+    private int schedId;
 
-		@Column(name = "Schedule", nullable = false)
-		public String getReportSched() {
-			return reportSched;
-		}
+    @Column(name = "Schedule", nullable = false)
+    private String reportSched;
 
+    public ReportSched(long reportId, int schedId, String reportSched) {
+        this.reportId = reportId;
+        this.schedId = schedId;
+        this.reportSched = reportSched;
+    }
 
-	
-	    
+    public long getReportId() {
+        return reportId;
+    }
 
+    public int getSchedId() {
+        return schedId;
+    }
+
+    public String getReportSched() {
+        return reportSched;
+    }
+
+    public void setReportId(long reportId) {
+        this.reportId = reportId;
+    }
+
+    public void setSchedId(int schedId) {
+        this.schedId = schedId;
+    }
+
+    public void setReportSched(String reportSched) {
+        this.reportSched = reportSched;
+    }
 }
