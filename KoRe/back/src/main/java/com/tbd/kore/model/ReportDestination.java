@@ -13,10 +13,10 @@ public class ReportDestination {
 
     public enum DestType {SMTP, FTP, SFTP, FOLDER}
 
-    @Id
     @Column(name = "Report_Id", nullable = false)
     private long reportId;
 
+    @Id
     @Column(name = "Dest_Id", nullable = false)
     private int destinationId;
 

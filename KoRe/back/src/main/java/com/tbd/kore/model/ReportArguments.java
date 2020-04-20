@@ -15,10 +15,10 @@ public class ReportArguments {
         STRING, NUMBER, DYNAMIC_DATE
     }
 
-    @Id
     @Column(name = "Report_Id", nullable = false)
     private long reportId;
 
+    @Id
     @Column(name = "Argument_Id", nullable = false)
     private int argumentId;
 

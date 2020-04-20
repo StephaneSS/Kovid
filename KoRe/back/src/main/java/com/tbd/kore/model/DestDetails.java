@@ -9,10 +9,10 @@ import javax.persistence.Table;
 @Table(name = "DestDetails")
 public class DestDetails {
 
-    @Id
     @Column(name = "Report_Id", nullable = false)
     private long reportId;
 
+    @Id
     @Column(name = "Dest_Id", nullable = false)
     private int destinationId;
 

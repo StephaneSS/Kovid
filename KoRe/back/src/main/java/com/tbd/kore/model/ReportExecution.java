@@ -12,17 +12,22 @@ import javax.persistence.Table;
 public class ReportExecution {
 
 
-    @Id
     @Column(name = "Report_Id", nullable = false)
     private long reportId;
+
+    @Id
     @Column(name = "Exec_Id", nullable = false)
     private int execId;
+
     @Column(name = "Env_Id", nullable = false)
     private int envId;
+
     @Column(name = "Start_Date", nullable = false)
     private Timestamp startDate;
+
     @Column(name = "End_Date", nullable = false)
     private Timestamp endDate;
+
     @Column(name = "Status", nullable = false)
     private String status;
 
