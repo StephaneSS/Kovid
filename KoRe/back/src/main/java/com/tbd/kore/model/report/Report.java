@@ -37,24 +37,12 @@ public class Report implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExecutionLog> executionLogs = new ArrayList<>();
 
+    public List<ExecutionLog> getExecutionLogs() {
+        return executionLogs;
+    }
+
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
-    }
-
-    public void setArguments(List<Argument> arguments) {
-        this.arguments = arguments;
     }
 
     public void setExecutionLogs(List<ExecutionLog> executionLogs) {

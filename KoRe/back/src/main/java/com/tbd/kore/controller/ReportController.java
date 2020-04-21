@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/report")
@@ -35,10 +36,16 @@ public class ReportController {
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Report> updateReportById(@PathVariable("id") Long id, @RequestBody Report report) {
-        report.setId(id);
-        return new ResponseEntity<>(reportRepository.save(report), HttpStatus.OK);
+        Optional<Report> oldReport = reportRepository.findById(id);
+        if (oldReport.isPresent()) {
+            report.setId(id);
+            report.setExecutionLogs(oldReport.get().getExecutionLogs());
+            return new ResponseEntity<>(reportRepository.save(report), HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,23 +60,6 @@ public class ReportController {
 
         return ResponseEntity.status(responseStatus).build();
 
-    }
-
-    @GetMapping(value="/test")
-    public ResponseEntity<Report> testReport(){
-        Report report = new Report();
-        report.setId(1L);
-        report.setName("test_name");
-        report.setDescription("test_desc");
-        List<Argument> args = new ArrayList<>();
-        args.add(new Argument(154158L,1L, ArgumentType.STRING, "arg_name" , "arg_value"));
-        args.add(new Argument(2545863L, 2L, ArgumentType.NUMBER, "arg_name2" , "56"));
-        report.setArguments(args);
-        List<Schedule> schedules = new ArrayList<>();
-        schedules.add(new Schedule());
-        schedules.add(new Schedule());
-        report.setSchedules(schedules);
-        return new ResponseEntity<>(report, HttpStatus.OK);
     }
 
 }

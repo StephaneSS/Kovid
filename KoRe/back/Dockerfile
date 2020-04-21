@@ -11,4 +11,4 @@ RUN mvn clean package -DskipTests
 # Run the app
 FROM openjdk:11-jre-slim as openjdk_11
 COPY --from=maven_jdk_package /app/target/KoRe.war /KoRe.war
-CMD ["java", "-jar", "-Dspring.profiles.active=default", "/KoRe.war"]
+CMD ["java", "-jar", "-Dspring.profiles.active=default", "/KoRe.war", "--spring.profiles.active=docker"]
