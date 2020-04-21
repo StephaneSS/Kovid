@@ -9,6 +9,6 @@ import com.tbd.kore.model.report.Schedule;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
-    Optional<Schedule> findById(Long Id);
+    Optional<Schedule> findById(Long id);
 
 }

@@ -1,9 +1,6 @@
 package com.tbd.kore.controller;
 
-import com.tbd.kore.model.report.Argument;
-import com.tbd.kore.model.report.ArgumentType;
 import com.tbd.kore.model.report.Report;
-import com.tbd.kore.model.report.Schedule;
 import com.tbd.kore.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,11 +34,18 @@ public class ReportController {
 
     @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Report> updateReportById(@PathVariable("id") Long id, @RequestBody Report report) {
-        Optional<Report> oldReport = reportRepository.findById(id);
-        if (oldReport.isPresent()) {
-            report.setId(id);
-            report.setExecutionLogs(oldReport.get().getExecutionLogs());
-            return new ResponseEntity<>(reportRepository.save(report), HttpStatus.OK);
+        Optional<Report> optReport = reportRepository.findById(id);
+        if (optReport.isPresent()) {
+            Report oldReport = optReport.get();
+            if(report.getName() != null && !report.getName().trim().isEmpty() ) {
+                oldReport.setName(report.getName());
+            }
+            if(report.getDescription() != null && !report.getDescription().trim().isEmpty()) {
+                oldReport.setDescription(report.getDescription());
+            }
+            oldReport.setSchedules(report.getSchedules());
+            oldReport.setArguments(report.getArguments());
+            return new ResponseEntity<>(reportRepository.save(oldReport), HttpStatus.OK);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
