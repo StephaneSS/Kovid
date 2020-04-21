@@ -22,13 +22,13 @@ export class EditReportComponent implements OnInit {
     schedules: this.formBuilder.array([]),
     inputArgs: this.formBuilder.array([]),
     postProcesses: this.formBuilder.array([]),
-    destinations: this.formBuilder.array([])
+    //destinations: this.formBuilder.array([])
   });
 
   ngOnInit(): void {
     this.reportForms.addControl('name', new FormControl(this.report.name, [Validators.required]) );
     this.reportForms.addControl('description', new FormControl(this.report.description, []));
-    this.reportForms.addControl('output', new FormControl(this.report.output, []));
+    //this.reportForms.addControl('output', new FormControl(this.report.output, []));
     this.reportForms.markAllAsTouched();
   }
 

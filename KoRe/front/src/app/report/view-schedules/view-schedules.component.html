@@ -13,8 +13,8 @@
         </mat-card-header>
         <div *ngFor="let schedule of schedules;  index as i" class="formContainer">
             <app-input-copy-click class="formInput"
-                [value]="viewAsFullText.checked ? schedule.text : schedule.cronValue"
-                [label]="viewAsFullText.checked ? schedule.cronValue : schedule.text" copyname="Schedule"
+                [value]="viewAsFullText.checked && schedule.text ? schedule.text : schedule.cronExpression"
+                [label]="viewAsFullText.checked || !schedule.text ? schedule.cronExpression : schedule.text" copyname="Schedule"
                 [editable]="editable" [title]="schedule.text">
             </app-input-copy-click>
         </div>
@@ -28,7 +28,7 @@
                 <mat-label>
                     add a new schedule
                 </mat-label>
-                <input matInput title="add a new schedule" formControlName="cronValue" (keyup.Enter)="addSchedule()"
+                <input matInput title="add a new schedule" formControlName="cronExpression" (keyup.Enter)="addSchedule()"
                     (keyup.Control.Enter)="updateNewScheduleDescription()" />
                 <mat-hint>{{addScheduleControle.value.text}}</mat-hint>
                 <mat-error>Wrong format <strong>minute hour day month week</strong>. Look at <a target="blank"
@@ -48,14 +48,14 @@
                     <mat-label>
                         {{schedule.value.text}}
                     </mat-label>
-                    <input matInput formControlName="cronValue" (keyup.Control.Enter)="updateCronDescription(i)"
+                    <input matInput formControlName="cronExpression" (keyup.Control.Enter)="updateCronDescription(i)"
                         (change)="updateCronDescription(i)" required/>
 
-                    <mat-error *ngIf="schedule.hasError('pattern', 'cronValue' )">
+                    <mat-error *ngIf="schedule.hasError('pattern', 'cronExpression' )">
                         Wrong format <strong>minute hour day
                         month week</strong>. Look at <a target="blank" href="https://crontab.guru/">this
                         documentation</a> for more details.</mat-error>
-                    <mat-error *ngIf="schedule.hasError('required', 'cronValue' )">
+                    <mat-error *ngIf="schedule.hasError('required', 'cronExpression' )">
                         This field cannot be empty
                     </mat-error>
                 </mat-form-field>

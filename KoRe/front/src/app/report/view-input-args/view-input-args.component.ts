@@ -17,7 +17,7 @@ export class ViewInputArgsComponent implements OnInit {
   argumentTypes = ArgType;
   argumentsForm: FormGroup = new FormGroup({
     'addArgument': this.createArgumentFormControl({
-      name: '',
+      key: '',
       order: 0,
       type: ArgType.STRING,
       value: ''
@@ -53,7 +53,7 @@ export class ViewInputArgsComponent implements OnInit {
     return this.formBuilder.group({
       ...argument,
       ... {
-        name: [argument.name, validators],
+        name: [argument.key, validators],
         type: [argument.type, validators],
         value: [argument.value, validators],
       }

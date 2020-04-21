@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import { saveAs } from 'file-saver';
 import { Executions } from '../../custom-classes';
-import { EXECUTIONS } from '../mock-executions';
 import { MatSort } from '@angular/material/sort';
 
 
@@ -20,7 +19,7 @@ export class ViewExecutionsComponent implements OnInit {
 
   @Input() executions: Executions[];
 
-  dataSource = new MatTableDataSource<Executions>(EXECUTIONS);
+  dataSource = new MatTableDataSource<Executions>(this.executions);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 

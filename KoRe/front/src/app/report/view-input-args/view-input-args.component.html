@@ -11,7 +11,7 @@
         </mat-card-header>
         <div *ngFor="let argument of arguments;  index as i" class="formContainer">
             <strong class="lineIndex">{{argument.order}}.</strong>&nbsp;
-            <app-input-copy-click [value]="argument.name" class="formInput"></app-input-copy-click>
+            <app-input-copy-click [value]="argument.key" class="formInput"></app-input-copy-click>
             &nbsp; = &nbsp;
             <app-input-copy-click [value]="argument.value" [label]="argument.type" class="formInput">
             </app-input-copy-click>

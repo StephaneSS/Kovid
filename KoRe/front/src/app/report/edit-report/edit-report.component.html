@@ -35,7 +35,7 @@
             [state]="reportForms.controls.inputArgs.valid ? 'input' : 'error' "
             errorMessage="Some input arguments are wrong">
             <app-view-input-args editable="true" (argumentsChanged)="valueChanged('inputArgs',$event)"
-                [arguments]="report.input_args"></app-view-input-args>
+                [arguments]="report.arguments"></app-view-input-args>
             <div>
                 <button mat-button matStepperNext>Next</button>
             </div>
@@ -58,7 +58,7 @@
                 <button mat-button matStepperNext>Next</button>
             </div>
         </mat-step>
-        <mat-step label="Destinations" completed="false"
+        <!--<mat-step label="Destinations" completed="false"
             [state]="reportForms.controls.destinations.valid ? 'send' : 'error' "
             errorMessage="Some destinations are wrong">
             <app-view-destinations editable="true" (destinationsChanged)="valueChanged('destinations',$event)"
@@ -66,7 +66,7 @@
             <div>
                 <button mat-button matStepperPrevious>Back</button>
             </div>
-        </mat-step>
+        </mat-step>-->
 
     </mat-horizontal-stepper>
 </div>

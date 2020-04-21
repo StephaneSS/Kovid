@@ -2,6 +2,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup, FormArray, ValidatorFn } from '@angular/forms';
 import { Schedule } from '../../custom-classes';
 import { ScheduleService } from '../../services/schedule/schedule.service';
+import { environment } from 'src/environments/environment';
+import { DestinationService } from 'src/app/services/destination/destination.service';
 
 @Component({
   selector: 'app-view-schedules',
@@ -17,8 +19,9 @@ export class ViewSchedulesComponent implements OnInit {
   viewAsFullText: boolean = true;
   schedulesForm: FormGroup = new FormGroup({
     'addSchedule': this.createScheduleFormControl({
-      cronValue: '',
-      text: ''
+      cronExpression: '',
+      text: '',
+      destinations: this.destinationService.getEmptyDestinations()
     }, false),
     'schedules': new FormArray([])
   });
@@ -31,7 +34,7 @@ export class ViewSchedulesComponent implements OnInit {
     return this.schedulesForm.get("addSchedule") as FormControl;
   }
 
-  constructor(private scheduleService: ScheduleService, private readonly formBuilder: FormBuilder) { }
+  constructor(private destinationService: DestinationService, private scheduleService: ScheduleService, private readonly formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.initScheduleFormControl();
@@ -52,7 +55,7 @@ export class ViewSchedulesComponent implements OnInit {
     return this.formBuilder.group({
       ...schedule,
       ... {
-        cronValue: [schedule.cronValue, validators]
+        cronExpression: [schedule.cronExpression, validators]
       }
     });
   }
@@ -65,12 +68,14 @@ export class ViewSchedulesComponent implements OnInit {
 
   addSchedule(): void {
 
-    if (this.addScheduleControle.value.cronValue && this.addScheduleControle.valid) {
+    if (this.addScheduleControle.value.cronExpression && this.addScheduleControle.valid) {
 
       // add the value
       this.schedules.unshift({
-        cronValue: this.addScheduleControle.value.cronValue,
-        text: ''
+        cronExpression: this.addScheduleControle.value.cronExpression,
+        text: '',
+        environment: null,
+        destinations: this.destinationService.getEmptyDestinations()
       });
       this.initScheduleFormControl();
       this.updateCronDescription(0);
@@ -85,8 +90,8 @@ export class ViewSchedulesComponent implements OnInit {
 
   updateCronDescription(i: number): void {
 
-    const cronExpression = this.scheduleControles.controls[i].value.cronValue;
-    this.schedules[i].cronValue = cronExpression;
+    const cronExpression = this.scheduleControles.controls[i].value.cronExpression;
+    this.schedules[i].cronExpression = cronExpression;
     this.schedules[i].text = 'Getting the description...';
     this.scheduleControles.controls[i].setValue(this.schedules[i]);
 
@@ -105,18 +110,18 @@ export class ViewSchedulesComponent implements OnInit {
   }
 
   updateNewScheduleDescription(): void {
-    const cronExpression = this.addScheduleControle.value.cronValue;
+    const cronExpression = this.addScheduleControle.value.cronExpression;
     this.addScheduleControle.setValue({
-      cronValue: cronExpression,
+      cronExpression: cronExpression,
       text: 'Getting the description...'
     });
     this.scheduleService.getCronDescription(cronExpression).subscribe(
       expression => this.addScheduleControle.setValue({
-        cronValue: cronExpression,
+        cronExpression: cronExpression,
         text: expression
       }),
       () => this.addScheduleControle.setValue({
-        cronValue: cronExpression,
+        cronExpression: cronExpression,
         text: 'Cannot get an expression'
       })
     );

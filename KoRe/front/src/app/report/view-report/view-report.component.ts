@@ -18,10 +18,10 @@ export class ViewReportComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.dialog.open(OutputParametersDialog, {
+    /*this.dialog.open(OutputParametersDialog, {
       minWidth: '90%',
       data: this.report.output.parameters
-    });
+    });*/
 
   }
 

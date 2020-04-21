@@ -24,13 +24,13 @@ export class ViewDestinationsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    for (let protocol of this.protocols().map(p => DestinationProtocole[p])) {
+    for (let protocol of this.protocols()) {
       this.destinationsForm.addControl(protocol, new FormArray([]));
     }
   }
 
   protocols(): Array<string> {
-    return Object.keys(DestinationProtocole);
+    return Object.values(DestinationProtocole);
   }
 
   destinationChanged(protocol: DestinationProtocole, event: FormGroup) {
