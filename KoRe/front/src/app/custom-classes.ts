@@ -50,9 +50,9 @@ export interface Environment {
 }
 
 export interface Server {
-  protocol: DestinationProtocole;
+  //protocol: DestinationProtocole;
   name: string;
-  user?: string;
+  username?: string;
   host: string;
   port?: number;
   password?: string;

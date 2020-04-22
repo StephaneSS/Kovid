@@ -25,8 +25,8 @@ export class FolderComponent implements OnInit {
     return this.destinationsForm.get('destinations') as FormArray;
   }
 
-  get add_folder_destinations_control(): FormArray {
-    return this.destinationsForm.get('addDestination') as FormArray;
+  get add_folder_destinations_control(): FormGroup {
+    return this.destinationsForm.get('addDestination') as FormGroup;
   }
 
   constructor(private readonly formBuilder: FormBuilder) { }
@@ -70,6 +70,7 @@ export class FolderComponent implements OnInit {
 
       // clean 'add new' field
       this.add_folder_destinations_control.reset();
+      this.add_folder_destinations_control.controls.active.setValue(true);
       this.add_folder_destinations_control.markAllAsTouched();
       this.notifyChanges();
 

@@ -28,16 +28,16 @@ public class Report implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Argument> arguments = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostProcess> postProcesses = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExecutionLog> executionLogs = new ArrayList<>();
 
     public Long getId() {
@@ -77,15 +77,31 @@ public class Report implements Serializable {
     }
 
     public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
+        this.schedules.clear();
+        if (schedules != null) {
+            this.schedules.addAll(schedules);
+        }
     }
 
     public void setArguments(List<Argument> arguments) {
-        this.arguments = arguments;
+        this.arguments.clear();
+        if (arguments != null) {
+            this.arguments.addAll(arguments);
+        }
     }
 
     public void setExecutionLogs(List<ExecutionLog> executionLogs) {
-        this.executionLogs = executionLogs;
+        this.executionLogs.clear();
+        if (executionLogs != null) {
+            this.executionLogs.addAll(executionLogs);
+        }
+    }
+
+    public void setPostProcesses(List<PostProcess> postProcesses) {
+        this.postProcesses.clear();
+        if (postProcesses != null) {
+            this.postProcesses.addAll(postProcesses);
+        }
     }
 
 }
