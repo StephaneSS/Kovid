@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
   constructor(private reportService: ReportService){}
 
   ngOnInit(): void {
-    //this.selectReport(5);
+    this.selectReport(10);
   }
 
   report = REPORT2;

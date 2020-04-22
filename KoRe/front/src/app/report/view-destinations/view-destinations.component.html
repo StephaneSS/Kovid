@@ -1,14 +1,14 @@
-<mat-card [class.mat-elevation-z]="editable">
-    <mat-card-header *ngIf="!editable">
+<mat-card [class.mat-elevation-z]="true">
+    <!--<mat-card-header *ngIf="!editable">
         <mat-card-title>
             <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
                 matTooltipPosition="after">hints
                 <mat-icon>info</mat-icon>
             </button>
         </mat-card-title>
-    </mat-card-header>
+    </mat-card-header>-->
     <mat-accordion multi="true">
-        <mat-expansion-panel [expanded]="editable || (destinations[protocol] && destinations[protocol]?.length > 0)"
+        <mat-expansion-panel [expanded]="false"
             *ngFor='let protocol of protocols()'
             [disabled]="!editable && (!destinations[protocol] || destinations[protocol].length === 0)">
               <mat-expansion-panel-header>

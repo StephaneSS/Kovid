@@ -33,7 +33,11 @@ export const REPORT2: Report = {
   "schedules":[{
     "id": 5,
     "cronExpression": "* * * * *",
-    "environment": 1,
+    "environment": {
+      "id": 1,
+      "type": "DEV",
+      "name": "env"
+    },
     "destinations": {
       "id": 6,
       "smtp": [],

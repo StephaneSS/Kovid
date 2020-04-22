@@ -31,7 +31,9 @@ public class Schedule implements Serializable {
     @JoinColumn(name = "environment_id")
     private Environment environment;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     private Destinations destinations;
+
+    private String text;
 
 }

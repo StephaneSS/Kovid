@@ -99,4 +99,9 @@ export class ViewInputArgsComponent implements OnInit {
     }
   }
 
+  areSameArgType(a, b): boolean {
+    console.log(a,b,  a && b && a == b);
+    return a && b && a == b;
+  }
+
 }

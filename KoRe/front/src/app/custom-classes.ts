@@ -1,7 +1,7 @@
 export enum ArgType {
-  STRING = "String",
-  NUMBER = "Number",
-  DYNAMIC_DATE = "Dynamic Date"
+  STRING = "STRING",
+  NUMBER = "NUMBER",
+  DYNAMIC_DATE = "DYNAMIC_DATE"
 }
 
 export interface InputArg {
@@ -16,7 +16,7 @@ export interface Schedule {
   id?: number;
   cronExpression: string;
   text?: string;
-  environment?: number;
+  environment?: Environment;
   destinations: Destinations;
 }
 

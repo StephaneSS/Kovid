@@ -1,6 +1,6 @@
 <mat-card class="container">
     <mat-card-header>
-        <button class="tab-icon" color="primary" mat-mini-fab [matMenuTriggerFor]="menu">
+        <button class="tab-icon" color="primary" class="actionBtn"  mat-mini-fab [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-card-title>
@@ -48,12 +48,6 @@
             </ng-template>
             <app-view-postprocess [postProcesses]="report.postProcesses"></app-view-postprocess>
         </mat-tab>
-        <!--<mat-tab label="destinations">
-            <ng-template mat-tab-label>
-                <mat-icon class="tab-icon">send</mat-icon> destinations
-            </ng-template>
-            <app-view-destinations [destinations]="report.destinations"></app-view-destinations>
-        </mat-tab>-->
         <mat-tab label="executions">
             <ng-template mat-tab-label>
                 <mat-icon class="tab-icon">history</mat-icon> executions

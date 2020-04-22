@@ -28,13 +28,16 @@ public class Report implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Schedule> schedules = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Argument> arguments = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PostProcess> postProcesses = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<ExecutionLog> executionLogs = new ArrayList<>();
 
     public Long getId() {

@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup, FormArray, ValidatorFn } from '@angular/forms';
-import { Schedule } from '../../custom-classes';
+import { Schedule, Environment } from '../../custom-classes';
 import { ScheduleService } from '../../services/schedule/schedule.service';
-import { environment } from 'src/environments/environment';
-import { DestinationService } from 'src/app/services/destination/destination.service';
+import { DestinationService } from '../../services/destination/destination.service';
+import { EnvironmentService } from '../../services/environment/environment.service';
 
 @Component({
   selector: 'app-view-schedules',
@@ -21,10 +21,12 @@ export class ViewSchedulesComponent implements OnInit {
     'addSchedule': this.createScheduleFormControl({
       cronExpression: '',
       text: '',
-      destinations: this.destinationService.getEmptyDestinations()
+      destinations: this.destinationService.getEmptyDestinations(),
+      environment: null
     }, false),
     'schedules': new FormArray([])
   });
+  environments: Environment[] = [];
 
   get scheduleControles(): FormArray {
     return this.schedulesForm.get("schedules") as FormArray;
@@ -34,11 +36,14 @@ export class ViewSchedulesComponent implements OnInit {
     return this.schedulesForm.get("addSchedule") as FormControl;
   }
 
-  constructor(private destinationService: DestinationService, private scheduleService: ScheduleService, private readonly formBuilder: FormBuilder) { }
+  constructor(private environmentService: EnvironmentService, private destinationService: DestinationService, private scheduleService: ScheduleService, private readonly formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.initScheduleFormControl();
     this.notifyChanges();
+    this.environmentService.getEnvironments().subscribe(
+      envs => this.environments = envs
+    );
   }
 
   initScheduleFormControl() {
@@ -74,7 +79,7 @@ export class ViewSchedulesComponent implements OnInit {
       this.schedules.unshift({
         cronExpression: this.addScheduleControle.value.cronExpression,
         text: '',
-        environment: null,
+        environment: {id: 1, type:'DEV',name: 'test_env'},
         destinations: this.destinationService.getEmptyDestinations()
       });
       this.initScheduleFormControl();
@@ -129,6 +134,14 @@ export class ViewSchedulesComponent implements OnInit {
 
   notifyChanges(): void {
     this.schedulesChanged.emit(this.schedulesForm.get('schedules') as FormGroup);
+  }
+
+  destinationsValueChanged(string, value) {
+    // TODO
+  }
+
+  areSameEnv(a, b): boolean {
+    return a && b && a.id == b.id;
   }
 
 }

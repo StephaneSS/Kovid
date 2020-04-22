@@ -32,7 +32,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="formInputSmall">
                     <mat-label>value type</mat-label>
-                    <mat-select formControlName="type" required (selectionChange)="notifyChanges()">
+                    <mat-select formControlName="type" required (selectionChange)="notifyChanges()" [compareWith]="areSameArgType">
                         <ng-container *ngFor="let type of argumentTypes | keyvalue">
                             <mat-option [value]="type.value">{{type.value}}</mat-option>
                         </ng-container>
@@ -64,7 +64,7 @@
             </mat-form-field>
             <mat-form-field appearance="fill" class="formInputSmall">
                 <mat-label>value type</mat-label>
-                <mat-select formControlName="type" required>
+                <mat-select formControlName="type" required [compareWith]="areSameArgType">
                     <ng-container *ngFor="let type of argumentTypes | keyvalue">
                         <mat-option [value]="type.value">{{type.value}}</mat-option>
                     </ng-container>
