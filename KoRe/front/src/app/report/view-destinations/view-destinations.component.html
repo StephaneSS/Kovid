@@ -1,34 +1,34 @@
-<mat-card [class.mat-elevation-z]="editable">
-    <mat-card-header *ngIf="!editable">
+<mat-card [class.mat-elevation-z]="true">
+    <!--<mat-card-header *ngIf="!editable">
         <mat-card-title>
             <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
                 matTooltipPosition="after">hints
                 <mat-icon>info</mat-icon>
             </button>
         </mat-card-title>
-    </mat-card-header>
+    </mat-card-header>-->
     <mat-accordion multi="true">
-        <mat-expansion-panel [expanded]="editable || (destinations[protocol] && destinations[protocol]?.length > 0)"
+        <mat-expansion-panel [expanded]="false"
             *ngFor='let protocol of protocols()'
             [disabled]="!editable && (!destinations[protocol] || destinations[protocol].length === 0)">
-            <mat-expansion-panel-header>
-                <mat-panel-title><span *ngIf="editable && destinationsForm.get(protocol).invalid"><mat-icon color="warn">warning</mat-icon>&nbsp; </span>{{protocol}}</mat-panel-title>
+              <mat-expansion-panel-header>
+                <mat-panel-title><span *ngIf="editable && destinationsForm.controls[protocol].invalid"><mat-icon color="warn">warning</mat-icon>&nbsp; </span>{{protocol}}</mat-panel-title>
                 <mat-panel-description>
                     {{destinations[protocol]?.length  || 'No'}}
                     destination{{destinations[protocol]?.length > 1 ? 's' : ''}} configured with {{protocol}}
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <app-destination-smtp *ngIf="protocol === 'SMTP'" [editable]="editable"
+            <app-destination-smtp *ngIf="protocol === 'smtp'" [editable]="editable"
                 [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
             </app-destination-smtp>
-            <app-destination-ftp *ngIf="protocol === 'FTP'" [editable]="editable"
+            <app-destination-ftp *ngIf="protocol === 'ftp'" [editable]="editable"
                 [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
             </app-destination-ftp>
-            <app-destination-sftp *ngIf="protocol === 'SFTP'" [editable]="editable"
+            <app-destination-sftp *ngIf="protocol === 'sftp'" [editable]="editable"
                 [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
             </app-destination-sftp>
-            <app-destination-folder *ngIf="protocol === 'FOLDER'" [editable]="editable"
+            <app-destination-folder *ngIf="protocol === 'folder'" [editable]="editable"
                 [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
             </app-destination-folder>
         </mat-expansion-panel>

@@ -32,7 +32,7 @@ public class ReportController {
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
-    @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Report> updateReportById(@PathVariable("id") Long id, @RequestBody Report report) {
         Optional<Report> optReport = reportRepository.findById(id);
         if (optReport.isPresent()) {

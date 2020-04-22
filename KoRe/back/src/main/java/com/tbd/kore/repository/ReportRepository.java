@@ -1,5 +1,6 @@
 package com.tbd.kore.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.tbd.kore.model.report.Report;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
+
+    @Override
+    List<Report> findAll();
 
     @Override
     Optional<Report> findById(Long id);
@@ -19,6 +23,6 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     void deleteById(Long id);
 
     @Override
-    Report save(Report s);
+    Report save(Report r);
 
 }

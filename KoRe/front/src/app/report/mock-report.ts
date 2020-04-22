@@ -2,7 +2,7 @@ import { Report, OutputType, ArgType } from '../custom-classes';
 import { INPUT_ARGS } from './mock-input-args'; // FIXME: Only for mocking
 import { SCHEDULES } from './mock-schdules'; // FIXME: Only for mocking
 import { DESTIATIONS } from './mock-destinations'; // FIXME: Only for mocking
-import { EXECUTIONS } from './mock-executions'; 
+import { EXECUTIONS } from './mock-executions';
 import { POSTPROCESSES } from './mock-postprocess';
 
 export const REPORT: Report = {
@@ -11,17 +11,48 @@ export const REPORT: Report = {
     output: {
         parameters: [
             {
-                name: 'source_file',
+                key: 'source_file',
                 order: 1,
                 type: ArgType.STRING,
                 value: '~/my_file.csv'
             }
         ],
         type: OutputType.CSV,
-    }, 
-    input_args: INPUT_ARGS,
+    },
+    arguments: INPUT_ARGS,
     schedules: SCHEDULES,
     postProcesses: POSTPROCESSES,
-    destinations: DESTIATIONS,
-    executions: EXECUTIONS
+    //destinations: DESTIATIONS,
+    executionLogs: EXECUTIONS
+};
+
+export const REPORT2: Report = {
+  "id":5,
+  "name":"toto",
+  "description":"titi",
+  "schedules":[{
+    "id": 5,
+    "cronExpression": "* * * * *",
+    "environment": {
+      "id": 1,
+      "type": "DEV",
+      "name": "env"
+    },
+    "destinations": {
+      "id": 6,
+      "smtp": [],
+      "ftp": [],
+      "sftp": [],
+      "folder": []
+    }
+  }],
+  "arguments":[{
+    "id":7,
+    "type":ArgType.STRING,
+    "order":1,
+    "key":"string",
+    "value":"string"
+  }],
+  "postProcesses": [], // added
+  "executionLogs":[]
 };

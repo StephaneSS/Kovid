@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DestinationSMTP } from 'src/app/custom-classes';
-import { FormGroup, FormArray, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, ValidatorFn, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-destination-smtp',
@@ -15,8 +15,9 @@ export class SmtpComponent implements OnInit {
 
   destinationsForm: FormGroup = new FormGroup({
     addDestination: this.createSMTPFormControl({
-      email: '',
-      object: ''
+      emailAddress: '',
+      subject: '',
+      active: true
     }, false),
     destinations: new FormArray([])
   });
@@ -25,8 +26,8 @@ export class SmtpComponent implements OnInit {
     return this.destinationsForm.get('destinations') as FormArray;
   }
 
-  get add_smtp_destinations_control(): FormArray {
-    return this.destinationsForm.get('addDestination') as FormArray;
+  get add_smtp_destinations_control(): FormGroup {
+    return this.destinationsForm.get('addDestination') as FormGroup;
   }
 
   constructor(private readonly formBuilder: FormBuilder) { }
@@ -44,8 +45,8 @@ export class SmtpComponent implements OnInit {
     return this.formBuilder.group({
       ...destination,
       ... {
-        email: [destination.email, validators.concat(Validators.email)],
-        object: [destination.object, validators]
+        emailAddress: [destination.emailAddress, validators.concat(Validators.email)],
+        subject: [destination.subject, validators]
       }
     });
   }
@@ -70,6 +71,7 @@ export class SmtpComponent implements OnInit {
 
       // clean 'add new' field
       this.add_smtp_destinations_control.reset();
+      this.add_smtp_destinations_control.controls.active.setValue(true);
       this.add_smtp_destinations_control.markAllAsTouched();
       this.notifyChanges();
 

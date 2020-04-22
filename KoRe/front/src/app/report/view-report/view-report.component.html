@@ -1,6 +1,6 @@
 <mat-card class="container">
     <mat-card-header>
-        <button class="tab-icon" color="primary" mat-mini-fab [matMenuTriggerFor]="menu">
+        <button class="tab-icon" color="primary" class="actionBtn"  mat-mini-fab [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-card-title>
@@ -25,7 +25,7 @@
     </mat-card-header>
     <mat-chip-list>
         <mat-chip (click)="openDialog()">
-            {{report.output.type}}
+            <!--{{report.output.type}}-->
             <mat-icon class="chipIcon">launch</mat-icon>
         </mat-chip>
     </mat-chip-list>
@@ -34,13 +34,7 @@
             <ng-template mat-tab-label>
                 <mat-icon class="tab-icon">input</mat-icon> input arguments
             </ng-template>
-            <app-view-input-args [arguments]="report.input_args"></app-view-input-args>
-        </mat-tab>
-        <mat-tab label="schedules">
-            <ng-template mat-tab-label>
-                <mat-icon class="tab-icon">event</mat-icon> schedules
-            </ng-template>
-            <app-view-schedules [schedules]="report.schedules"></app-view-schedules>
+            <app-view-input-args [arguments]="report.arguments"></app-view-input-args>
         </mat-tab>
         <mat-tab label="post porcesses" >
             <ng-template mat-tab-label>
@@ -48,17 +42,17 @@
             </ng-template>
             <app-view-postprocess [postProcesses]="report.postProcesses"></app-view-postprocess>
         </mat-tab>
-        <mat-tab label="destinations">
+        <mat-tab label="schedules">
             <ng-template mat-tab-label>
-                <mat-icon class="tab-icon">send</mat-icon> destinations
+                <mat-icon class="tab-icon">event</mat-icon> schedules
             </ng-template>
-            <app-view-destinations [destinations]="report.destinations"></app-view-destinations>
+            <app-view-schedules [schedules]="report.schedules"></app-view-schedules>
         </mat-tab>
         <mat-tab label="executions">
             <ng-template mat-tab-label>
                 <mat-icon class="tab-icon">history</mat-icon> executions
             </ng-template>
-            <app-view-executions [executions]="report.executions"></app-view-executions>
+            <app-view-executions [executions]="report.executionLogs"></app-view-executions>
         </mat-tab>
     </mat-tab-group>
 </mat-card>

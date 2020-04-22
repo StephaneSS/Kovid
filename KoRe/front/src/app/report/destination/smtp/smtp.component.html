@@ -2,9 +2,9 @@
 <ng-template #readOnly>
     <ng-container *ngFor="let destination of destinations">
         <div class="formContainer">
-            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.email" label="Email address">
+            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.emailAddress" label="Email address">
             </app-input-copy-click>
-            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.object" label="Object">
+            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.subject" label="subject">
             </app-input-copy-click>
         </div>
     </ng-container>
@@ -16,14 +16,14 @@
                 <mat-label>
                     new email address
                 </mat-label>
-                <input matInput formControlName="email" (keyup.Enter)="addDestination()" />
+                <input matInput formControlName="emailAddress" (keyup.Enter)="addDestination()" />
                 <mat-error>Wrong email format</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="formInput fullLengthInput">
                 <mat-label>
-                    new email object
+                    new email suject
                 </mat-label>
-                <input matInput formControlName="object" (keyup.Enter)="addDestination()" />
+                <input matInput formControlName="subject" (keyup.Enter)="addDestination()" />
             </mat-form-field>
             <span>
                 <button [tabindex]="10000" class="action_button" mat-icon-button color="primary"
@@ -40,20 +40,20 @@
                 <mat-label>
                     email address
                 </mat-label>
-                <input matInput formControlName="email" required (change)="notifyChanges()"/>
-                <mat-error *ngIf="destination.hasError('required', 'email' )">
+                <input matInput formControlName="emailAddress" required (change)="notifyChanges()"/>
+                <mat-error *ngIf="destination.hasError('required', 'emailAddress' )">
                     This field cannot be empty
                 </mat-error>
-                <mat-error *ngIf="destination.hasError('email', 'email' )">
+                <mat-error *ngIf="destination.hasError('email', 'emailAddress' )">
                     Wrong email format
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="formInput fullLengthInput">
                 <mat-label>
-                    email object
+                    email subject
                 </mat-label>
-                <input matInput formControlName="object" required (change)="notifyChanges()"/>
-                <mat-error *ngIf="destination.hasError('required', 'object' )">
+                <input matInput formControlName="subject" required (change)="notifyChanges()"/>
+                <mat-error *ngIf="destination.hasError('required', 'subject' )">
                     This field cannot be empty
                 </mat-error>
             </mat-form-field>

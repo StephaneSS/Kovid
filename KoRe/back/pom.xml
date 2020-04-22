@@ -67,6 +67,12 @@
       <version>2.9.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>net.redhogs.cronparser</groupId>
+      <artifactId>cron-parser-spring</artifactId>
+      <version>3.5</version>
+    </dependency>
+
   </dependencies>
 
   <build>

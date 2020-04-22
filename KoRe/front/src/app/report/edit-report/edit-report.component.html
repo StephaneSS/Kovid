@@ -1,72 +1,63 @@
 <div>
-    <div class="container" [formGroup]="reportForms">
-        <mat-form-field appearance="outline" class="formInput">
-            <mat-label>Report name</mat-label>
-            <input matInput formControlName="name" (change)="valueChangedWithin()" required />
-            <mat-error>A report must have a name</mat-error>
-        </mat-form-field>
+  <div class="container" [formGroup]="reportForms">
+    <mat-form-field appearance="outline" class="formInput">
+      <mat-label>Report name</mat-label>
+      <input matInput formControlName="name" (change)="valueChangedWithin()" required />
+      <mat-error>A report must have a name</mat-error>
+    </mat-form-field>
 
-        <mat-form-field appearance="outline" class="formInput">
-            <mat-label>Report description</mat-label>
-            <textarea matInput formControlName="description" (change)="valueChangedWithin()"></textarea>
-        </mat-form-field>
+    <mat-form-field appearance="outline" class="formInput">
+      <mat-label>Report description</mat-label>
+      <textarea matInput formControlName="description" (change)="valueChangedWithin()"></textarea>
+    </mat-form-field>
 
-        Report output type -> TODO<br />
-        OPR file -> TOOD
-    </div>
+    Report output type -> TODO<br />
+    OPR file -> TOOD
+  </div>
 
-    <mat-horizontal-stepper>
+  <mat-horizontal-stepper>
 
 
-        <ng-template matStepperIcon="input">
-            <mat-icon>input</mat-icon>
-        </ng-template>
-        <ng-template matStepperIcon="event">
-            <mat-icon>event</mat-icon>
-        </ng-template>
-        <ng-template matStepperIcon="tune">
-            <mat-icon>tune</mat-icon>
-        </ng-template>
-        <ng-template matStepperIcon="send">
-            <mat-icon>send</mat-icon>
-        </ng-template>
+    <ng-template matStepperIcon="input">
+      <mat-icon>input</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="event">
+      <mat-icon>event</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="tune">
+      <mat-icon>tune</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="send">
+      <mat-icon>send</mat-icon>
+    </ng-template>
 
-        <mat-step label="Input arguments" completed="false"
-            [state]="reportForms.controls.inputArgs.valid ? 'input' : 'error' "
-            errorMessage="Some input arguments are wrong">
-            <app-view-input-args editable="true" (argumentsChanged)="valueChanged('inputArgs',$event)"
-                [arguments]="report.input_args"></app-view-input-args>
-            <div>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </mat-step>
-        <mat-step label="Schedules" completed="false"
-            [state]="reportForms.controls.schedules.valid ? 'event' : 'error' " errorMessage="Some schedules are wrong">
-            <app-view-schedules editable="true" (schedulesChanged)="valueChanged('schedules',$event)"
-                [schedules]="report.schedules"></app-view-schedules>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </mat-step>
+    <mat-step label="Input arguments" completed="false"
+      [state]="reportForms.controls.argumentsvalid ? 'input' : 'error' " errorMessage="Some input arguments are wrong">
+      <app-view-input-args editable="true" (argumentsChanged)="valueChanged('arguments',$event)"
+        [arguments]="report.arguments"></app-view-input-args>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
 
-        <mat-step label="Post processes" completed="false" [state]="reportForms.controls.postProcesses.valid ? 'tune' : 'error' " errorMessage="Some post processes are wrong">
-            <app-view-postprocess editable="true" (postProcessesChanged)="valueChanged('postProcesses',$event)"
-                [postProcesses]="report.postProcesses"></app-view-postprocess>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </mat-step>
-        <mat-step label="Destinations" completed="false"
-            [state]="reportForms.controls.destinations.valid ? 'send' : 'error' "
-            errorMessage="Some destinations are wrong">
-            <app-view-destinations editable="true" (destinationsChanged)="valueChanged('destinations',$event)"
-                [destinations]="report.destinations"></app-view-destinations>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-            </div>
-        </mat-step>
+    <mat-step label="Post processes" completed="false"
+      [state]="reportForms.controls.postProcesses.valid ? 'tune' : 'error' "
+      errorMessage="Some post processes are wrong">
+      <app-view-postprocess editable="true" (postProcessesChanged)="valueChanged('postProcesses',$event)"
+        [postProcesses]="report.postProcesses"></app-view-postprocess>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
 
-    </mat-horizontal-stepper>
+    <mat-step label="Schedules" completed="false" [state]="reportForms.controls.schedules.valid ? 'event' : 'error' "
+      errorMessage="Some schedules are wrong">
+      <app-view-schedules editable="true" (schedulesChanged)="valueChanged('schedules',$event)"
+        [schedules]="report.schedules"></app-view-schedules>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
 </div>

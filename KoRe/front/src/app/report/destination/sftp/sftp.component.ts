@@ -19,7 +19,8 @@ export class SftpComponent implements OnInit {
   destinationsForm: FormGroup = new FormGroup({
     addDestination: this.createSFTPFormControl({
       server: null,
-      path: ''
+      path: '',
+      active: true
     }, false),
     destinations: new FormArray([])
   });
@@ -30,8 +31,8 @@ export class SftpComponent implements OnInit {
     return this.destinationsForm.get('destinations') as FormArray;
   }
 
-  get add_sftp_destinations_control(): FormArray {
-    return this.destinationsForm.get('addDestination') as FormArray;
+  get add_sftp_destinations_control(): FormGroup {
+    return this.destinationsForm.get('addDestination') as FormGroup;
   }
 
   constructor(
@@ -89,6 +90,7 @@ export class SftpComponent implements OnInit {
 
       // clean 'add new' field
       this.add_sftp_destinations_control.get('path').reset();
+      this.add_sftp_destinations_control.controls.active.setValue(true);
       this.add_sftp_destinations_control.markAllAsTouched();
       this.notifyChanges();
 
@@ -102,9 +104,9 @@ export class SftpComponent implements OnInit {
 
   formatServerToString(server: Server): string {
     let str: string[] = [];
-    str.push(server.protocol.trim(), '://');
-    if (server?.user?.trim()) {
-      str.push(server?.user?.trim(), '@')
+    str.push('sftp://');
+    if (server?.username?.trim()) {
+      str.push(server?.username?.trim(), '@')
     }
     str.push(server.host.trim());
     if (server?.port) {

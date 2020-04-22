@@ -1,9 +1,9 @@
 <h1 mat-dialog-title>Report edition</h1>
 <div mat-dialog-content>
-    <app-edit-report (reportChanged)="reportForm = $event" [report]="edited_report"></app-edit-report>
+    <app-edit-report (reportChanged)="reportForm = $event" [report]="src_report"></app-edit-report>
 </div>
 <div mat-dialog-actions>
-    <button mat-stroked-button color="primary" [disabled]="reportForm.invalid">
+    <button mat-stroked-button color="primary" [disabled]="reportForm.invalid" (click)="saveReport()">
         <mat-icon>save</mat-icon> Save
     </button>
     <span class="spacer"></span>

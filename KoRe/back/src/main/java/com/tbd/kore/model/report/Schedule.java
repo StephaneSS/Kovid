@@ -34,4 +34,6 @@ public class Schedule implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Destinations destinations;
 
+    private String text;
+
 }
