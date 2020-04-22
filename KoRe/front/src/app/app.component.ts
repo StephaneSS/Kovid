@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
     this.selectReport(10);
   }
 
-  report = REPORT2;
+  report = null;
 
   selectReport(id: number): void {
     this.reportService.getReport(id).subscribe(

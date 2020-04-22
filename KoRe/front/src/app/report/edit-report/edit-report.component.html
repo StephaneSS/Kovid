@@ -32,8 +32,8 @@
     </ng-template>
 
     <mat-step label="Input arguments" completed="false"
-      [state]="reportForms.controls.inputArgs.valid ? 'input' : 'error' " errorMessage="Some input arguments are wrong">
-      <app-view-input-args editable="true" (argumentsChanged)="valueChanged('inputArgs',$event)"
+      [state]="reportForms.controls.argumentsvalid ? 'input' : 'error' " errorMessage="Some input arguments are wrong">
+      <app-view-input-args editable="true" (argumentsChanged)="valueChanged('arguments',$event)"
         [arguments]="report.arguments"></app-view-input-args>
       <div>
         <button mat-button matStepperNext>Next</button>
@@ -59,15 +59,5 @@
         <button mat-button matStepperPrevious>Back</button>
       </div>
     </mat-step>
-    <!--<mat-step label="Destinations" completed="false"
-            [state]="reportForms.controls.destinations.valid ? 'send' : 'error' "
-            errorMessage="Some destinations are wrong">
-            <app-view-destinations editable="true" (destinationsChanged)="valueChanged('destinations',$event)"
-                [destinations]="report.destinations"></app-view-destinations>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-            </div>
-        </mat-step>-->
-
   </mat-horizontal-stepper>
 </div>

@@ -46,6 +46,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { PortalModule } from '@angular/cdk/portal';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { PortalModule } from '@angular/cdk/portal';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    PortalModule
+    PortalModule,
+    MatProgressSpinnerModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]

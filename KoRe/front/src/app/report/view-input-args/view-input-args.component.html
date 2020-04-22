@@ -27,7 +27,7 @@
                 <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                 <mat-form-field appearance="outline" class="formInput">
                     <mat-label>name</mat-label>
-                    <input matInput formControlName="name" (change)="notifyChanges()" required />
+                    <input matInput formControlName="key" (change)="notifyChanges()" required />
                     <mat-error>An argument must have a valid name.</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="formInputSmall">
@@ -60,7 +60,7 @@
             </span>
             <mat-form-field appearance="outline" class="formInput" required>
                 <mat-label>name</mat-label>
-                <input matInput formControlName="name" (change)="notifyChanges()" (keyup.Enter)="addArgument()" />
+                <input matInput formControlName="key" (change)="notifyChanges()" (keyup.Enter)="addArgument()" />
             </mat-form-field>
             <mat-form-field appearance="fill" class="formInputSmall">
                 <mat-label>value type</mat-label>

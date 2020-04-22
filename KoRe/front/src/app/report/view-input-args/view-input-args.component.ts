@@ -53,7 +53,7 @@ export class ViewInputArgsComponent implements OnInit {
     return this.formBuilder.group({
       ...argument,
       ... {
-        name: [argument.key, validators],
+        key: [argument.key, validators],
         type: [argument.type, validators],
         value: [argument.value, validators],
       }
@@ -90,10 +90,11 @@ export class ViewInputArgsComponent implements OnInit {
   addArgument(): void {
     if (this.addArgumentControl.valid) {
       let newArg = this.addArgumentControl.value;
+      console.log(newArg);
       newArg.order = this.arguments.length + 1;
       this.arguments.push(newArg);
       this.initArgumentFormControl();
-      this.addArgumentControl.get('name').reset();
+      this.addArgumentControl.get('key').reset();
       this.addArgumentControl.get('value').reset();
       this.notifyChanges();
     }

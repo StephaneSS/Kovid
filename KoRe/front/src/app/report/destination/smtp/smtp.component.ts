@@ -42,7 +42,6 @@ export class SmtpComponent implements OnInit {
     if (required) {
       validators.push(Validators.required);
     }
-    delete destination.id;
     return this.formBuilder.group({
       ...destination,
       ... {
