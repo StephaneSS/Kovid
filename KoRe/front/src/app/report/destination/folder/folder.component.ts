@@ -15,7 +15,8 @@ export class FolderComponent implements OnInit {
 
   destinationsForm: FormGroup = new FormGroup({
     addDestination: this.createFOLDERFormControl({
-      path: ''
+      path: '',
+      active: true
     }, false),
     destinations: new FormArray([])
   });
@@ -40,6 +41,7 @@ export class FolderComponent implements OnInit {
     if (required) {
       validators.push(Validators.required);
     }
+    delete destination.id;
     return this.formBuilder.group({
       ...destination,
       ... {

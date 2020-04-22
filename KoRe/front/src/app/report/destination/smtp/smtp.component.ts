@@ -15,8 +15,9 @@ export class SmtpComponent implements OnInit {
 
   destinationsForm: FormGroup = new FormGroup({
     addDestination: this.createSMTPFormControl({
-      email: '',
-      object: ''
+      emailAddress: '',
+      subject: '',
+      active: true
     }, false),
     destinations: new FormArray([])
   });
@@ -41,11 +42,12 @@ export class SmtpComponent implements OnInit {
     if (required) {
       validators.push(Validators.required);
     }
+    delete destination.id;
     return this.formBuilder.group({
       ...destination,
       ... {
-        email: [destination.email, validators.concat(Validators.email)],
-        object: [destination.object, validators]
+        emailAddress: [destination.emailAddress, validators.concat(Validators.email)],
+        subject: [destination.subject, validators]
       }
     });
   }

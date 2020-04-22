@@ -1,73 +1,40 @@
 <mat-card [class.mat-elevation-z]="editable">
   <ng-container *ngIf="editable; then editableSchedules; else readSchedules"></ng-container>
+
   <ng-template #readSchedules>
-    <mat-card-header>
-      <mat-card-title>
-        <mat-checkbox #viewAsFullText checked="true">view as text
-        </mat-checkbox>
-        <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
-          matTooltipPosition="after">hints
-          <mat-icon>info</mat-icon>
-        </button>
-      </mat-card-title>
-    </mat-card-header>
     <mat-accordion *ngFor="let schedule of schedules;  index as i">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>on environement [{{schedule.environment.name}}]</mat-panel-title>
           <mat-panel-description>{{schedule.cronExpression}} / {{schedule.text}}</mat-panel-description>
-          <mat-panel-description>n destinations</mat-panel-description>
         </mat-expansion-panel-header>
         <app-view-destinations [destinations]="schedule.destinations"></app-view-destinations>
       </mat-expansion-panel>
     </mat-accordion>
   </ng-template>
+
   <ng-template #editableSchedules [formGroup]="schedulesForm">
-    <div class="formContainer" formArrayName="addSchedule">
-      <!--<span>
-        <mat-icon class="leftButton" matTooltipPosition="above"
-          matTooltip="Press [ENTER] to add the new schedule. Press [CONTROL] + [ENTER] to refresh any schedule description.">
-          info</mat-icon>
-      </span>
-      <mat-form-field appearance="outline" class="formInput">
-        <mat-label>
-          add a new schedule
-        </mat-label>
-        <input matInput title="add a new schedule" formControlName="cronExpression" (keyup.Enter)="addSchedule()"
-          (keyup.Control.Enter)="updateNewScheduleDescription()" />
-        <mat-hint>{{addScheduleControle.value.text}}</mat-hint>
-        <mat-error>Wrong format <strong>minute hour day month week</strong>. Look at <a target="blank"
-            href="https://crontab.guru/">this documentation</a> for more details.</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="formInputSmall">
-        <mat-label>Environment</mat-label>
-        <mat-select formControlName="environment">
-          <ng-container *ngFor="let env of environments">
-            <mat-option [value]="env">{{env.name}}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>-->
+    <div class="formContainer">
       <span>
-        <button [tabindex]="10000" class="action_button" (click)="addSchedule()" mat-icon-button color="primary"
+        <button class="action_button" (click)="addSchedule()" mat-raised-button color="primary"
           title="add a new schedule">
           <mat-icon>add</mat-icon>
+          Add a new schedule
         </button>
       </span>
     </div>
     <ng-container formArrayName="schedules">
       <mat-accordion>
-        <!--<div [formGroupName]="i" *ngFor="let schedule of scheduleControles.controls ;  index as i" class="formContainer">-->
         <mat-expansion-panel [formGroupName]="i" *ngFor="let schedule of scheduleControles.controls ;  index as i">
           <mat-expansion-panel-header>
-            <mat-panel-title>{{schedule.value.environment.name}}</mat-panel-title>
+            <mat-panel-title><span *ngIf="editable && schedule.invalid"><mat-icon color="warn">warning</mat-icon>&nbsp; </span>{{schedule.value.environment.name}}</mat-panel-title>
             <mat-panel-description>{{schedule.value.cronExpression}} / {{schedule.value.text}}</mat-panel-description>
-            <mat-panel-description>n destinations</mat-panel-description>
           </mat-expansion-panel-header>
 
           <div class="formContainer">
             <mat-form-field appearance="fill" class="formInputSmall">
               <mat-label>Environment</mat-label>
-              <mat-select formControlName="environment" [compareWith]="areSameEnv">
+              <mat-select formControlName="environment" [compareWith]="areSameEnv" (change)="notifyChanges()">
                 <ng-container *ngFor="let env of environments">
                   <mat-option [value]="env">{{env.name}}</mat-option>
                 </ng-container>
@@ -83,7 +50,7 @@
 
               <mat-error *ngIf="schedule.hasError('pattern', 'cronExpression' )">
                 Wrong format <strong>minute hour day
-                  month week</strong>. Look at <a target="blank" href="https://crontab.guru/">this
+                  month week</strong>. Look at <a target="blank" href="https://en.wikipedia.org/wiki/Cron#CRON_expression">this
                   documentation</a> for more details.</mat-error>
               <mat-error *ngIf="schedule.hasError('required', 'cronExpression' )">
                 This field cannot be empty
@@ -99,11 +66,10 @@
 
           </div>
           <app-view-destinations editable="true" class="formInput"
-            (destinationsChanged)="destinationsValueChanged('destinations',$event)"
+            (destinationsChanged)="destinationsValueChanged(i,$event)"
             [destinations]="schedule.value.destinations"></app-view-destinations>
 
         </mat-expansion-panel>
-        <!--</div>-->
       </mat-accordion>
     </ng-container>
   </ng-template>

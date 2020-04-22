@@ -67,21 +67,29 @@ export interface Destinations {
 }
 
 export interface DestinationSMTP {
-  email: string;
-  object: string;
+  id?: number;
+  active: boolean;
+  emailAddress: string;
+  subject: string;
 }
 
 export interface DestinationFTP {
+  id?: number;
+  active: boolean;
   server: Server;
   path: string;
 }
 
 export interface DestinationSFTP {
+  id?: number;
+  active: boolean;
   server: Server;
   path: string;
 }
 
 export interface DestinationFOLDER {
+  id?: number;
+  active: boolean;
   path: string;
 }
 

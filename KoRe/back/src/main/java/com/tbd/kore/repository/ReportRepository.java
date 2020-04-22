@@ -23,6 +23,6 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     void deleteById(Long id);
 
     @Override
-    Report save(Report s);
+    Report save(Report r);
 
 }

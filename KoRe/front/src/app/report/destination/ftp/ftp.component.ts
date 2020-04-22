@@ -19,7 +19,8 @@ export class FtpComponent implements OnInit {
   destinationsForm: FormGroup = new FormGroup({
     addDestination: this.createFTPFormControl({
       server: null,
-      path: ''
+      path: '',
+      active: true
     }, false),
     destinations: new FormArray([])
   });

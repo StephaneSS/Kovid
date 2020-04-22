@@ -18,22 +18,12 @@ export class ViewSchedulesComponent implements OnInit {
 
   viewAsFullText: boolean = true;
   schedulesForm: FormGroup = new FormGroup({
-    'addSchedule': this.createScheduleFormControl({
-      cronExpression: '',
-      text: '',
-      destinations: this.destinationService.getEmptyDestinations(),
-      environment: null
-    }, false),
     'schedules': new FormArray([])
   });
   environments: Environment[] = [];
 
   get scheduleControles(): FormArray {
     return this.schedulesForm.get("schedules") as FormArray;
-  }
-
-  get addScheduleControle(): FormControl {
-    return this.schedulesForm.get("addSchedule") as FormControl;
   }
 
   constructor(private environmentService: EnvironmentService, private destinationService: DestinationService, private scheduleService: ScheduleService, private readonly formBuilder: FormBuilder) { }
@@ -52,11 +42,8 @@ export class ViewSchedulesComponent implements OnInit {
     this.schedulesForm.markAllAsTouched();
   }
 
-  createScheduleFormControl(schedule: Schedule, required: boolean = true): FormGroup {
-    let validators: ValidatorFn[] = [Validators.pattern(/^[a-z-0-9*/]+( [a-z-0-9*/]+){4}$/i)];
-    if(required){
-      validators.push(Validators.required);
-    }
+  createScheduleFormControl(schedule: Schedule): FormGroup {
+    let validators: ValidatorFn[] = [Validators.pattern(/^[^ ]+( +[^ ]+){4,6}$/i), Validators.required];
     return this.formBuilder.group({
       ...schedule,
       ... {
@@ -66,78 +53,53 @@ export class ViewSchedulesComponent implements OnInit {
   }
 
   removeSchedule(i: number): void {
-    this.schedules.splice(i, 1);
-    this.initScheduleFormControl();
+    let control = <FormArray>this.schedulesForm.controls.schedules;
+
+    control.removeAt(i);
     this.notifyChanges();
   }
 
   addSchedule(): void {
+    let control = <FormArray>this.schedulesForm.controls.schedules;
 
-    if (this.addScheduleControle.value.cronExpression && this.addScheduleControle.valid) {
+    control.insert(0, this.createScheduleFormControl({
+      cronExpression: '',
+      text: 'Enter a cron expression',
+      environment: this.environments[0],
+      destinations: this.destinationService.getEmptyDestinations()
+    }));
 
-      // add the value
-      this.schedules.unshift({
-        cronExpression: this.addScheduleControle.value.cronExpression,
-        text: '',
-        environment: {id: 1, type:'DEV',name: 'test_env'},
-        destinations: this.destinationService.getEmptyDestinations()
-      });
-      this.initScheduleFormControl();
-      this.updateCronDescription(0);
-
-      // clean 'add new' field
-      this.addScheduleControle.reset();
-      this.addScheduleControle.markAllAsTouched();
-
-    }
-
+    control.markAllAsTouched();
   }
 
   updateCronDescription(i: number): void {
+    let control = <FormArray>this.schedulesForm.controls.schedules;
+    let schedule = <FormGroup>control.at(i);
 
-    const cronExpression = this.scheduleControles.controls[i].value.cronExpression;
-    this.schedules[i].cronExpression = cronExpression;
-    this.schedules[i].text = 'Getting the description...';
-    this.scheduleControles.controls[i].setValue(this.schedules[i]);
+    schedule.controls.text.setValue('Getting the description...');
 
-    this.scheduleService.getCronDescription(cronExpression).subscribe(
-      expression => {
-        this.schedules[i].text = expression;
-        this.scheduleControles.controls[i].setValue(this.schedules[i]);
-        this.notifyChanges();
+    this.scheduleService.getCronDescription(schedule.value.cronExpression).subscribe(
+      description => schedule.controls.text.setValue(description),
+      () =>　{
+        schedule.controls.cronExpression.setErrors({'pattern':true});
+        schedule.controls.text.setValue('Cannot get a description');
       },
-      () => {
-        this.schedules[i].text = 'Cannot get a description';
-        this.scheduleControles.controls[i].setValue(this.schedules[i]);
-        this.notifyChanges();
-      }
+    ).add(
+      () => this.notifyChanges()
     );
-  }
 
-  updateNewScheduleDescription(): void {
-    const cronExpression = this.addScheduleControle.value.cronExpression;
-    this.addScheduleControle.setValue({
-      cronExpression: cronExpression,
-      text: 'Getting the description...'
-    });
-    this.scheduleService.getCronDescription(cronExpression).subscribe(
-      expression => this.addScheduleControle.setValue({
-        cronExpression: cronExpression,
-        text: expression
-      }),
-      () => this.addScheduleControle.setValue({
-        cronExpression: cronExpression,
-        text: 'Cannot get an expression'
-      })
-    );
+
   }
 
   notifyChanges(): void {
     this.schedulesChanged.emit(this.schedulesForm.get('schedules') as FormGroup);
   }
 
-  destinationsValueChanged(string, value) {
-    // TODO
+  destinationsValueChanged(index: number, destinationForm: FormGroup) {
+    let control = <FormArray>this.schedulesForm.controls.schedules;
+    let schedule = <FormGroup>control.at(index);
+    schedule.controls.destinations = destinationForm;
+    this.notifyChanges();
   }
 
   areSameEnv(a, b): boolean {

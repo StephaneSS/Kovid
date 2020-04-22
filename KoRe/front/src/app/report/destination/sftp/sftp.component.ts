@@ -19,7 +19,8 @@ export class SftpComponent implements OnInit {
   destinationsForm: FormGroup = new FormGroup({
     addDestination: this.createSFTPFormControl({
       server: null,
-      path: ''
+      path: '',
+      active: true
     }, false),
     destinations: new FormArray([])
   });

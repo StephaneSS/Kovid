@@ -4,24 +4,28 @@ import { SERVERS } from './mock-server';
 export const DESTIATIONS: Destinations = {
     [DestinationProtocole.SMTP]: [
         {
-            email: 'toto.toto@toto.to',
-            object: 'totoSub'
+          emailAddress: 'toto.toto@toto.to',
+            subject: 'totoSub',
+            active: true
         }
     ],
     [DestinationProtocole.FTP]: [
         {
             server: SERVERS[0],
-            path: '~/folder'
+            path: '~/folder',
+            active: true
         },
         {
             server: SERVERS[1],
-            path: '~/my_costom_folder'
+            path: '~/my_costom_folder',
+            active: true
         }
     ],
     [DestinationProtocole.SFTP]: [],
     [DestinationProtocole.FOLDER]: [
         {
-            path: '~/myFolder'
+            path: '~/myFolder',
+            active: true
         }
     ]
 };

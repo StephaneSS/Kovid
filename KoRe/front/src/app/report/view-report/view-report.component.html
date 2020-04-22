@@ -36,17 +36,17 @@
             </ng-template>
             <app-view-input-args [arguments]="report.arguments"></app-view-input-args>
         </mat-tab>
-        <mat-tab label="schedules">
-            <ng-template mat-tab-label>
-                <mat-icon class="tab-icon">event</mat-icon> schedules
-            </ng-template>
-            <app-view-schedules [schedules]="report.schedules"></app-view-schedules>
-        </mat-tab>
         <mat-tab label="post porcesses" >
             <ng-template mat-tab-label>
                 <mat-icon class="tab-icon">tune</mat-icon> post porcesses
             </ng-template>
             <app-view-postprocess [postProcesses]="report.postProcesses"></app-view-postprocess>
+        </mat-tab>
+        <mat-tab label="schedules">
+            <ng-template mat-tab-label>
+                <mat-icon class="tab-icon">event</mat-icon> schedules
+            </ng-template>
+            <app-view-schedules [schedules]="report.schedules"></app-view-schedules>
         </mat-tab>
         <mat-tab label="executions">
             <ng-template mat-tab-label>

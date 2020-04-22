@@ -26,6 +26,6 @@ export class ReportService {
   }
 
   updateReport(id: number, report: Report): Observable<Report> {
-    return this.http.patch<Report>(`${this.endpointURL}/${id}`, report);
+    return this.http.put<Report>(`${this.endpointURL}/${id}`, report);
   }
 }
