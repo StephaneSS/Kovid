@@ -21,6 +21,7 @@ export class ViewSchedulesComponent implements OnInit {
     'schedules': new FormArray([])
   });
   environments: Environment[] = [];
+  totalDestinations: number[] = [];
 
   get scheduleControles(): FormArray {
     return this.schedulesForm.get("schedules") as FormArray;

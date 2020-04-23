@@ -90,7 +90,6 @@ export class ViewInputArgsComponent implements OnInit {
   addArgument(): void {
     if (this.addArgumentControl.valid) {
       let newArg = this.addArgumentControl.value;
-      console.log(newArg);
       newArg.order = this.arguments.length + 1;
       this.arguments.push(newArg);
       this.initArgumentFormControl();

@@ -2,13 +2,18 @@
   <ng-container *ngIf="editable; then editableSchedules; else readSchedules"></ng-container>
 
   <ng-template #readSchedules>
-    <mat-accordion *ngFor="let schedule of schedules;  index as i">
-      <mat-expansion-panel>
+    <mat-accordion multi="true">
+      <mat-expansion-panel *ngFor="let schedule of schedules;  index as i">
+
         <mat-expansion-panel-header>
-          <mat-panel-title>on environement [{{schedule.environment.name}}]</mat-panel-title>
+          <mat-panel-title>{{schedule.environment.name}}</mat-panel-title>
           <mat-panel-description>{{schedule.cronExpression}} / {{schedule.text}}</mat-panel-description>
+          <mat-panel-description *ngIf="totalDestinations[i]">{{totalDestinations[i]}} destination(s)</mat-panel-description>
+          <mat-panel-description *ngIf="!totalDestinations[i]">No destination</mat-panel-description>
         </mat-expansion-panel-header>
-        <app-view-destinations [destinations]="schedule.destinations"></app-view-destinations>
+
+        <app-view-destinations [destinations]="schedule.destinations" (nbDestinations)="totalDestinations[i] = $event"></app-view-destinations>
+
       </mat-expansion-panel>
     </mat-accordion>
   </ng-template>
@@ -16,7 +21,7 @@
   <ng-template #editableSchedules [formGroup]="schedulesForm">
     <div class="formContainer">
       <span>
-        <button class="action_button" (click)="addSchedule()" mat-raised-button color="primary"
+        <button class="add_button" (click)="addSchedule()" mat-raised-button color="primary"
           title="add a new schedule">
           <mat-icon>add</mat-icon>
           Add a new schedule
@@ -29,6 +34,8 @@
           <mat-expansion-panel-header>
             <mat-panel-title><span *ngIf="editable && schedule.invalid"><mat-icon color="warn">warning</mat-icon>&nbsp; </span>{{schedule.value.environment.name}}</mat-panel-title>
             <mat-panel-description>{{schedule.value.cronExpression}} / {{schedule.value.text}}</mat-panel-description>
+            <mat-panel-description *ngIf="totalDestinations[i]">{{totalDestinations[i]}} destination(s)</mat-panel-description>
+            <mat-panel-description *ngIf="!totalDestinations[i]">No destination</mat-panel-description>
           </mat-expansion-panel-header>
 
           <div class="formContainer">
@@ -67,7 +74,8 @@
           </div>
           <app-view-destinations editable="true" class="formInput"
             (destinationsChanged)="destinationsValueChanged(i,$event)"
-            [destinations]="schedule.value.destinations"></app-view-destinations>
+            (nbDestinations)="totalDestinations[i] = $event"
+            [destinations]="schedule.value.destinations" ></app-view-destinations>
 
         </mat-expansion-panel>
       </mat-accordion>

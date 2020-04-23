@@ -13,7 +13,9 @@ export class ViewDestinationsComponent implements OnInit {
 
   @Input() destinations: Destinations;
   @Input() editable: boolean = false;
+
   @Output() destinationsChanged: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
+  @Output() nbDestinations: EventEmitter<number> = new EventEmitter<number>();
 
   destinationsForm = new FormGroup({});
 
@@ -22,6 +24,11 @@ export class ViewDestinationsComponent implements OnInit {
     private clipboardService: ClipboardService,
     private readonly formBuilder: FormBuilder
   ) { }
+
+  get totalDestination(): number {
+    return this.protocols().reduce((agg, protocol) => agg + this.getNbDestinationForPotocol(protocol), 0);
+  }
+
 
   ngOnInit(): void {
     for (let protocol of this.protocols()) {
@@ -37,6 +44,23 @@ export class ViewDestinationsComponent implements OnInit {
     this.destinationsForm.removeControl(protocol);
     this.destinationsForm.addControl(protocol, event);
     this.destinationsChanged.emit(this.destinationsForm);
+    this.nbDestinations.emit(this.totalDestination);
+  }
+
+  getNbDestinationForPotocol(protocol: string): number {
+    if(this.editable) {
+      if (this.destinationsForm.value[protocol]) {
+        return this.destinationsForm.value[protocol].length;
+      } else {
+        return 0;
+      }
+    }else {
+      if (this.destinations[protocol]) {
+        return this.destinations[protocol].length;
+      } else {
+        return 0;
+      }
+    }
   }
 
 }
