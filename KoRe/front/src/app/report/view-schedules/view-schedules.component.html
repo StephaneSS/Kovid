@@ -2,23 +2,29 @@
   <ng-container *ngIf="editable; then editableSchedules; else readSchedules"></ng-container>
 
   <ng-template #readSchedules>
-    <mat-accordion multi="true">
-      <mat-expansion-panel *ngFor="let schedule of schedules;  index as i">
+    <ng-container *ngIf="schedules.length > 0;else EmptyScheduleList">
+      <mat-accordion multi="true">
+        <mat-expansion-panel *ngFor="let schedule of schedules;  index as i">
 
-        <mat-expansion-panel-header>
-          <mat-panel-title>{{schedule.environment.name}}</mat-panel-title>
-          <mat-panel-description>{{schedule.cronExpression}} / {{schedule.text}}</mat-panel-description>
-          <ng-container *ngIf="done">
-            <mat-panel-description>{{totalDestinations[i] ? totalDestinations[i] : 'No'}} destination(s)
-            </mat-panel-description>
-          </ng-container>
-        </mat-expansion-panel-header>
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{schedule.environment.name}}</mat-panel-title>
+            <mat-panel-description>{{schedule.cronExpression}} / {{schedule.text}}</mat-panel-description>
+            <ng-container *ngIf="done">
+              <mat-panel-description>{{totalDestinations[i] ? totalDestinations[i] : 'No'}} destination(s)
+              </mat-panel-description>
+            </ng-container>
+          </mat-expansion-panel-header>
 
-        <app-view-destinations [destinations]="schedule.destinations" (nbDestinations)="totalDestinations[i] = $event">
-        </app-view-destinations>
+          <app-view-destinations [destinations]="schedule.destinations"
+            (nbDestinations)="totalDestinations[i] = $event">
+          </app-view-destinations>
 
-      </mat-expansion-panel>
-    </mat-accordion>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-container>
+    <ng-template #EmptyScheduleList>
+      <h1>No schedule configured</h1>
+    </ng-template>
   </ng-template>
 
   <ng-template #editableSchedules [formGroup]="schedulesForm">

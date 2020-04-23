@@ -1,87 +1,93 @@
 <mat-card [class.mat-elevation-z]="editable">
-    <ng-container *ngIf="editable; then editableInputArgs; else readInputArgs"></ng-container>
-    <ng-template #readInputArgs>
-        <mat-card-header>
-            <mat-card-title>
-                <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
-                    matTooltipPosition="after">hints
-                    <mat-icon>info</mat-icon>
-                </button>
-            </mat-card-title>
-        </mat-card-header>
-        <div *ngFor="let argument of arguments;  index as i" class="formContainer">
-            <strong class="lineIndex">{{argument.order}}.</strong>&nbsp;
-            <app-input-copy-click [value]="argument.key" class="formInput"></app-input-copy-click>
-            &nbsp; = &nbsp;
-            <app-input-copy-click [value]="argument.value" [label]="argument.type" class="formInput">
-            </app-input-copy-click>
-        </div>
+  <ng-container *ngIf="editable; then editableInputArgs; else readInputArgs"></ng-container>
+  <ng-template #readInputArgs>
+    <ng-container *ngIf="arguments.length > 0;else EmptyArgumentList">
+      <mat-card-header>
+        <mat-card-title>
+          <button mat-button matTooltip="Click on a field to copy it's value to the clipboard."
+            matTooltipPosition="after">hints
+            <mat-icon>info</mat-icon>
+          </button>
+        </mat-card-title>
+      </mat-card-header>
+      <div *ngFor="let argument of arguments;  index as i" class="formContainer">
+        <strong class="lineIndex">{{argument.order}}.</strong>&nbsp;
+        <app-input-copy-click [value]="argument.key" class="formInput"></app-input-copy-click>
+        &nbsp; = &nbsp;
+        <app-input-copy-click [value]="argument.value" [label]="argument.type" class="formInput">
+        </app-input-copy-click>
+      </div>
+    </ng-container>
+    <ng-template #EmptyArgumentList>
+      <h1>No argument configured</h1>
     </ng-template>
-    <ng-template #editableInputArgs [formGroup]="argumentsForm">
-        <div cdkDropList formArrayName="arguments" class="argList" (cdkDropListDropped)="dropArgument($event)">
-            <div cdkDrag [formGroupName]="i" *ngFor="let argument of argumentControles.controls ;  index as i"
-                class="formContainer">
-                <span>
-                    <mat-icon class="leftButton dragButton" cdkDragHandle>unfold_more</mat-icon>
-                </span>
-                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-                <mat-form-field appearance="outline" class="formInput">
-                    <mat-label>name</mat-label>
-                    <input matInput formControlName="key" (change)="notifyChanges()" required />
-                    <mat-error>An argument must have a valid name.</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="fill" class="formInputSmall">
-                    <mat-label>value type</mat-label>
-                    <mat-select formControlName="type" required (selectionChange)="notifyChanges()" [compareWith]="areSameArgType">
-                        <ng-container *ngFor="let type of argumentTypes | keyvalue">
-                            <mat-option [value]="type.value">{{type.value}}</mat-option>
-                        </ng-container>
-                    </mat-select>
-                    <mat-error>An argument must have a valid type.</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="formInput">
-                    <mat-label>value</mat-label>
-                    <input matInput [type]=" argument.value.type === 'Number' ? 'number' : 'text'" formControlName="value" (change)="notifyChanges()"
-                        required />
-                    <mat-error>An argument must have a valid value.</mat-error>
-                </mat-form-field>
-                <span>
-                    <button [tabindex]="10000+i" class="action_button" (click)="removeArgument(i)" mat-icon-button
-                        color="warn" title="delete the argument">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </span>
-            </div>
-        </div>
-        <div class="formContainer" formArrayName="addArgument">
-            <span>
-                <mat-icon class="leftButton" matTooltipPosition="above"
-                    matTooltip="Press [ENTER] to add the new input argument">info</mat-icon>
-            </span>
-            <mat-form-field appearance="outline" class="formInput" required>
-                <mat-label>name</mat-label>
-                <input matInput formControlName="key" (change)="notifyChanges()" (keyup.Enter)="addArgument()" />
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="formInputSmall">
-                <mat-label>value type</mat-label>
-                <mat-select formControlName="type" required [compareWith]="areSameArgType">
-                    <ng-container *ngFor="let type of argumentTypes | keyvalue">
-                        <mat-option [value]="type.value">{{type.value}}</mat-option>
-                    </ng-container>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="formInput">
-                <mat-label>value</mat-label>
-                <input matInput formControlName="value" [type]=" addArgumentControl.value.type === 'Number' ? 'number' : 'text'"
-                    (keyup.Enter)="addArgument()" />
-            </mat-form-field>
-            <span>
-                <button [tabindex]="10000" class="action_button" (click)="addArgument()" mat-icon-button color="primary"
-                    title="add a new argument">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </span>
-        </div>
+  </ng-template>
+  <ng-template #editableInputArgs [formGroup]="argumentsForm">
+    <div cdkDropList formArrayName="arguments" class="argList" (cdkDropListDropped)="dropArgument($event)">
+      <div cdkDrag [formGroupName]="i" *ngFor="let argument of argumentControles.controls ;  index as i"
+        class="formContainer">
+        <span>
+          <mat-icon class="leftButton dragButton" cdkDragHandle>unfold_more</mat-icon>
+        </span>
+        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+        <mat-form-field appearance="outline" class="formInput">
+          <mat-label>name</mat-label>
+          <input matInput formControlName="key" (change)="notifyChanges()" required />
+          <mat-error>An argument must have a valid name.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="formInputSmall">
+          <mat-label>value type</mat-label>
+          <mat-select formControlName="type" required (selectionChange)="notifyChanges()"
+            [compareWith]="areSameArgType">
+            <ng-container *ngFor="let type of argumentTypes | keyvalue">
+              <mat-option [value]="type.value">{{type.value}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error>An argument must have a valid type.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="formInput">
+          <mat-label>value</mat-label>
+          <input matInput [type]=" argument.value.type === 'Number' ? 'number' : 'text'" formControlName="value"
+            (change)="notifyChanges()" required />
+          <mat-error>An argument must have a valid value.</mat-error>
+        </mat-form-field>
+        <span>
+          <button [tabindex]="10000+i" class="action_button" (click)="removeArgument(i)" mat-icon-button color="warn"
+            title="delete the argument">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="formContainer" formArrayName="addArgument">
+      <span>
+        <mat-icon class="leftButton" matTooltipPosition="above"
+          matTooltip="Press [ENTER] to add the new input argument">info</mat-icon>
+      </span>
+      <mat-form-field appearance="outline" class="formInput" required>
+        <mat-label>name</mat-label>
+        <input matInput formControlName="key" (change)="notifyChanges()" (keyup.Enter)="addArgument()" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="formInputSmall">
+        <mat-label>value type</mat-label>
+        <mat-select formControlName="type" required [compareWith]="areSameArgType">
+          <ng-container *ngFor="let type of argumentTypes | keyvalue">
+            <mat-option [value]="type.value">{{type.value}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="formInput">
+        <mat-label>value</mat-label>
+        <input matInput formControlName="value" [type]=" addArgumentControl.value.type === 'Number' ? 'number' : 'text'"
+          (keyup.Enter)="addArgument()" />
+      </mat-form-field>
+      <span>
+        <button [tabindex]="10000" class="action_button" (click)="addArgument()" mat-icon-button color="primary"
+          title="add a new argument">
+          <mat-icon>add</mat-icon>
+        </button>
+      </span>
+    </div>
 
-    </ng-template>
+  </ng-template>
 </mat-card>
