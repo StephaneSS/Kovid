@@ -1,13 +1,17 @@
 <mat-card [class.mat-elevation-z]="editable">
   <ng-container *ngIf="!editable">
-    <div *ngFor="let postProcess of postProcesses ;  index as i" class="formContainer">
-      <ng-template [cdkPortalOutlet]="postProcess.type_full" (attached)="initPortal(i, $event)"></ng-template>
-    </div>
+    <ng-container *ngIf="postProcesses.length > 0;else EmptyPostProcessList">
+      <div *ngFor="let postProcess of postProcesses ;  index as i" class="formContainer">
+        <ng-template [cdkPortalOutlet]="postProcess.type_full" (attached)="initPortal(i, $event)"></ng-template>
+      </div>
+    </ng-container>
+    <ng-template #EmptyPostProcessList>
+      <h1>No post-process configured</h1>
+    </ng-template>
   </ng-container>
 
   <ng-container *ngIf="editable">
-    <div cdkDropList
-      (cdkDropListDropped)="dropStep($event)">
+    <div cdkDropList (cdkDropListDropped)="dropStep($event)">
       <div cdkDrag *ngFor="let postProcess of postProcesses ;  index as i" class="editableItem">
         <span>
           <mat-icon class="leftButton dragButton" cdkDragHandle>unfold_more</mat-icon>

@@ -32,7 +32,7 @@
     </ng-template>
 
     <mat-step label="Input arguments" completed="false"
-      [state]="reportForms.controls.argumentsvalid ? 'input' : 'error' " errorMessage="Some input arguments are wrong">
+      [state]="reportForms.controls.arguments.valid ? 'input' : 'error' " errorMessage="Some input arguments are wrong">
       <app-view-input-args editable="true" (argumentsChanged)="valueChanged('arguments',$event)"
         [arguments]="report.arguments"></app-view-input-args>
       <div>

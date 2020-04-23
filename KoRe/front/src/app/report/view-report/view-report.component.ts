@@ -2,6 +2,9 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogEditReportComponent } from '../dialog-edit-report/dialog-edit-report.component';
 import { Report, InputArg } from './../../custom-classes';
+import { ConfirmeDialogComponent } from 'src/app/common/confirme-dialog/confirme-dialog.component';
+import { ReportService } from 'src/app/services/report/report.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-report',
@@ -12,7 +15,10 @@ export class ViewReportComponent implements OnInit {
 
   @Input() report: Report;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private reportService: ReportService,
+    private dialog: MatDialog,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -26,12 +32,45 @@ export class ViewReportComponent implements OnInit {
   }
 
   openEditDialog(): void {
-    this.dialog.open( DialogEditReportComponent, {
+    const dialogRef = this.dialog.open(DialogEditReportComponent, {
       width: '90%',
       disableClose: true,
       data: this.report
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.report = result;
+      }
+    });
   }
+
+  openConfirmDeleteDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmeDialogComponent, {
+      data: {
+        title: 'Delete report ?',
+        text: 'Are you sure you whant to delete the report ?'
+      },
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.reportService.deleteReport(this.report.id).subscribe(
+          (report) => {
+            this._snackBar.open("report successfully deleted", "close", {
+              duration: 2000
+            });
+          },
+          () => this._snackBar.open("Cannot delete the report the report", "close", {
+            duration: 2000
+          })
+        )
+      }
+    });
+  }
+
+
 
 }
 

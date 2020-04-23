@@ -47,6 +47,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { PortalModule } from '@angular/cdk/portal';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ConfirmeDialogComponent } from './common/confirme-dialog/confirme-dialog.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     OutputExecutionDialog,
     ViewPostprocessComponent,
     CustomScriptComponent,
-    OutputPostProcessDialog
+    OutputPostProcessDialog,
+    ConfirmeDialogComponent
   ],
   imports: [
     MomentModule,
