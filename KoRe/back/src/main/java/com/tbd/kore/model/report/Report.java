@@ -31,7 +31,8 @@ public class Report implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinTable(name = "report_arguments")
     private List<Argument> arguments = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -58,6 +59,10 @@ public class Report implements Serializable {
 
     public List<Argument> getArguments() {
         return arguments;
+    }
+
+    public List<PostProcess> getPostProcesses() {
+        return postProcesses;
     }
 
     public List<ExecutionLog> getExecutionLogs() {

@@ -1,6 +1,7 @@
 package com.tbd.kore.controller;
 
 import com.tbd.kore.model.report.Report;
+import com.tbd.kore.model.report.ReportSimple;
 import com.tbd.kore.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/report")
@@ -18,11 +21,20 @@ public class ReportController {
     @Autowired
     private ReportRepository reportRepository;
 
+    @GetMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReportSimple>> getAllReports() {
+        List<ReportSimple> reports = reportRepository.findAll()
+                .stream()
+                .map(ReportSimple::new)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(reports, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Report> addReport(@RequestBody Report report) {
         report.setId(null);
         report.setExecutionLogs(new ArrayList<>());
-        return new ResponseEntity<>(reportRepository.save(report), HttpStatus.OK);
+        return new ResponseEntity<>(reportRepository.save(report), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
