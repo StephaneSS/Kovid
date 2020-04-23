@@ -26,12 +26,20 @@ export class ViewReportComponent implements OnInit {
   }
 
   openEditDialog(): void {
-    this.dialog.open( DialogEditReportComponent, {
+    const dialogRef = this.dialog.open( DialogEditReportComponent, {
       width: '90%',
       disableClose: true,
       data: this.report
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.report = result;
+      }
+    });
   }
+
+
 
 }
 

@@ -8,34 +8,32 @@
         <mat-expansion-panel-header>
           <mat-panel-title>{{schedule.environment.name}}</mat-panel-title>
           <mat-panel-description>{{schedule.cronExpression}} / {{schedule.text}}</mat-panel-description>
-          <mat-panel-description *ngIf="totalDestinations[i]">{{totalDestinations[i]}} destination(s)</mat-panel-description>
-          <mat-panel-description *ngIf="!totalDestinations[i]">No destination</mat-panel-description>
+          <ng-container *ngIf="done">
+            <mat-panel-description>{{totalDestinations[i] ? totalDestinations[i] : 'No'}} destination(s)
+            </mat-panel-description>
+          </ng-container>
         </mat-expansion-panel-header>
 
-        <app-view-destinations [destinations]="schedule.destinations" (nbDestinations)="totalDestinations[i] = $event"></app-view-destinations>
+        <app-view-destinations [destinations]="schedule.destinations" (nbDestinations)="totalDestinations[i] = $event">
+        </app-view-destinations>
 
       </mat-expansion-panel>
     </mat-accordion>
   </ng-template>
 
   <ng-template #editableSchedules [formGroup]="schedulesForm">
-    <div class="formContainer">
-      <span>
-        <button class="add_button" (click)="addSchedule()" mat-raised-button color="primary"
-          title="add a new schedule">
-          <mat-icon>add</mat-icon>
-          Add a new schedule
-        </button>
-      </span>
-    </div>
     <ng-container formArrayName="schedules">
       <mat-accordion>
         <mat-expansion-panel [formGroupName]="i" *ngFor="let schedule of scheduleControles.controls ;  index as i">
           <mat-expansion-panel-header>
-            <mat-panel-title><span *ngIf="editable && schedule.invalid"><mat-icon color="warn">warning</mat-icon>&nbsp; </span>{{schedule.value.environment.name}}</mat-panel-title>
+            <mat-panel-title><span *ngIf="editable && schedule.invalid">
+                <mat-icon color="warn">warning</mat-icon>&nbsp;
+              </span>{{schedule.value.environment.name}}</mat-panel-title>
             <mat-panel-description>{{schedule.value.cronExpression}} / {{schedule.value.text}}</mat-panel-description>
-            <mat-panel-description *ngIf="totalDestinations[i]">{{totalDestinations[i]}} destination(s)</mat-panel-description>
-            <mat-panel-description *ngIf="!totalDestinations[i]">No destination</mat-panel-description>
+            <ng-container *ngIf="done">
+              <mat-panel-description>{{totalDestinations[i] ? totalDestinations[i] : 'No'}} destination(s)
+              </mat-panel-description>
+            </ng-container>
           </mat-expansion-panel-header>
 
           <div class="formContainer">
@@ -57,7 +55,8 @@
 
               <mat-error *ngIf="schedule.hasError('pattern', 'cronExpression' )">
                 Wrong format <strong>minute hour day
-                  month week</strong>. Look at <a target="blank" href="https://en.wikipedia.org/wiki/Cron#CRON_expression">this
+                  month week</strong>. Look at <a target="blank"
+                  href="https://en.wikipedia.org/wiki/Cron#CRON_expression">this
                   documentation</a> for more details.</mat-error>
               <mat-error *ngIf="schedule.hasError('required', 'cronExpression' )">
                 This field cannot be empty
@@ -72,13 +71,21 @@
             </span>
 
           </div>
-          <app-view-destinations editable="true" class="formInput"
-            (destinationsChanged)="destinationsValueChanged(i,$event)"
-            (nbDestinations)="totalDestinations[i] = $event"
-            [destinations]="schedule.value.destinations" ></app-view-destinations>
+          <app-view-destinations editable="true" class="formInput" (nbDestinations)="totalDestinations[i] = $event"
+            (destinationsChanged)="destinationsValueChanged(i,$event)" [destinations]="schedule.value.destinations">
+          </app-view-destinations>
 
         </mat-expansion-panel>
       </mat-accordion>
+      <div class="formContainer">
+        <span>
+          <button class="add_button" (click)="addSchedule()" mat-raised-button color="primary"
+            title="add a new schedule">
+            <mat-icon>add</mat-icon>
+            Add a new schedule
+          </button>
+        </span>
+      </div>
     </ng-container>
   </ng-template>
 </mat-card>

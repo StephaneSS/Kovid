@@ -22,6 +22,7 @@ export class ViewSchedulesComponent implements OnInit {
   });
   environments: Environment[] = [];
   totalDestinations: number[] = [];
+  done = false;
 
   get scheduleControles(): FormArray {
     return this.schedulesForm.get("schedules") as FormArray;
@@ -35,6 +36,8 @@ export class ViewSchedulesComponent implements OnInit {
     this.environmentService.getEnvironments().subscribe(
       envs => this.environments = envs
     );
+    this.totalDestinations = new Array(this.schedules.length);
+    setTimeout(() => this.done = true );
   }
 
   initScheduleFormControl() {
@@ -63,7 +66,7 @@ export class ViewSchedulesComponent implements OnInit {
   addSchedule(): void {
     let control = <FormArray>this.schedulesForm.controls.schedules;
 
-    control.insert(0, this.createScheduleFormControl({
+    control.push(this.createScheduleFormControl({
       cronExpression: '',
       text: 'Enter a cron expression',
       environment: this.environments[0],
