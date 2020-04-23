@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DestinationProtocole, Server, Destinations } from '../../custom-classes';
+import { DestinationProtocole, Destinations } from '../../custom-classes';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
-import { FormGroup, FormBuilder, FormArray, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-view-destinations',
@@ -19,11 +19,7 @@ export class ViewDestinationsComponent implements OnInit {
 
   destinationsForm = new FormGroup({});
 
-  constructor(
-    private _snackBar: MatSnackBar,
-    private clipboardService: ClipboardService,
-    private readonly formBuilder: FormBuilder
-  ) { }
+  constructor() { }
 
   get totalDestination(): number {
     return this.protocols().reduce((agg, protocol) => agg + this.getNbDestinationForPotocol(protocol), 0);

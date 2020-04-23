@@ -17,7 +17,7 @@
                 <mat-icon color="primary">edit</mat-icon>
                 edit report
             </button>
-            <button mat-menu-item disabled="true">
+            <button mat-menu-item disabled="false" (click)="openConfirmDeleteDialog()">
                 <mat-icon color="warn">delete</mat-icon>delete report
             </button>
         </mat-menu>

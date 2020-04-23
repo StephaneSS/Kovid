@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, Output} from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Component, OnInit, Inject, Output } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Report } from '../../custom-classes';
 import { FormGroup } from '@angular/forms';
 import * as cloneDeep from 'lodash/cloneDeep'
@@ -19,11 +19,13 @@ export class DialogEditReportComponent implements OnInit {
 
   reportForm: FormGroup;
 
+  saveInProgress: boolean = false;
+
   constructor(
     private reportService: ReportService,
     public dialogRef: MatDialogRef<DialogEditReportComponent>,
     private _snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: Report) {}
+    @Inject(MAT_DIALOG_DATA) public data: Report) { }
 
   ngOnInit(): void {
     this.src_report = this.data;
@@ -33,21 +35,26 @@ export class DialogEditReportComponent implements OnInit {
 
   saveReport() {
     let report: Observable<Report>;
-    if(this.src_report.id) {
+    if (this.src_report.id) {
       report = this.reportService.updateReport(this.src_report.id, this.reportForm.value);
     } else {
       report = this.reportService.addReport(this.reportForm.value);
     }
+    this.saveInProgress = true;
     report.subscribe(
       (report) => {
         this._snackBar.open("report successfully updated", "close", {
           duration: 2000
         });
         this.dialogRef.close(report);
+        this.saveInProgress = false;
       },
-      () =>  this._snackBar.open("An error occured while updating the report", "close", {
+      () => {
+        this._snackBar.open("An error occured while updating the report", "close", {
           duration: 2000
-        })
+        });
+        this.saveInProgress = false;
+      }
     );
   }
 
