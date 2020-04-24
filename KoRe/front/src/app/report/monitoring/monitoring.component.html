@@ -1,0 +1,99 @@
+<mat-sidenav-container class="example-container" autosize>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>Report list</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-card>
+      <mat-form-field class="width100">
+        <mat-label>Filter reports</mat-label>
+        <input matInput (keyup)="applyFilter($event)" [(ngModel)]="filter" placeholder="report name">
+        <button mat-button *ngIf="filter" matSuffix mat-icon-button aria-label="Clear" (click)="filter=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <p class="card-report-list-header">
+        <button mat-stroked-button (click)="getReportList()">
+          <mat-icon color="primary">refresh</mat-icon> refresh list
+        </button>
+        <span class="spacer "></span>
+        <button mat-stroked-button (click)="openNewReportDialog()">
+          <mat-icon color="accent">add</mat-icon> Create new Report
+        </button>
+      </p>
+      <div class="centerLoading" *ngIf="isFetchingList">
+        <h1>Loading report list ...</h1>
+        <mat-spinner class="spinner"></mat-spinner>
+      </div>
+      <div class="centerLoading" *ngIf="isErrorFetchingReportList && !isFetchingList">
+        <h1>Cannot load the report list.</h1>
+      </div>
+      <div *ngIf="!isErrorFetchingReportList && !isFetchingList && reports.length == 0">
+        <h1>No report found.</h1>
+      </div>
+      <ng-container *ngIf="!isErrorFetchingReportList && !isFetchingList && reports.length > 0">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Report Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- startDate Column -->
+          <ng-container matColumnDef="lastExecDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Execution </th>
+            <td mat-cell *matCellDef="let element">never</td>
+          </ng-container>
+
+          <!-- endDate Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-icon *ngIf="element.status==='KO'" color="warn">close</mat-icon>
+              <mat-icon *ngIf="element.status==='OK'" color="primary">done</mat-icon>
+              <span *ngIf="element.status!=='OK' && element.status!=='KO'" color="primary">-</span>
+            </td>
+          </ng-container>
+
+          <!-- Duration Column -->
+          <ng-container matColumnDef="env">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Environment </th>
+            <td mat-cell *matCellDef="let element"> - </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+            (click)="selectReport(row.id); drawer.open()"></tr>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </table>
+      </ng-container>
+    </mat-card>
+  </mat-sidenav-content>
+  <mat-sidenav #drawer opened="false" autoFocus="false" position="end" mode="over" class="example-sidenav"
+    disableClose="true">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <button mat-icon-button (click)="drawer.close()" color="accent">
+          <mat-icon>menu_open</mat-icon>
+        </button>
+        &nbsp;
+        <span>View report</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div>
+      <div class="centerLoading" *ngIf="!isErrorFetchingReport && report === null">
+        <h1>Loading Report ...</h1>
+        <mat-spinner class="spinner"></mat-spinner>
+      </div>
+      <ng-container *ngIf="!isErrorFetchingReport && report !== null">
+        <app-view-report [report]="report"></app-view-report>
+      </ng-container>
+      <div class="centerLoading" *ngIf="isErrorFetchingReport">
+        <h1>Cannot load the report.</h1>
+      </div>
+    </div>
+
+  </mat-sidenav>
+
+</mat-sidenav-container>

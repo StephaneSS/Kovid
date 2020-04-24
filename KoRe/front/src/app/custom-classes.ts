@@ -126,3 +126,15 @@ export interface Report {
   executionLogs: Executions[];
 }
 
+export interface ReportSimple {
+  id?: number;
+  name: string;
+  description: string;
+  output?: ReportOutput;
+  //opr: File;
+  arguments: number[];
+  schedules: number[];
+  postProcesses: number[];
+  //destinations: Destinations;
+  executionLogs: Executions[];
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { REPORT2 } from './report/mock-report'
 import { ReportService } from './services/report/report.service';
+import { REPORTS } from './report/mock-monitoring'
 import { DialogEditReportComponent } from './report/dialog-edit-report/dialog-edit-report.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -11,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AppComponent implements OnInit{
   title = 'KoRe';
+  
 
   constructor(
     private reportService: ReportService,
@@ -21,7 +23,7 @@ export class AppComponent implements OnInit{
   }
   isError = false;
   report = null;
-
+ 
   selectReport(id: number): void {
     this.isError = false;
     this.reportService.getReport(id).subscribe(
@@ -51,5 +53,4 @@ export class AppComponent implements OnInit{
       }
     });
   }
-
 }
