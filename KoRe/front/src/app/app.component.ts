@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { REPORT2 } from './report/mock-report'
 import { ReportService } from './services/report/report.service';
+import { DialogEditReportComponent } from './report/dialog-edit-report/dialog-edit-report.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +12,12 @@ import { ReportService } from './services/report/report.service';
 export class AppComponent implements OnInit{
   title = 'KoRe';
 
-  constructor(private reportService: ReportService){}
+  constructor(
+    private reportService: ReportService,
+    private dialog: MatDialog,){}
 
   ngOnInit(): void {
-    this.selectReport(9);
+    this.selectReport(1);
   }
   isError = false;
   report = null;
@@ -26,5 +30,26 @@ export class AppComponent implements OnInit{
     );
   }
 
+  openNewReportDialog(): void {
+    const dialogRef = this.dialog.open(DialogEditReportComponent, {
+      width: '90%',
+      disableClose: true,
+      data: {
+        name: '',
+        description: '',
+        arguments: [],
+        schedules: [],
+        postProcesses: [],
+        executionLogs: []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        //todo
+        console.log(result);
+      }
+    });
+  }
 
 }

@@ -1,3 +1,6 @@
+<button mat-stroked-button (click)="openNewReportDialog()">
+  Create new Report
+</button>
 <div class="centerLoading" *ngIf="!isError && report === null">
   <h1>Loading Report ...</h1>
   <mat-spinner class="spinner" ></mat-spinner>
