@@ -29,10 +29,10 @@
       <div class="centerLoading" *ngIf="isErrorFetchingReportList && !isFetchingList">
         <h1>Cannot load the report list.</h1>
       </div>
-      <div *ngIf="!isErrorFetchingReportList && !isFetchingList && reports.length == 0">
+      <div *ngIf="!isErrorFetchingReportList && !isFetchingList && dataSource.data.length == 0">
         <h1>No report found.</h1>
       </div>
-      <ng-container *ngIf="!isErrorFetchingReportList && !isFetchingList && reports.length > 0">
+      <ng-container *ngIf="!isErrorFetchingReportList && !isFetchingList && dataSource.data.length > 0">
         <table mat-table [dataSource]="dataSource" matSort>
           <!-- name Column -->
           <ng-container matColumnDef="name">
