@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Output } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Report } from '../../custom-classes';
 import { FormGroup } from '@angular/forms';
@@ -17,10 +17,10 @@ export class DialogEditReportComponent implements OnInit {
   src_report: Report;
   edited_report: Report;
 
-  reportForm: FormGroup;
+  reportFormEvent: EventEmitter<FormGroup> = new EventEmitter<FormGroup>(true);
+  reportForm: FormGroup = new FormGroup({});
 
   saveInProgress: boolean = false;
-  done: boolean = false;
 
   constructor(
     private reportService: ReportService,
@@ -31,9 +31,9 @@ export class DialogEditReportComponent implements OnInit {
   ngOnInit(): void {
     this.src_report = this.data;
     this.edited_report = cloneDeep(this.src_report);
-    this.reportForm = new FormGroup({});
-    setTimeout(() => this.done = true);
+    this.reportFormEvent.subscribe((report) => this.reportForm = report);
   }
+
 
   saveReport() {
     let report: Observable<Report>;

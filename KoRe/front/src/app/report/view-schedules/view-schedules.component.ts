@@ -21,8 +21,7 @@ export class ViewSchedulesComponent implements OnInit {
     'schedules': new FormArray([])
   });
   environments: Environment[] = [];
-  totalDestinations: number[] = [];
-  done = false;
+  totalDestinations: EventEmitter<number>[] =  [];
 
   get scheduleControles(): FormArray {
     return this.schedulesForm.get("schedules") as FormArray;
@@ -36,8 +35,7 @@ export class ViewSchedulesComponent implements OnInit {
     this.environmentService.getEnvironments().subscribe(
       envs => this.environments = envs
     );
-    this.totalDestinations = new Array(this.schedules.length);
-    setTimeout(() => this.done = true );
+    this.totalDestinations = Array.from({length: this.schedules.length}, i => new EventEmitter<number>(true));
   }
 
   initScheduleFormControl() {
