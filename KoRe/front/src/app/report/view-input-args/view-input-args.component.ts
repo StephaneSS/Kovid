@@ -19,7 +19,7 @@ export class ViewInputArgsComponent implements OnInit {
     'addArgument': this.createArgumentFormControl({
       key: '',
       order: 0,
-      type: ArgType.STRING,
+      type: ArgType.TEXT,
       value: ''
     }, false),
     'arguments': new FormArray([])

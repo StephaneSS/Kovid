@@ -1,6 +1,5 @@
 export enum ArgType {
-  STRING = "STRING",
-  NUMBER = "NUMBER",
+  TEXT = "TEXT",
   DYNAMIC_DATE = "DYNAMIC_DATE"
 }
 

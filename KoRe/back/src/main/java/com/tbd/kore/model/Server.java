@@ -21,6 +21,9 @@ public class Server implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "protocol", nullable = false)
+    private String protocol;
+
     @Column(name = "name", nullable = false)
     private String name;
 
