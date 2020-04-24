@@ -17,7 +17,6 @@
 
   <mat-horizontal-stepper>
 
-
     <ng-template matStepperIcon="input">
       <mat-icon>input</mat-icon>
     </ng-template>
@@ -31,13 +30,23 @@
       <mat-icon>send</mat-icon>
     </ng-template>
 
+    <ng-template #BtnBackNext let-last="last" let-first="first">
+      <div class="bottomBtns">
+        <span>
+          <button mat-stroked-button matStepperPrevious *ngIf="!first"><mat-icon color="accent">arrow_back</mat-icon> Back</button>
+        </span>
+        <span class="spacer"></span>
+        <span>
+          <button mat-stroked-button matStepperNext *ngIf="!last">Next <mat-icon color="accent">arrow_forward</mat-icon></button>
+        </span>
+      </div>
+    </ng-template>
+
     <mat-step label="Input arguments" completed="false"
       [state]="reportForms.controls.arguments.valid ? 'input' : 'error' " errorMessage="Some input arguments are wrong">
       <app-view-input-args editable="true" (argumentsChanged)="valueChanged('arguments',$event)"
         [arguments]="report.arguments"></app-view-input-args>
-      <div>
-        <button mat-button matStepperNext>Next</button>
-      </div>
+      <ng-container *ngTemplateOutlet="BtnBackNext;context:{first:true}"></ng-container>
     </mat-step>
 
     <mat-step label="Post processes" completed="false"
@@ -45,19 +54,14 @@
       errorMessage="Some post processes are wrong">
       <app-view-postprocess editable="true" (postProcessesChanged)="valueChanged('postProcesses',$event)"
         [postProcesses]="report.postProcesses"></app-view-postprocess>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
+      <ng-container *ngTemplateOutlet="BtnBackNext"></ng-container>
     </mat-step>
 
     <mat-step label="Schedules" completed="false" [state]="reportForms.controls.schedules.valid ? 'event' : 'error' "
       errorMessage="Some schedules are wrong">
       <app-view-schedules editable="true" (schedulesChanged)="valueChanged('schedules',$event)"
         [schedules]="report.schedules"></app-view-schedules>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-      </div>
+      <ng-container *ngTemplateOutlet="BtnBackNext;context:{last:true}"></ng-container>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

@@ -20,6 +20,7 @@ export class DialogEditReportComponent implements OnInit {
   reportForm: FormGroup;
 
   saveInProgress: boolean = false;
+  done: boolean = false;
 
   constructor(
     private reportService: ReportService,
@@ -31,6 +32,7 @@ export class DialogEditReportComponent implements OnInit {
     this.src_report = this.data;
     this.edited_report = cloneDeep(this.src_report);
     this.reportForm = new FormGroup({});
+    setTimeout(() => this.done = true);
   }
 
   saveReport() {

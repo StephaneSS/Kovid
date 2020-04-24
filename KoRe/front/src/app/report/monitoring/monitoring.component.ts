@@ -68,6 +68,21 @@ export class MonitoringComponent implements OnInit {
     );
   }
 
+  deleteReportRow(id: number):void {
+    let data = this.dataSource.data;
+    let index = data.findIndex(row => row.id === id);
+    data.splice(index, 1);
+    this.dataSource.data = data;
+  }
+
+  updateReportRow(report: Report):void {
+    let data = this.dataSource.data;
+    let index = data.findIndex(row => row.id === report.id);
+    data[index] = this.reportService.simplify(report);
+    this.dataSource.data = data;
+  }
+
+
   openNewReportDialog(): void {
     const dialogRef = this.dialog.open(DialogEditReportComponent, {
       width: '90%',
@@ -82,10 +97,10 @@ export class MonitoringComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: Report) => {
       if (result) {
-        //todo
-        console.log(result);
+        let row = this.reportService.simplify(result);
+        this.dataSource.data = this.dataSource.data.concat(row);
       }
     });
   }

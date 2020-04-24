@@ -13,6 +13,15 @@ export class ReportService {
 
   constructor(private http: HttpClient) { }
 
+  simplify(report: Report): ReportSimple {
+    return {
+      ...report,
+      arguments: report.arguments.map(arg => arg.id),
+      postProcesses: report.postProcesses.map(pp => pp.id),
+      schedules: report.schedules.map(schedule => schedule.id)
+    }
+  }
+
   getAllReports(): Observable<ReportSimple[]> {
     return this.http.get<ReportSimple[]>(`${this.endpointURL}/`);
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, EventEmitter, Output } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogEditReportComponent } from '../dialog-edit-report/dialog-edit-report.component';
 import { Report, InputArg } from './../../custom-classes';
@@ -14,6 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ViewReportComponent implements OnInit {
 
   @Input() report: Report;
+  @Output() reportChanged: EventEmitter<Report> = new EventEmitter<Report>();
+  @Output() deletePerfomed: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(
     private reportService: ReportService,
@@ -41,6 +43,7 @@ export class ViewReportComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.report = result;
+        this.reportChanged.emit(this.report);
       }
     });
   }
@@ -61,6 +64,7 @@ export class ViewReportComponent implements OnInit {
             this._snackBar.open("report successfully deleted", "close", {
               duration: 2000
             });
+            this.deletePerfomed.emit(this.report.id);
           },
           () => this._snackBar.open("Cannot delete the report the report", "close", {
             duration: 2000
