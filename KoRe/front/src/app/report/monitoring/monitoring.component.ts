@@ -14,7 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class MonitoringComponent implements OnInit {
 
-  reports: ReportSimple[] = [];
   report: Report = null;
   filter: string = '';
   isErrorFetchingReportList: boolean = false;
@@ -23,7 +22,7 @@ export class MonitoringComponent implements OnInit {
   displayedColumns: string[] = ['name', 'lastExecDate', 'status', 'env'];
 
 
-  dataSource = new MatTableDataSource<ReportSimple>(this.reports);
+  dataSource = new MatTableDataSource<ReportSimple>([]);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -41,6 +40,7 @@ export class MonitoringComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    console.log(this.dataSource.data);
   }
 
   getReportList(): void {
@@ -48,8 +48,7 @@ export class MonitoringComponent implements OnInit {
     this.isErrorFetchingReportList = false;
     this.reportService.getAllReports().subscribe(
       (reports) => {
-        this.reports = reports;
-        this.dataSource.data = this.reports;
+        this.dataSource.data = reports;
         this.isFetchingList = false;
       },
       () => {
