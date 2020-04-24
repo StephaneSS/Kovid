@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DestinationProtocole, Server, Destinations } from '../../custom-classes';
-import { SERVERS } from '../../report/mock-server';
 import { ServerService } from '../server/server.service';
 
 @Injectable({

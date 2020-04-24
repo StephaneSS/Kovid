@@ -1,13 +1,18 @@
 <h1 mat-dialog-title>{{edited_report.id ? 'Edit':'Create new'}} report</h1>
+
 <div mat-dialog-content>
-    <app-edit-report (reportChanged)="reportForm = $event" [report]="edited_report"></app-edit-report>
+  <app-edit-report (reportChanged)="reportForm = $event" [report]="edited_report"></app-edit-report>
 </div>
-<div mat-dialog-actions>
-    <button mat-stroked-button color="primary" [disabled]="saveInProgress || reportForm.invalid" (click)="saveReport()">
-        <mat-icon *ngIf="saveInProgress">hourglass_empty</mat-icon><mat-icon *ngIf="!saveInProgress">save</mat-icon> Save
+<ng-container *ngIf="done">
+  <div mat-dialog-actions>
+    <button mat-stroked-button color="primary" [disabled]="saveInProgress || reportForm?.invalid"
+      (click)="saveReport()">
+      <mat-icon *ngIf="saveInProgress">hourglass_empty</mat-icon>
+      <mat-icon *ngIf="!saveInProgress">save</mat-icon> Save
     </button>
     <span class="spacer"></span>
     <button mat-stroked-button mat-dialog-close color="warn">
-        <mat-icon>close</mat-icon> Cancel
+      <mat-icon>close</mat-icon> Cancel
     </button>
-</div>
+  </div>
+</ng-container>

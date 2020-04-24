@@ -21,6 +21,7 @@ export interface Schedule {
 }
 
 export interface PostProcess<T extends PostProc> {
+  id?: number;
   order: number;
   type: string;
   data: T;
@@ -106,6 +107,7 @@ export interface ReportOutput {
 }
 
 export interface Executions {
+  id?: number
   order: number;
   name: string;
   startDate: Date;
