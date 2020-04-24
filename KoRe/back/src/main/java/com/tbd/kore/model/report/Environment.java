@@ -16,6 +16,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "environment")
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -26,11 +27,11 @@ public class Environment implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "type", nullable = false)
-    private EnvironmentType type;
-
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private EnvironmentType type;
 
 }

@@ -1,6 +1,6 @@
 package com.tbd.kore.controller;
 
-import com.tbd.kore.model.Server;
+import com.tbd.kore.model.ServerConnexion;
 import com.tbd.kore.repository.ServerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class ServerController {
     private ServerRepository serverRepository;
 
     @GetMapping("/")
-    public ResponseEntity<List<Server>> getAllServers() {
+    public ResponseEntity<List<ServerConnexion>> getAllServers() {
         return new ResponseEntity<>(serverRepository.findAll(), HttpStatus.OK);
     }
 

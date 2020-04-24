@@ -14,31 +14,30 @@ import java.io.Serializable;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Server implements Serializable {
+public class ServerConnexion implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "protocol", nullable = false)
     private String protocol;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "username")
+    private String username;
+
+    @JsonIgnore
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "host", nullable = false)
     private String host;
 
-    @Column(name = "username", nullable = false)
-    private String username;
-
-    @JsonIgnore
-    @Column(name = "password", nullable = false)
-    private String password;
-
     @Column(name = "port")
     private String port;
-
 
 }
