@@ -36,58 +36,56 @@ export class CustomScript implements PostProc {
   name: string = '';
 }
 
-export enum DestinationProtocole {
-  SMTP = "smtp",
-  FTP = "ftp",
-  SFTP = "sftp",
-  FOLDER = "folder"
-}
-
 export interface Environment {
   id: number;
-  type: string,
   name: string;
+  type: string,
 }
 
 export interface Server {
-  //protocol: DestinationProtocole;
+  id?: number;
   name: string;
+  protocol: string;
   username?: string;
+  password?: string;
   host: string;
   port?: number;
-  password?: string;
+}
+
+
+export enum DestinationType {
+  EMAIL = "email",
+  DIRECTORY = "directory"
 }
 
 export interface Destinations {
   id?: number;
-  [DestinationProtocole.SMTP]: DestinationSMTP[];
-  [DestinationProtocole.FTP]: DestinationFTP[];
-  [DestinationProtocole.SFTP]: DestinationSFTP[];
-  [DestinationProtocole.FOLDER]: DestinationFOLDER[];
+  [DestinationType.EMAIL]: DestinationEmail[];
+  [DestinationType.DIRECTORY]: DestinationDirectory[];
 }
 
-export interface DestinationSMTP {
+export interface DestinationEmail {
   id?: number;
   active: boolean;
-  emailAddress: string;
+  sendTo: string;
   subject: string;
 }
 
-export interface DestinationFTP {
+export interface DestinationDirectory {
   id?: number;
   active: boolean;
   server: Server;
   path: string;
 }
 
-export interface DestinationSFTP {
+export interface DestinationDirectory {
   id?: number;
   active: boolean;
-  server: Server;
+  serverConnexion: Server;
   path: string;
 }
 
-export interface DestinationFOLDER {
+export interface DestinationDirectory {
   id?: number;
   active: boolean;
   path: string;

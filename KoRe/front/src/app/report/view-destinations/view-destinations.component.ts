@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DestinationProtocole, Destinations } from '../../custom-classes';
+import { DestinationType, Destinations } from '../../custom-classes';
 import { ClipboardService } from '../../services/clipboard/clipboard.service';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
@@ -33,10 +33,10 @@ export class ViewDestinationsComponent implements OnInit {
   }
 
   protocols(): Array<string> {
-    return Object.values(DestinationProtocole);
+    return Object.values(DestinationType);
   }
 
-  destinationChanged(protocol: DestinationProtocole, event: FormGroup) {
+  destinationChanged(protocol: DestinationType, event: FormGroup) {
     this.destinationsForm.removeControl(protocol);
     this.destinationsForm.addControl(protocol, event);
     this.destinationsChanged.emit(this.destinationsForm);

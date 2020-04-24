@@ -10,23 +10,16 @@
               <mat-icon color="warn">warning</mat-icon>&nbsp;
             </span>{{protocol}}</mat-panel-title>
           <mat-panel-description>
-            {{destinations[protocol]?.length  || 'No'}}
-            destination{{destinations[protocol]?.length > 1 ? 's' : ''}} configured with {{protocol}}
+            {{destinations[protocol]?.length  || 'No'}} {{protocol}} configured
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <app-destination-smtp *ngIf="protocol === 'smtp'" [editable]="editable" [destinations]="destinations[protocol]"
+        <app-destination-email *ngIf="protocol === 'email'" [editable]="editable" [destinations]="destinations[protocol]"
           (destinationsChanged)="destinationChanged(protocol, $event)">
-        </app-destination-smtp>
-        <app-destination-ftp *ngIf="protocol === 'ftp'" [editable]="editable" [destinations]="destinations[protocol]"
+        </app-destination-email>
+        <app-destination-directory *ngIf="protocol === 'directory'" [editable]="editable" [destinations]="destinations[protocol]"
           (destinationsChanged)="destinationChanged(protocol, $event)">
-        </app-destination-ftp>
-        <app-destination-sftp *ngIf="protocol === 'sftp'" [editable]="editable" [destinations]="destinations[protocol]"
-          (destinationsChanged)="destinationChanged(protocol, $event)">
-        </app-destination-sftp>
-        <app-destination-folder *ngIf="protocol === 'folder'" [editable]="editable"
-          [destinations]="destinations[protocol]" (destinationsChanged)="destinationChanged(protocol, $event)">
-        </app-destination-folder>
+        </app-destination-directory>
 
       </mat-expansion-panel>
     </ng-container>

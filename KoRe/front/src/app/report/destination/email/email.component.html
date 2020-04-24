@@ -2,7 +2,7 @@
 <ng-template #readOnly>
     <ng-container *ngFor="let destination of destinations">
         <div class="formContainer">
-            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.emailAddress" label="Email address">
+            <app-input-copy-click class="formInput fullLengthInput" [value]="destination.sendTo" label="Email address">
             </app-input-copy-click>
             <app-input-copy-click class="formInput fullLengthInput" [value]="destination.subject" label="subject">
             </app-input-copy-click>
@@ -16,7 +16,7 @@
                 <mat-label>
                     new email address
                 </mat-label>
-                <input matInput formControlName="emailAddress" (keyup.Enter)="addDestination()" />
+                <input matInput formControlName="sendTo" (keyup.Enter)="addDestination()" />
                 <mat-error>Wrong email format</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline" class="formInput fullLengthInput">
@@ -34,17 +34,17 @@
         </div>
     </ng-container>
     <ng-container formArrayName="destinations">
-        <div [formGroupName]="i" *ngFor="let destination of smtp_destinations_control.controls ;  index as i"
+        <div [formGroupName]="i" *ngFor="let destination of email_destinations_control.controls ;  index as i"
             class="formContainer">
             <mat-form-field appearance="outline" class="formInput fullLengthInput">
                 <mat-label>
                     email address
                 </mat-label>
-                <input matInput formControlName="emailAddress" required (change)="notifyChanges()"/>
-                <mat-error *ngIf="destination.hasError('required', 'emailAddress' )">
+                <input matInput formControlName="sendTo" required (change)="notifyChanges()"/>
+                <mat-error *ngIf="destination.hasError('required', 'sendTo' )">
                     This field cannot be empty
                 </mat-error>
-                <mat-error *ngIf="destination.hasError('email', 'emailAddress' )">
+                <mat-error *ngIf="destination.hasError('email', 'sendTo' )">
                     Wrong email format
                 </mat-error>
             </mat-form-field>

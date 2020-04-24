@@ -7,8 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "destination_file_transfer")
+@MappedSuperclass
 
 @Getter
 @Setter
