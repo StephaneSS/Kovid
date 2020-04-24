@@ -22,4 +22,8 @@ public class PostProcess implements Serializable {
 
     // TODO: implement
 
+
+    public Long getId() {
+        return id;
+    }
 }
