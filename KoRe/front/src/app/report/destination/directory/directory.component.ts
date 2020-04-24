@@ -2,22 +2,26 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, FormArray, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { ClipboardService } from '../../../services/clipboard/clipboard.service';
-import { DestinationFTP, Server, DestinationProtocole } from '../../../custom-classes';
+import { DestinationDirectory, Server, DestinationType } from '../../../custom-classes';
 import { DestinationService } from 'src/app/services/destination/destination.service';
 
 @Component({
-  selector: 'app-destination-ftp',
-  templateUrl: './ftp.component.html',
-  styleUrls: ['./ftp.component.scss']
+  selector: 'app-destination-directory',
+  templateUrl: './directory.component.html',
+  styleUrls: ['./directory.component.scss']
 })
-export class FtpComponent implements OnInit {
-
-  @Input() destinations: DestinationFTP[];
+export class DirectoryComponent implements OnInit {
+  @Input() destinations: DestinationDirectory[];
   @Input() editable: boolean = false;
   @Output() destinationsChanged: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   destinationsForm: FormGroup = new FormGroup({
-    addDestination: this.createFTPFormControl({
+    addDestination: this.createDirectoryFormControl({
+      serverConnexion: {
+        host: '',
+        name: '',
+        protocol: ''
+      },
       server: null,
       path: '',
       active: true
@@ -27,11 +31,11 @@ export class FtpComponent implements OnInit {
 
   servers: Server[] = [];
 
-  get ftp_destinations_control(): FormArray {
+  get directory_destinations_control(): FormArray {
     return this.destinationsForm.get('destinations') as FormArray;
   }
 
-  get add_ftp_destinations_control(): FormGroup {
+  get add_directory_destinations_control(): FormGroup {
     return this.destinationsForm.get('addDestination') as FormGroup;
   }
 
@@ -44,7 +48,7 @@ export class FtpComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.editable) {
-      this.destinationService.getServersForProtocol(DestinationProtocole.FTP)
+      this.destinationService.getServersForProtocol()
         .subscribe(servers => this.servers = servers);
 
       this.initDestinationFormControl();
@@ -52,7 +56,7 @@ export class FtpComponent implements OnInit {
     }
   }
 
-  createFTPFormControl(destination: DestinationFTP, required: boolean = true): FormGroup {
+  createDirectoryFormControl(destination: DestinationDirectory, required: boolean = true): FormGroup {
     let validators: ValidatorFn[] = []
     if (required) {
       validators.push(Validators.required);
@@ -60,7 +64,7 @@ export class FtpComponent implements OnInit {
     return this.formBuilder.group({
       ...destination,
       ... {
-        server: [destination.server, validators],
+        serverConnexion: [destination.serverConnexion, validators],
         path: [destination.path, validators]
       }
     });
@@ -68,7 +72,7 @@ export class FtpComponent implements OnInit {
 
   initDestinationFormControl() {
     this.destinationsForm.removeControl('destinations');
-    this.destinationsForm.addControl('destinations', new FormArray(this.destinations.map(elem => this.createFTPFormControl(elem))));
+    this.destinationsForm.addControl('destinations', new FormArray(this.destinations.map(elem => this.createDirectoryFormControl(elem))));
     this.destinationsForm.markAllAsTouched();
   }
 
@@ -80,18 +84,18 @@ export class FtpComponent implements OnInit {
 
   addDestination(): void {
     if (
-      this.add_ftp_destinations_control.value.server
-      && this.add_ftp_destinations_control.value.path
-      && this.add_ftp_destinations_control.valid
+      this.add_directory_destinations_control.value.serverConnexion
+      && this.add_directory_destinations_control.value.path
+      && this.add_directory_destinations_control.valid
     ) {
       // add the value
-      this.destinations.unshift(this.add_ftp_destinations_control.value);
+      this.destinations.unshift(this.add_directory_destinations_control.value);
       this.initDestinationFormControl();
 
       // clean 'add new' field
-      this.add_ftp_destinations_control.get('path').reset();
-      this.add_ftp_destinations_control.controls.active.setValue(true);
-      this.add_ftp_destinations_control.markAllAsTouched();
+      this.add_directory_destinations_control.get('path').reset();
+      this.add_directory_destinations_control.controls.active.setValue(true);
+      this.add_directory_destinations_control.markAllAsTouched();
       this.notifyChanges();
 
     }
@@ -104,7 +108,7 @@ export class FtpComponent implements OnInit {
 
   formatServerToString(server: Server): string {
     let str: string[] = [];
-    str.push('ftp://');
+    str.push(server?.protocol,'://');
     if (server?.username?.trim()) {
       str.push(server?.username?.trim(), '@')
     }
@@ -125,7 +129,8 @@ export class FtpComponent implements OnInit {
   }
 
   areServersEq(a, b) {
-    return a && b && a.name == b.name;
+    return a && b && a.id == b.id;
   }
+
 
 }

@@ -9,14 +9,12 @@
           <mat-expansion-panel-header>
             <mat-panel-title>{{schedule.environment.name}}</mat-panel-title>
             <mat-panel-description>{{schedule.cronExpression}} / {{schedule.text}}</mat-panel-description>
-            <ng-container *ngIf="done">
-              <mat-panel-description>{{totalDestinations[i] ? totalDestinations[i] : 'No'}} destination(s)
+              <mat-panel-description>{{totalDestinations[i] | async }} destination(s)
               </mat-panel-description>
-            </ng-container>
           </mat-expansion-panel-header>
 
           <app-view-destinations [destinations]="schedule.destinations"
-            (nbDestinations)="totalDestinations[i] = $event">
+            (nbDestinations)="totalDestinations[i].emit($event)">
           </app-view-destinations>
 
         </mat-expansion-panel>
@@ -36,10 +34,8 @@
                 <mat-icon color="warn">warning</mat-icon>&nbsp;
               </span>{{schedule.value.environment.name}}</mat-panel-title>
             <mat-panel-description>{{schedule.value.cronExpression}} / {{schedule.value.text}}</mat-panel-description>
-            <ng-container *ngIf="done">
-              <mat-panel-description>{{totalDestinations[i] ? totalDestinations[i] : 'No'}} destination(s)
+              <mat-panel-description>{{totalDestinations[i] | async }} destination(s)
               </mat-panel-description>
-            </ng-container>
           </mat-expansion-panel-header>
 
           <div class="formContainer">
@@ -77,7 +73,7 @@
             </span>
 
           </div>
-          <app-view-destinations editable="true" class="formInput" (nbDestinations)="totalDestinations[i] = $event"
+          <app-view-destinations editable="true" class="formInput" (nbDestinations)="totalDestinations[i].emit($event)"
             (destinationsChanged)="destinationsValueChanged(i,$event)" [destinations]="schedule.value.destinations">
           </app-view-destinations>
 

@@ -38,10 +38,7 @@ import { DialogEditReportComponent } from './report/dialog-edit-report/dialog-ed
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { SmtpComponent } from './report/destination/smtp/smtp.component';
-import { FtpComponent } from './report/destination/ftp/ftp.component';
-import { SftpComponent } from './report/destination/sftp/sftp.component';
-import { FolderComponent } from './report/destination/folder/folder.component';
+import { EmailComponent } from './report/destination/email/email.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -51,6 +48,7 @@ import { ConfirmeDialogComponent } from './common/confirme-dialog/confirme-dialo
 import { MonitoringComponent } from './report/monitoring/monitoring.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { DirectoryComponent } from './report/destination/directory/directory.component';
 
 @NgModule({
   declarations: [
@@ -63,17 +61,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     InputCopyClickComponent,
     EditReportComponent,
     DialogEditReportComponent,
-    SmtpComponent,
-    FtpComponent,
-    SftpComponent,
-    FolderComponent,
+    EmailComponent,
     ViewExecutionsComponent,
     OutputExecutionDialog,
     ViewPostprocessComponent,
     CustomScriptComponent,
     OutputPostProcessDialog,
     ConfirmeDialogComponent,
-    MonitoringComponent
+    MonitoringComponent,
+    DirectoryComponent
   ],
   imports: [
     MomentModule,

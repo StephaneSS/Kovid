@@ -23,46 +23,25 @@ public class Destinations implements Serializable {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name = "destinations_smtp", nullable = false)
-    private List<DestinationsSMTP> smtp = new ArrayList<>();
+    @Column(name = "destination_email_id", nullable = false)
+    private List<DestinationsEmail> email = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name = "destinations_ftp", nullable = false)
-    private List<DestinationsFTP> ftp = new ArrayList<>();
+    @Column(name = "destination_directory_id", nullable = false)
+    private List<DestinationDirectory> directory = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name = "destinations_sftp", nullable = false)
-    private List<DestinationsSFTP> sftp = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
-    @Column(name = "destinations_folder", nullable = false)
-    private List<DestinationsFolder> folder = new ArrayList<>();
-
-    public void setSmtp(List<DestinationsSMTP> smtp) {
-        this.smtp.clear();
-        if (smtp != null) {
-            this.smtp.addAll(smtp);
+    public void setEmail(List<DestinationsEmail> destination) {
+        this.email.clear();
+        if (destination != null) {
+            this.email.addAll(destination);
         }
     }
 
-    public void setFtp(List<DestinationsFTP> ftp) {
-        this.ftp.clear();
-        if (ftp != null) {
-            this.ftp.addAll(ftp);
+    public void setDirectory(List<DestinationDirectory> destination) {
+        this.directory.clear();
+        if (destination != null) {
+            this.directory.addAll(destination);
         }
     }
 
-    public void setSftp(List<DestinationsSFTP> sftp) {
-        this.sftp.clear();
-        if (sftp != null) {
-            this.sftp.addAll(sftp);
-        }
-    }
-
-    public void setFolder(List<DestinationsFolder> folder) {
-        this.folder.clear();
-        if (folder != null) {
-            this.folder.addAll(folder);
-        }
-    }
 }

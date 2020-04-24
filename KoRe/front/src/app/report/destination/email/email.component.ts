@@ -1,31 +1,32 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { DestinationFOLDER } from '../../../custom-classes';
-import { FormGroup, FormArray, ValidatorFn, Validators, FormBuilder } from '@angular/forms';
+import { DestinationEmail } from 'src/app/custom-classes';
+import { FormGroup, FormArray, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-destination-folder',
-  templateUrl: './folder.component.html',
-  styleUrls: ['./folder.component.scss']
+  selector: 'app-destination-email',
+  templateUrl: './email.component.html',
+  styleUrls: ['./email.component.scss']
 })
-export class FolderComponent implements OnInit {
+export class EmailComponent implements OnInit {
 
-  @Input() destinations: DestinationFOLDER[];
+  @Input() destinations: DestinationEmail[];
   @Input() editable: boolean = false;
   @Output() destinationsChanged: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
   destinationsForm: FormGroup = new FormGroup({
-    addDestination: this.createFOLDERFormControl({
-      path: '',
+    addDestination: this.createEMAILFormControl({
+      sendTo: '',
+      subject: '',
       active: true
     }, false),
     destinations: new FormArray([])
   });
 
-  get folder_destinations_control(): FormArray {
+  get email_destinations_control(): FormArray {
     return this.destinationsForm.get('destinations') as FormArray;
   }
 
-  get add_folder_destinations_control(): FormGroup {
+  get add_email_destinations_control(): FormGroup {
     return this.destinationsForm.get('addDestination') as FormGroup;
   }
 
@@ -36,7 +37,7 @@ export class FolderComponent implements OnInit {
     this.notifyChanges();
   }
 
-  createFOLDERFormControl(destination: DestinationFOLDER, required: boolean = true): FormGroup {
+  createEMAILFormControl(destination: DestinationEmail, required: boolean = true): FormGroup {
     let validators: ValidatorFn[] = []
     if (required) {
       validators.push(Validators.required);
@@ -44,14 +45,15 @@ export class FolderComponent implements OnInit {
     return this.formBuilder.group({
       ...destination,
       ... {
-        path: [destination.path, validators]
+        sendTo: [destination.sendTo, validators.concat(Validators.email)],
+        subject: [destination.subject, validators]
       }
     });
   }
 
   initDestinationFormControl() {
     this.destinationsForm.removeControl('destinations');
-    this.destinationsForm.addControl('destinations', new FormArray(this.destinations.map(elem => this.createFOLDERFormControl(elem))));
+    this.destinationsForm.addControl('destinations', new FormArray(this.destinations.map(elem => this.createEMAILFormControl(elem))));
     this.destinationsForm.markAllAsTouched();
   }
 
@@ -62,15 +64,15 @@ export class FolderComponent implements OnInit {
   }
 
   addDestination(): void {
-    if (this.add_folder_destinations_control.value.path && this.add_folder_destinations_control.valid) {
+    if (this.add_email_destinations_control.valid) {
       // add the value
-      this.destinations.unshift(this.add_folder_destinations_control.value);
+      this.destinations.unshift(this.add_email_destinations_control.value);
       this.initDestinationFormControl();
 
       // clean 'add new' field
-      this.add_folder_destinations_control.reset();
-      this.add_folder_destinations_control.controls.active.setValue(true);
-      this.add_folder_destinations_control.markAllAsTouched();
+      this.add_email_destinations_control.reset();
+      this.add_email_destinations_control.controls.active.setValue(true);
+      this.add_email_destinations_control.markAllAsTouched();
       this.notifyChanges();
 
     }
