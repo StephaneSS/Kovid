@@ -41,4 +41,8 @@ public class Argument implements Serializable {
         this.key = key;
         this.value = value;
     }
+
+    public Long getId() {
+        return id;
+    }
 }

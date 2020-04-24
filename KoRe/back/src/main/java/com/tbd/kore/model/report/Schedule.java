@@ -36,4 +36,7 @@ public class Schedule implements Serializable {
 
     private String text;
 
+    public Long getId() {
+        return id;
+    }
 }
