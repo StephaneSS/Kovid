@@ -126,10 +126,15 @@ export interface Report {
   executionLogs: Executions[];
 }
 
-export interface Reports {
-  id : number;
-  name : string ;
-  lastExecDate : Date ;
-  status : string ;
-  env : string ;
+export interface ReportSimple {
+  id?: number;
+  name: string;
+  description: string;
+  output?: ReportOutput;
+  //opr: File;
+  arguments: number[];
+  schedules: number[];
+  postProcesses: number[];
+  //destinations: Destinations;
+  executionLogs: Executions[];
 }

@@ -1,6 +1,4 @@
-import { Reports } from '../custom-classes';
-
-export const REPORTS: Reports[] = [
+export const REPORTS: any[] = [
     {
         id: 1,
         name: 'EXPECTPAY',

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Report } from '../../custom-classes';
+import { Report, ReportSimple } from '../../custom-classes';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,10 @@ export class ReportService {
   endpointURL: string = `${environment.endpoint}/report`;
 
   constructor(private http: HttpClient) { }
+
+  getAllReports(): Observable<ReportSimple[]> {
+    return this.http.get<ReportSimple[]>(`${this.endpointURL}/`);
+  }
 
   getReport(id: number): Observable<Report> {
     return this.http.get<Report>(`${this.endpointURL}/${id}`);

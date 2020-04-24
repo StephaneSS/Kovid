@@ -50,7 +50,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmeDialogComponent } from './common/confirme-dialog/confirme-dialog.component';
 import { MonitoringComponent } from './report/monitoring/monitoring.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -105,7 +105,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatSortModule,
     PortalModule,
     MatProgressSpinnerModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatToolbarModule
   ],
   providers: [ClipboardService],
   bootstrap: [AppComponent]
