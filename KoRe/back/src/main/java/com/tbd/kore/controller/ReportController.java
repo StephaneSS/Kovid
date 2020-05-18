@@ -2,7 +2,10 @@ package com.tbd.kore.controller;
 
 import com.tbd.kore.model.report.Report;
 import com.tbd.kore.model.report.ReportSimple;
+import com.tbd.kore.model.report.Schedule;
 import com.tbd.kore.repository.ReportRepository;
+import com.tbd.kore.service.JobRunnerService;
+import com.tbd.kore.service.ScheduleTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @RestController
@@ -20,6 +24,12 @@ public class ReportController {
 
     @Autowired
     private ReportRepository reportRepository;
+
+    @Autowired
+    private JobRunnerService jobRunnerService;
+
+    @Autowired
+    private ScheduleTaskService scheduleTaskService;
 
     @GetMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ReportSimple>> getAllReports() {
@@ -34,7 +44,9 @@ public class ReportController {
     public ResponseEntity<Report> addReport(@RequestBody Report report) {
         report.setId(null);
         report.setExecutionLogs(new ArrayList<>());
-        return new ResponseEntity<>(reportRepository.save(report), HttpStatus.CREATED);
+        Report savedReport = reportRepository.save(report);
+        savedReport.getSchedules().forEach(jobRunnerService::addRunnerFromSchedule);
+        return new ResponseEntity<>(savedReport, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,9 +67,12 @@ public class ReportController {
             if(report.getDescription() != null && !report.getDescription().trim().isEmpty()) {
                 oldReport.setDescription(report.getDescription());
             }
-            oldReport.setSchedules(report.getSchedules());
             oldReport.setArguments(report.getArguments());
-            return new ResponseEntity<>(reportRepository.save(oldReport), HttpStatus.OK);
+            oldReport.getSchedules().stream().map(Schedule::getId).forEach(scheduleTaskService::removeTaskFromScheduler);
+            oldReport.setSchedules(report.getSchedules());
+            Report savedReport = reportRepository.save(oldReport);
+            savedReport.getSchedules().forEach(jobRunnerService::addRunnerFromSchedule);
+            return new ResponseEntity<>(savedReport, HttpStatus.OK);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -66,14 +81,16 @@ public class ReportController {
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteReportById(@PathVariable("id") Long id) {
 
-        HttpStatus responseStatus = HttpStatus.NOT_FOUND;
+        AtomicReference<HttpStatus> responseStatus = new AtomicReference<>();
+        responseStatus.set(HttpStatus.NOT_FOUND);
 
-        if(reportRepository.existsById(id)) {
+        reportRepository.findById(id).ifPresent(report -> {
+            report.getSchedules().stream().map(Schedule::getId).forEach(scheduleTaskService::removeTaskFromScheduler);
             reportRepository.deleteById(id);
-            responseStatus = HttpStatus.OK;
-        }
+            responseStatus.set(HttpStatus.OK);
+        });
 
-        return ResponseEntity.status(responseStatus).build();
+        return ResponseEntity.status(responseStatus.get()).build();
 
     }
 
