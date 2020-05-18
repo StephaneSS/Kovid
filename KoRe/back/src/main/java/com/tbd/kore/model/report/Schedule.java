@@ -39,4 +39,8 @@ public class Schedule implements Serializable {
     public Long getId() {
         return id;
     }
+
+    public String getCronExpression() {
+        return cronExpression;
+    }
 }
