@@ -1,5 +1,6 @@
 package com.tbd.kore.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +11,8 @@ import com.tbd.kore.model.report.Schedule;
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     Optional<Schedule> findById(Long id);
+
+    @Override
+    List<Schedule> findAll();
 
 }
