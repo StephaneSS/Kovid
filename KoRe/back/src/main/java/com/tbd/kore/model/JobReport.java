@@ -34,6 +34,10 @@ public class JobReport {
         this.postProcesses = report.getPostProcesses();
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Schedule getSchedule() {
         return schedule;
     }

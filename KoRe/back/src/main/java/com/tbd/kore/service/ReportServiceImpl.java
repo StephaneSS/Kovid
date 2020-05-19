@@ -1,16 +1,19 @@
 package com.tbd.kore.service;
 
+import com.tbd.kore.model.report.ExecutionLog;
 import com.tbd.kore.model.report.Report;
 import com.tbd.kore.model.report.ReportSimple;
 import com.tbd.kore.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class ReportServiceImpl implements ReportService {
 
@@ -26,6 +29,11 @@ public class ReportServiceImpl implements ReportService {
                 .findAll().stream()
                 .map(ReportSimple::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Report> getAll() {
+        return reportRepository.findAll();
     }
 
     @Override
@@ -73,5 +81,13 @@ public class ReportServiceImpl implements ReportService {
             return report;
         });
 
+    }
+
+    @Override
+    public Optional<Report> addExecutionToReportById(Long reportId, ExecutionLog execution){
+        return reportRepository.findById(reportId).map(report -> {
+            report.getExecutionLogs().add(execution);
+            return reportRepository.save(report);
+        });
     }
 }
