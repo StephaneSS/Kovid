@@ -28,7 +28,7 @@ public class Report implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

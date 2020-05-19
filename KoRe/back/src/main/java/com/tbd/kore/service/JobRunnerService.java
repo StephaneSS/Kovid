@@ -1,46 +1,57 @@
 package com.tbd.kore.service;
 
+import com.tbd.kore.model.JobReport;
+import com.tbd.kore.model.report.Report;
 import com.tbd.kore.model.report.Schedule;
+import com.tbd.kore.repository.ReportRepository;
 import com.tbd.kore.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.logging.Logger;
 
-@Component
+@Service
 public class JobRunnerService {
     private static final Logger LOG = Logger.getLogger(String.valueOf(JobRunnerService.class));
 
     @Autowired
     private ScheduleTaskService scheduleTaskService;
 
-
     @Autowired
     private ScheduleRepository scheduleRepository;
 
+    @Autowired
+    private ReportRepository reportRepository;
+
     @PostConstruct
-    public void postConstruct() {
-        LOG.info("postConstruct START ########################################");
-        List<Schedule> schedules = scheduleRepository.findAll();
-        schedules.forEach(this::addRunnerFromSchedule);
-        LOG.info("postConstruct END ########################################");
+    private void postConstruct() {
+        LOG.info("Set scheduled tasks");
+        reportRepository.findAll().forEach(this::scheduleNewJobsForReport);
     }
 
-    public void addRunnerFromSchedule(Schedule schedule){
-        this.scheduleTaskService.addTaskToScheduler(schedule.getId(), generateRunnableJob(schedule) , schedule.getCronExpression());
+    public void scheduleNewJobsForReport(Report report){
+        report.getSchedules().forEach(schedule -> scheduleNewJob(report, schedule));
     }
 
-    private Runnable generateRunnableJob(Schedule sched) {
+    public void removeScheduledJobForReport(Report report){
+        report.getSchedules().stream().map(Schedule::getId).forEach(scheduleTaskService::removeTaskFromScheduler);
+    }
+
+    public void scheduleNewJob(Report report, Schedule schedule){
+        JobReport job = new JobReport(report, schedule.getId());
+        this.scheduleTaskService.addTaskToScheduler(job.getSchedule().getId(), generateRunnableJob(job) , job.getSchedule().getCronExpression());
+    }
+
+    private Runnable generateRunnableJob(JobReport rep) {
         return new Runnable() {
 
-            final Schedule schedule = sched;
+            final JobReport report = rep;
 
             @Override
             public void run() {
-                LOG.info(String.format("Start schedule #%d", this.schedule.getId()));
-                LOG.info(String.format("End schedule #%d", this.schedule.getId()));
+                LOG.info(String.format("Start schedule #%d", this.report.getSchedule().getId()));
+                LOG.info(String.format("End schedule #%d", report.getSchedule().getId()));
             }
         };
     }

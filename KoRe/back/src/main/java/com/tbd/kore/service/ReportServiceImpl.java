@@ -2,7 +2,6 @@ package com.tbd.kore.service;
 
 import com.tbd.kore.model.report.Report;
 import com.tbd.kore.model.report.ReportSimple;
-import com.tbd.kore.model.report.Schedule;
 import com.tbd.kore.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,6 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     private JobRunnerService jobRunnerService;
-
-    @Autowired
-    private ScheduleTaskService scheduleTaskService;
 
     @Override
     public List<ReportSimple> getAllSimple() {
@@ -44,7 +40,7 @@ public class ReportServiceImpl implements ReportService {
         report.setExecutionLogs(new ArrayList<>());
 
         Report savedReport = reportRepository.save(report);
-        savedReport.getSchedules().forEach(jobRunnerService::addRunnerFromSchedule);
+        jobRunnerService.scheduleNewJobsForReport(savedReport);
 
         return savedReport;
     }
@@ -60,10 +56,10 @@ public class ReportServiceImpl implements ReportService {
                 oldReport.setDescription(report.getDescription());
             }
             oldReport.setArguments(report.getArguments());
-            oldReport.getSchedules().stream().map(Schedule::getId).forEach(scheduleTaskService::removeTaskFromScheduler);
+            jobRunnerService.removeScheduledJobForReport(oldReport);
             oldReport.setSchedules(report.getSchedules());
             Report savedReport = reportRepository.save(oldReport);
-            savedReport.getSchedules().forEach(jobRunnerService::addRunnerFromSchedule);
+            jobRunnerService.scheduleNewJobsForReport(savedReport);
             return savedReport;
         });
     }
@@ -72,7 +68,7 @@ public class ReportServiceImpl implements ReportService {
     public Optional<Report> deleteById(Long id) {
 
         return reportRepository.findById(id).map(report -> {
-            report.getSchedules().stream().map(Schedule::getId).forEach(scheduleTaskService::removeTaskFromScheduler);
+            jobRunnerService.removeScheduledJobForReport(report);
             reportRepository.deleteById(id);
             return report;
         });
