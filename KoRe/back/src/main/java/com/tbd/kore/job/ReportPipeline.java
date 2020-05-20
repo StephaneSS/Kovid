@@ -6,6 +6,7 @@ import com.tbd.kore.job.task.SendResults;
 import com.tbd.kore.model.JobReport;
 import com.tbd.kore.model.report.ExecutionLog;
 
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.concurrent.CompletableFuture;
@@ -16,20 +17,23 @@ public class ReportPipeline{
     private static final Logger LOG = Logger.getLogger(String.valueOf(ReportPipeline.class));
 
     final JobReport report;
-    Timestamp startDate;
-    Timestamp endDate;
+    private Timestamp startDate;
+    private Timestamp endDate;
+    private File logFile;
 
     public ReportPipeline(JobReport report) {
         this.report = report;
+        setStartDate().run();
+        this.logFile = new File(String.format("kore.scheduled_task.%s.%s.%s.log", report.getId(),report.getSchedule().getId(), startDate));
     }
 
     public CompletableFuture<Void> getPipeline() {
         return CompletableFuture
                 .runAsync(() -> LOG.info(String.format("Start schedule #%d", this.report.getSchedule().getId())))
                 .thenRun(setStartDate())
-                .thenRun(new GenerateReport(report))
-                .thenRun(new PerformPostProcesses(report))
-                .thenRun(new SendResults(report))
+                .thenRun(new GenerateReport(report, logFile))
+                .thenRun(new PerformPostProcesses(report, logFile))
+                .thenRun(new SendResults(report, logFile))
                 .thenRun(setEndDate())
                 .thenRun(() -> LOG.info(String.format("End schedule #%d", report.getSchedule().getId())));
     }
