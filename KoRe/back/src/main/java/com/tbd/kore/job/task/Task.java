@@ -8,11 +8,17 @@ import java.util.logging.SimpleFormatter;
 
 public abstract class Task implements Runnable {
 
+    // TODO: use value
+    private static boolean logExecutionToConsole = false;
     protected Logger execLog = Logger.getLogger("MyLog");
     protected final FileHandler fh;
 
     public Task(FileHandler logFile) {
         this.fh = logFile;
+        execLog.addHandler(fh);
+        if(logExecutionToConsole){
+            execLog.setUseParentHandlers(false);
+        }
         fh.setFormatter(new SimpleFormatter());
     }
 

@@ -5,7 +5,6 @@ import com.tbd.kore.job.task.PerformPostProcesses;
 import com.tbd.kore.job.task.SendResults;
 import com.tbd.kore.model.JobReport;
 import com.tbd.kore.model.report.ExecutionLog;
-import org.springframework.context.annotation.PropertySource;
 
 import java.io.*;
 import java.sql.Timestamp;
@@ -14,12 +13,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-@PropertySource("application.properties")
 public class ReportPipeline{
 
     private static final Logger LOG = Logger.getLogger(String.valueOf(ReportPipeline.class));
 
-    private final static String LOG_DIRECTORY = "./execLog/";
+    // TODO: use @Value
+    private final static String LOG_DIRECTORY = "./execLogs";
 
     final JobReport report;
     private Timestamp startDate;
