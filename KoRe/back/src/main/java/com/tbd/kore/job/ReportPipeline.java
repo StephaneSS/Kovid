@@ -5,26 +5,40 @@ import com.tbd.kore.job.task.PerformPostProcesses;
 import com.tbd.kore.job.task.SendResults;
 import com.tbd.kore.model.JobReport;
 import com.tbd.kore.model.report.ExecutionLog;
+import org.springframework.context.annotation.PropertySource;
 
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
+@PropertySource("application.properties")
 public class ReportPipeline{
 
     private static final Logger LOG = Logger.getLogger(String.valueOf(ReportPipeline.class));
 
+    private final static String LOG_DIRECTORY = "./execLog/";
+
     final JobReport report;
     private Timestamp startDate;
     private Timestamp endDate;
-    private File logFile;
+    private FileHandler logFile;
 
     public ReportPipeline(JobReport report) {
         this.report = report;
         setStartDate().run();
-        this.logFile = new File(String.format("kore.scheduled_task.%s.%s.%s.log", report.getId(),report.getSchedule().getId(), startDate));
+        try {
+            File logDirectory = new File(LOG_DIRECTORY);
+            File file = new File(String.format("%s/kore.scheduled_task.%s.%s.%s.log", logDirectory.getAbsolutePath(), report.getId(),report.getSchedule().getId(), startDate));
+            if(!logDirectory.exists()){
+                logDirectory.mkdirs();
+            }
+            this.logFile = new FileHandler(file.getAbsolutePath(),true);
+        } catch (IOException e) {
+            LOG.warning("Cannot instantiate log file");
+        }
     }
 
     public CompletableFuture<Void> getPipeline() {
@@ -36,6 +50,7 @@ public class ReportPipeline{
                 .thenRun(new SendResults(report, logFile))
                 .thenRun(setEndDate())
                 .thenRun(() -> LOG.info(String.format("End schedule #%d", report.getSchedule().getId())));
+
     }
 
     public ExecutionLog getExecutionInfo() {

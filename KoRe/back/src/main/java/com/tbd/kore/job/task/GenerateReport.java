@@ -3,6 +3,7 @@ package com.tbd.kore.job.task;
 import com.tbd.kore.model.JobReport;
 
 import java.io.*;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 public class GenerateReport extends Task{
@@ -11,7 +12,7 @@ public class GenerateReport extends Task{
 
     private JobReport report;
 
-    public GenerateReport(JobReport report, File logFile) {
+    public GenerateReport(JobReport report, FileHandler logFile) {
         super(logFile);
         this.report = report;
     }
@@ -20,13 +21,16 @@ public class GenerateReport extends Task{
 
     @Override
     public void run() {
-        try (BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(logFile, true)))){
-            writeOutput(output, "START REPORT GENERATION STEP");
-            execCmd(output, "date","+%H:%M:%Sk").join();
-            writeOutput(output, "END REPORT GENERATION STEP");
+        writeOutput("START REPORT GENERATION STEP");
+        try {
+            execCmd( "./test.sh");
         } catch (IOException e) {
-            LOG.severe("error while generating report");
+            LOG.info("error while generating report");
+        } catch (InterruptedException e) {
+            LOG.info("process interrupted");
         }
+        writeOutput("END REPORT GENERATION STEP");
     }
+
 
 }
