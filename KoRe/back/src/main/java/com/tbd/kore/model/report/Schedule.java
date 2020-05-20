@@ -43,4 +43,8 @@ public class Schedule implements Serializable {
     public String getCronExpression() {
         return cronExpression;
     }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
 }

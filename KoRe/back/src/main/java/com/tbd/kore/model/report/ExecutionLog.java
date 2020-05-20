@@ -35,4 +35,19 @@ public class ExecutionLog implements Serializable {
     @Column(name = "status", nullable = false)
     private String status;
 
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

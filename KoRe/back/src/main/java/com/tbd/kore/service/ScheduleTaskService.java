@@ -33,11 +33,10 @@ public class ScheduleTaskService {
 
     // Remove scheduled task
     public void removeTaskFromScheduler(Long id) {
-        ScheduledFuture<?> scheduledTask = jobsMap.get(id);
-        if(scheduledTask != null) {
-            scheduledTask.cancel(true);
-            jobsMap.put(id, null);
-        }
+        jobsMap.computeIfPresent(id, (idx, scheduledTask) -> {
+            scheduledTask.cancel(false);
+            return jobsMap.remove(idx);
+        });
     }
 
     // A context refresh event listener
