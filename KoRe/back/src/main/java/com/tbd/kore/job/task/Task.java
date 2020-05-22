@@ -10,16 +10,14 @@ public abstract class Task implements Runnable {
 
     // TODO: use value
     private static boolean logExecutionToConsole = false;
-    protected Logger execLog = Logger.getLogger("MyLog");
+    protected Logger execLog;
     protected final FileHandler fh;
 
     public Task(FileHandler logFile) {
         this.fh = logFile;
-        execLog.addHandler(fh);
-        if(logExecutionToConsole){
-            execLog.setUseParentHandlers(false);
-        }
-        fh.setFormatter(new SimpleFormatter());
+        this.execLog = Logger.getLogger(this.fh.toString());
+        this.execLog.setUseParentHandlers(logExecutionToConsole);
+        this.fh.setFormatter(new SimpleFormatter());
     }
 
     public CompletableFuture<Process> execCmd(String... args) throws IOException, InterruptedException {
