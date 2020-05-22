@@ -8,6 +8,7 @@
     <version>2.2.5.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
+
   <groupId>com.tbd.tool</groupId>
   <artifactId>KoRe</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -65,12 +66,6 @@
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
       <version>2.9.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>net.redhogs.cronparser</groupId>
-      <artifactId>cron-parser-spring</artifactId>
-      <version>3.5</version>
     </dependency>
 
   </dependencies>

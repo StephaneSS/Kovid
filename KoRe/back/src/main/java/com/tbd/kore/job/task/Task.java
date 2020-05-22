@@ -8,15 +8,19 @@ import java.util.logging.SimpleFormatter;
 
 public abstract class Task implements Runnable {
 
-    // TODO: use value
-    private static boolean logExecutionToConsole = false;
+    private static final Boolean LOG_TO_CONSOLE = false;
+
+    static {
+        System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tF %1$tT] [%4$-7s] %5$s %n");
+    }
+
     protected Logger execLog;
     protected final FileHandler fh;
 
     public Task(FileHandler logFile) {
         this.fh = logFile;
         this.execLog = Logger.getLogger(this.fh.toString());
-        this.execLog.setUseParentHandlers(logExecutionToConsole);
+        this.execLog.setUseParentHandlers(LOG_TO_CONSOLE);
         this.fh.setFormatter(new SimpleFormatter());
     }
 
