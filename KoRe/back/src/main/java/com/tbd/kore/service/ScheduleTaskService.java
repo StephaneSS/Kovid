@@ -1,8 +1,7 @@
 package com.tbd.kore.service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -18,7 +17,7 @@ public class ScheduleTaskService {
     TaskScheduler scheduler;
 
     // A map for keeping scheduled tasks
-    Map<Long, ScheduledFuture<?>> jobsMap = new HashMap<>();
+    ConcurrentHashMap<Long, ScheduledFuture<?>> jobsMap = new ConcurrentHashMap<>();
 
     public ScheduleTaskService(TaskScheduler scheduler) {
         this.scheduler = scheduler;
