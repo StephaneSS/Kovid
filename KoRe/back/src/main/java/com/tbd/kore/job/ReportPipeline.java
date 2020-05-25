@@ -18,7 +18,7 @@ public class ReportPipeline{
     private static final Logger LOG = Logger.getLogger(String.valueOf(ReportPipeline.class));
 
     // TODO: use @Value
-    private final static String LOG_DIRECTORY = "./execLogs";
+    private static final String LOG_DIRECTORY = "./execLogs";
 
     final JobReport report;
     private Timestamp startDate;
@@ -48,6 +48,7 @@ public class ReportPipeline{
                 .thenRun(new PerformPostProcesses(report, logFile))
                 .thenRun(new SendResults(report, logFile))
                 .thenRun(setEndDate())
+                .thenRun(() -> this.logFile.close())
                 .thenRun(() -> LOG.info(String.format("End schedule #%d", report.getSchedule().getId())));
 
     }

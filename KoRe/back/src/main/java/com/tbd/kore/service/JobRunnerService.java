@@ -47,7 +47,7 @@ public class JobRunnerService {
     private Runnable setPipeline(JobReport job){
         return () -> {
             ReportPipeline pipeline = new ReportPipeline(job);
-            pipeline.getPipeline().thenRun(saveExecution(pipeline));
+            pipeline.getPipeline().thenRunAsync(saveExecution(pipeline)).join();
         };
     }
 
