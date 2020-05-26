@@ -11,12 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 @Service
 public class JobRunnerService {
@@ -40,6 +38,9 @@ public class JobRunnerService {
     @Value("${kore.job.log.format:[%1$tF %1$tT] [%4$-7s] %5$s %n}")
     private String logFormat;
 
+    @Value("${kore.job.log.path:./log/}")
+    private String logPath;
+
     @PostConstruct
     private void postConstruct() {
         LOG.info("Set scheduled tasks");
@@ -62,21 +63,33 @@ public class JobRunnerService {
 
     private Runnable setPipeline(Job jobReport){
         return () -> {
-            try {
-                FileHandler logFile = new FileHandler("test" + jobReport.getSchedule().getId() + "." + jobReport.getId() + "." + Timestamp.from(Instant.now()) + ".log");
 
-                ReportJob job = new ReportJob(jobReport, logFile, this.displayLogOnConsole);
-                jobService.execute(job).get();
+            String logFilePath = setupLogFile(jobReport);
 
-                reportService.addExecutionToReportById(job.getReport().getId(), job.getExecutionLog());
-                logFile.close();
-            } catch (IOException e) {
-                LOG.info("******************************");
-            } catch (InterruptedException e) {
-                LOG.info("------------------------------");
-            } catch (ExecutionException e) {
-                LOG.info("++++++++++++++++++++++++++++++");
+            try (FileOutputStream logFile = new FileOutputStream(logFilePath, true) ){
+                StreamHandler logHandler = new StreamHandler(logFile, new SimpleFormatter());
+
+                ReportJob job = new ReportJob(jobReport, logHandler, this.displayLogOnConsole);
+                reportService.addExecutionToReportById(
+                        jobReport.getId(),
+                        jobService.execute(job).join().getExecutionLog()
+                );
+
+                logHandler.close();
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE,e.getMessage(),e);
             }
         };
+    }
+
+    private String setupLogFile(Job jobReport) {
+        File logDir = new File(logPath);
+        logDir.mkdirs();
+
+        return logDir.getAbsolutePath()+File.separator+String.format("job-%s-%s-%s.log",
+                jobReport.getId(),
+                jobReport.getSchedule().getId(),
+                Timestamp.from(Instant.now())
+        );
     }
 }

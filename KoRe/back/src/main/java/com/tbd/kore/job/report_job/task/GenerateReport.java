@@ -12,7 +12,7 @@ public class GenerateReport implements Task {
         job.log("START Report Generation Task");
         int exit = RemoteTaskService.executeCommand(job.getSshSession(), "./test/a.sh 3", job::log);
         if(exit != 0){
-            throw new Exception("The report generation did not finishe properly");
+            throw new Exception("The report generation did not finish properly");
         }
         job.log("END Report Generation Task");
     }
