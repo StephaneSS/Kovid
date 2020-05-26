@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class JobReport {
+public class Job {
 
     private final Long id;
 
@@ -25,7 +25,7 @@ public class JobReport {
 
     private final List<PostProcess> postProcesses;
 
-    public JobReport(Report report, Long scheduleId) {
+    public Job(Report report, Long scheduleId) {
         this.id = report.getId();
         this.name = report.getName();
         this.description = report.getDescription();
