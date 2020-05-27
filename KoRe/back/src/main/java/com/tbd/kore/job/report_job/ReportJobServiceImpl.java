@@ -28,6 +28,9 @@ public class ReportJobServiceImpl implements JobService<ReportJob> {
     @Autowired
     private SendResults sendResults;
 
+    @Autowired
+    private RemoteTaskService remoteTaskService;
+
     @Override
     public CompletableFuture<ReportJob> execute(ReportJob job) {
         return CompletableFuture
@@ -36,7 +39,7 @@ public class ReportJobServiceImpl implements JobService<ReportJob> {
                 .thenRun(() -> job.getExecutionLog().setEnvironment(job.getReport().getSchedule().getEnvironment()))
                 .thenRun(() -> job.log("START job" + job.getReport().getSchedule().getId()))
                 .thenRun(() -> {
-                    try { job.setSshSession(RemoteTaskService.openSession("", "localhost", 22, Optional.empty()));}
+                    try { job.setSshSession(remoteTaskService.openSession("cregis", "localhost", 22, Optional.empty()));}
                     catch (JSchException e) { throw new CompletionException(e); }
                 })
             // main steps
@@ -53,7 +56,7 @@ public class ReportJobServiceImpl implements JobService<ReportJob> {
                     catch (Exception e) { throw new CompletionException(e); }
                 })
             // Post steps
-                .whenComplete((result, exception) -> RemoteTaskService.closeSession(job.getSshSession()))
+                .whenComplete((result, exception) -> remoteTaskService.closeSession(job.getSshSession()))
                 .whenComplete((result, exception) -> job.getExecutionLog().setEndDate(Timestamp.from(Instant.now())))
                 .whenComplete((result, exception) -> job.getExecutionLog().setStatus("OK"))
                 .exceptionally( exception -> {
