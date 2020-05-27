@@ -35,6 +35,9 @@ public class ExecutionLog implements Serializable {
     @Column(name = "status", nullable = false)
     private String status;
 
+    @Column(name = "log_file", nullable = false)
+    private String logFile;
+
     public void setEnvironment(Environment environment) {
         this.environment = environment;
     }
@@ -49,5 +52,9 @@ public class ExecutionLog implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setLogFile(String logFile) {
+        this.logFile = logFile;
     }
 }
