@@ -36,7 +36,7 @@ public class ReportJobServiceImpl implements JobService<ReportJob> {
                 .thenRun(() -> job.getExecutionLog().setEnvironment(job.getReport().getSchedule().getEnvironment()))
                 .thenRun(() -> job.log("START job" + job.getReport().getSchedule().getId()))
                 .thenRun(() -> {
-                    try { job.setSshSession(RemoteTaskService.openSession("GitPolytech", "rcassier.myds.me", 4089, Optional.of("Poly$2018Info")));}
+                    try { job.setSshSession(RemoteTaskService.openSession("", "localhost", 22, Optional.empty()));}
                     catch (JSchException e) { throw new CompletionException(e); }
                 })
             // main steps

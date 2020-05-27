@@ -4,6 +4,8 @@ import com.jcraft.jsch.Session;
 import com.tbd.kore.model.Job;
 import com.tbd.kore.model.report.ExecutionLog;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.logging.*;
 
 public class ReportJob {
@@ -18,9 +20,10 @@ public class ReportJob {
         System.setProperty("java.util.logging.SimpleFormatter.format", format);
     }
 
-    public ReportJob(Job report, StreamHandler logHandler, Boolean displayLogInConsole) {
+    public ReportJob(Job report, StreamHandler logHandler, File logFile, Boolean displayLogInConsole) throws FileNotFoundException {
         this.report = report;
         this.executionLog = new ExecutionLog();
+        this.executionLog.setLogFile(logFile.getName());
 
         this.logHandler = logHandler;
         this.logHandler.setFormatter(new SimpleFormatter());

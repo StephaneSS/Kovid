@@ -64,12 +64,12 @@ public class JobRunnerService {
     private Runnable setPipeline(Job jobReport){
         return () -> {
 
-            String logFilePath = setupLogFile(jobReport);
+            File logFile = setupLogFile(jobReport);
 
-            try (FileOutputStream logFile = new FileOutputStream(logFilePath, true) ){
-                StreamHandler logHandler = new StreamHandler(logFile, new SimpleFormatter());
+            try (FileOutputStream logStream = new FileOutputStream(logFile, true) ){
+                StreamHandler logHandler = new StreamHandler(logStream, new SimpleFormatter());
 
-                ReportJob job = new ReportJob(jobReport, logHandler, this.displayLogOnConsole);
+                ReportJob job = new ReportJob(jobReport, logHandler, logFile, this.displayLogOnConsole);
                 reportService.addExecutionToReportById(
                         jobReport.getId(),
                         jobService.execute(job).join().getExecutionLog()
@@ -82,14 +82,14 @@ public class JobRunnerService {
         };
     }
 
-    private String setupLogFile(Job jobReport) {
+    private File setupLogFile(Job jobReport) {
         File logDir = new File(logPath);
         logDir.mkdirs();
 
-        return logDir.getAbsolutePath()+File.separator+String.format("job-%s-%s-%s.log",
+        return new File(logDir.getAbsolutePath()+File.separator+String.format("job-%s-%s-%s.log",
                 jobReport.getId(),
                 jobReport.getSchedule().getId(),
                 Timestamp.from(Instant.now())
-        );
+        ));
     }
 }
